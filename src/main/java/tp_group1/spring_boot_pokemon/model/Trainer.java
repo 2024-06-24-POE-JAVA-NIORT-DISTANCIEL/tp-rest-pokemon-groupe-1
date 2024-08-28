@@ -16,13 +16,20 @@ public class Trainer {
 
     private int wallet;
 
-    @ManyToMany
-    @JoinColumn(name = "ITEM_ID")
-    private Set<Item> items;
+    public Trainer(Long id, String userName, String password, int wallet) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.wallet = wallet;
+    }
 
-    @ManyToOne
-    @JoinColumn(name = "POKEMON_ID")
-    private Set<Pokemon> pokemons;
+//    @ManyToMany
+//    @JoinTable
+//    private Set<Item> items = new HashSet();
+//
+//    @ManyToOne
+//    @JoinColumn(name = "POKEMON_ID")
+//    private Set<Pokemon> pokemons;
 
     public Long getId() {
         return id;
@@ -55,20 +62,20 @@ public class Trainer {
     public void setWallet(int wallet) {
         this.wallet = wallet;
     }
-
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
-
-    public Set<Pokemon> getPokemons() {
-        return pokemons;
-    }
-
-    public void setPokemons(Set<Pokemon> pokemons) {
-        this.pokemons = pokemons;
-    }
+//
+//    public Set<Item> getItems() {
+//        return items;
+//    }
+//
+//    public void setItems(Set<Item> items) {
+//        this.items = items;
+//    }
+//
+//    public Set<Pokemon> getPokemons() {
+//        return pokemons;
+//    }
+//
+//    public void setPokemons(Set<Pokemon> pokemons) {
+//        this.pokemons = pokemons;
+//    }
 }

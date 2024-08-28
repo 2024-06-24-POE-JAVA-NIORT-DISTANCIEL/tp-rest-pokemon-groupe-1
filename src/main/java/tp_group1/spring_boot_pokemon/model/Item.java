@@ -16,9 +16,9 @@ public class Item {
     private int cost;
     private String type;
 
-    @ManyToMany
-    @JoinColumn(name = "TRAINER_ID")
-    private Set<Trainer> trainers;
+//    @ManyToMany
+//    @JoinColumn(name = "TRAINER_ID")
+//    private Set<Trainer> trainers;
 
     public Long getId() {
         return id;
@@ -52,11 +52,11 @@ public class Item {
         this.type = type;
     }
 
-    public Set<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(Set<Trainer> trainers) {
-        this.trainers = trainers;
-    }
+//    public Set<Trainer> getTrainers() {
+//        return trainers;
+//    }
+//
+//    public void setTrainers(Set<Trainer> trainers) {
+//        this.trainers = trainers;
+//    }
 }

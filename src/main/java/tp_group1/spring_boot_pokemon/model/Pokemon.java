@@ -17,17 +17,17 @@ public class Pokemon {
     private int healthPoints;
     private int maxHealthPoints;
 
-    @ManyToOne
-    @JoinColumn(name = "SPECIES_ID")
-    private Species species;
-
-    @ManyToOne
-    @JoinColumn(name = "TRAINER_ID")
-    private Trainer trainer;
-
-    @OneToMany
-    @JoinColumn(name = "ATTACK_ID")
-    private Set<Attack> attacks;
+//    @ManyToOne
+//    @JoinColumn(name = "SPECIES_ID")
+//    private Species species;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "TRAINER_ID")
+//    private Trainer trainer;
+//
+//    @OneToMany
+//    @JoinColumn(name = "ATTACK_ID")
+//    private Set<Attack> attacks;
 
     public Long getId() {
         return id;
@@ -77,27 +77,27 @@ public class Pokemon {
         this.maxHealthPoints = maxHealthPoints;
     }
 
-    public Species getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(Species species) {
-        this.species = species;
-    }
-
-    public Trainer getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
-    }
-
-    public Set<Attack> getAttacks() {
-        return attacks;
-    }
-
-    public void setAttacks(Set<Attack> attacks) {
-        this.attacks = attacks;
-    }
+//    public Species getSpecies() {
+//        return species;
+//    }
+//
+//    public void setSpecies(Species species) {
+//        this.species = species;
+//    }
+//
+//    public Trainer getTrainer() {
+//        return trainer;
+//    }
+//
+//    public void setTrainer(Trainer trainer) {
+//        this.trainer = trainer;
+//    }
+//
+//    public Set<Attack> getAttacks() {
+//        return attacks;
+//    }
+//
+//    public void setAttacks(Set<Attack> attacks) {
+//        this.attacks = attacks;
+//    }
 }
