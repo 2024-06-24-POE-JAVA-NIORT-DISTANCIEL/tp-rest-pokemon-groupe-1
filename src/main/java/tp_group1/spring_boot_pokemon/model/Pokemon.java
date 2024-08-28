@@ -1,16 +1,15 @@
 package tp_group1.spring_boot_pokemon.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Pokemon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
     private int level;
@@ -18,11 +17,23 @@ public class Pokemon {
     private int healthPoints;
     private int maxHealthPoints;
 
-    public int getId() {
+//    @ManyToOne
+//    @JoinColumn(name = "SPECIES_ID")
+//    private Species species;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "TRAINER_ID")
+//    private Trainer trainer;
+//
+//    @OneToMany
+//    @JoinColumn(name = "ATTACK_ID")
+//    private Set<Attack> attacks;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,4 +76,28 @@ public class Pokemon {
     public void setMaxHealthPoints(int maxHealthPoints) {
         this.maxHealthPoints = maxHealthPoints;
     }
+
+//    public Species getSpecies() {
+//        return species;
+//    }
+//
+//    public void setSpecies(Species species) {
+//        this.species = species;
+//    }
+//
+//    public Trainer getTrainer() {
+//        return trainer;
+//    }
+//
+//    public void setTrainer(Trainer trainer) {
+//        this.trainer = trainer;
+//    }
+//
+//    public Set<Attack> getAttacks() {
+//        return attacks;
+//    }
+//
+//    public void setAttacks(Set<Attack> attacks) {
+//        this.attacks = attacks;
+//    }
 }

@@ -1,9 +1,8 @@
 package tp_group1.spring_boot_pokemon.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Item {
@@ -11,17 +10,21 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String itemName;
     private int cost;
     private String type;
 
-    public int getId() {
+//    @ManyToMany
+//    @JoinColumn(name = "TRAINER_ID")
+//    private Set<Trainer> trainers;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,4 +51,12 @@ public class Item {
     public void setType(String type) {
         this.type = type;
     }
+
+//    public Set<Trainer> getTrainers() {
+//        return trainers;
+//    }
+//
+//    public void setTrainers(Set<Trainer> trainers) {
+//        this.trainers = trainers;
+//    }
 }
