@@ -1,11 +1,7 @@
 package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
-<<<<<<< HEAD
-=======
-
 import java.util.Set;
->>>>>>> 741f41c3892409a9035325026481678a53726732
 
 @Entity
 public class Trainer {
@@ -15,27 +11,20 @@ public class Trainer {
 
 
     private String username;
-//    private String password;
-
-//    private int wallet;
+    private String password;
+    private int wallet;
 
     public Trainer() {
 
     }
-<<<<<<< HEAD
-    public Trainer(Long id, String username) {
+
+    public Trainer(Long id, String username, String password, int wallet) {
         this.id = id;
         this.username = username;
-//        this.password = password;
-//        this.wallet = wallet;
-=======
-    public Trainer(Long id, String userName, String password, int wallet) {
-        this.id = id;
-        this.userName = userName;
         this.password = password;
         this.wallet = wallet;
->>>>>>> 741f41c3892409a9035325026481678a53726732
     }
+
 
 //    @ManyToMany
 //    @JoinTable
@@ -61,23 +50,6 @@ public class Trainer {
         this.username = username;
     }
 
-<<<<<<< HEAD
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-//
-//    public int getWallet() {
-//        return wallet;
-//    }
-//
-//    public void setWallet(int wallet) {
-//        this.wallet = wallet;
-//    }
-=======
     public String getPassword() {
         return password;
     }
@@ -93,7 +65,6 @@ public class Trainer {
     public void setWallet(int wallet) {
         this.wallet = wallet;
     }
->>>>>>> 741f41c3892409a9035325026481678a53726732
 //
 //    public Set<Item> getItems() {
 //        return items;
