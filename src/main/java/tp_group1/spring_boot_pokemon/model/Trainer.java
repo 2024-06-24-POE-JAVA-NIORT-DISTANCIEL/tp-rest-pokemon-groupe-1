@@ -16,6 +16,9 @@ public class Trainer {
 
     private int wallet;
 
+    public Trainer() {
+
+    }
     public Trainer(Long id, String userName, String password, int wallet) {
         this.id = id;
         this.userName = userName;
