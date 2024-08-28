@@ -1,0 +1,63 @@
+// Définition des entités
+entity Pokemon {
+  id Integer required,
+  name String required,              // Nom propre du Pokémon
+  level Integer required,            // Niveau
+  experience Integer required,       // Points d'expérience
+  healthPoints Integer required,     // Points de vie actuels
+  maxHealthPoints Integer required   // Points de vie maximum
+//  attack ForeignKey required         // Attaques
+//  trainer Foreignkey required,		 // Entraineur
+//  species Foreignkey required,
+}
+
+entity Species {
+  id Integer required,
+  speciesName String required,       // Nom d'espèce
+  type String required,              // Type (par exemple, EAU, PLANTE)
+  initialHealthPoints Integer required, // Points de vie initiax
+//  initialAttack Foreignkey required,
+}
+
+entity Attack {
+  id Integer required,
+  attackName String required,        // Nom d'attaque
+  type String required,              // Type (par exemple, EAU, FEU)
+  damage Integer required            // Points de dégâts
+}
+
+entity Trainer {
+  id Integer required,
+  username String required unique,   // Pseudonyme
+  password String required,          // Mot de passe
+  wallet Integer required,           // Montant de portefeuille
+}
+
+entity Item {
+  id Integer required,
+  itemName String required,          // Nom de l'objet
+  cost Integer required,             // Coût
+  type String                        // Type de l'objet
+
+}
+
+// Relations entre les entités
+relationship ManyToOne {
+  Pokemon{species} to Species         // Un Pokémon appartient à une espèce
+  Pokemon{trainer} to Trainer         // Un Pokémon peut avoir un dresseur
+}
+
+relationship OneToMany {
+  Species{attacks} to Attack          // Une espèce peut avoir une attaque initiale
+  Trainer{pokemons} to Pokemon        // Un dresseur peut avoir plusieurs Pokémon
+}
+
+relationship ManyToMany {
+  Pokemon{attacks} to Attack          // Un Pokémon peut avoir plusieurs attaques
+  Trainer{items} to Item              // Un dresseur peut avoir plusieurs objets
+}
+
+// Options globales (facultatif)
+dto * with mapstruct                  // Génération de DTOs avec MapStruct
+service * with serviceClass           // Génération de services
+paginate Item, Pokemon with pagination // Pagination pour les entités Item et Pokemon
