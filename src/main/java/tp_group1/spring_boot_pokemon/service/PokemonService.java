@@ -6,6 +6,6 @@ import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 
 @Service
 public class PokemonService {
-    @Autowired
-    private PokemonDao pokemonDao;
+//    @Autowired
+//    private PokemonDao pokemonDao;
 }
