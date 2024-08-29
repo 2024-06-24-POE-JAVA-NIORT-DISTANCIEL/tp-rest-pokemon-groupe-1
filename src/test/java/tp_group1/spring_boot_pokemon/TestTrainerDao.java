@@ -26,7 +26,7 @@ public class TestTrainerDao {
 
     @Test
     public void testSaveTrainer() {
-        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 100, null, null);
+        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 6, null, null);
         Trainer savedTrainer = trainerDao.save(trainerSaved);
 
         // Vérifier que l'ID a été généré et est non-null

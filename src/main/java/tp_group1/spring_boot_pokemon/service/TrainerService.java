@@ -19,10 +19,13 @@ public class TrainerService {
     private TrainerDao trainerDao;
 
     //methode save
+    //Ne pas oublier de nettoyer ce code
     @Transactional
     public Trainer save(Trainer trainer) {
         String hashedPassword = hashPassword(trainer.getPassword());
-        System.out.println("Mot de passe haché : " + hashedPassword); // Pour debug
+        System.out.println("Mot de passe haché : " + hashedPassword);
+        Integer walletRes = trainer.getWallet();
+        System.out.println("Wallet ="+ walletRes);// Pour debug
         trainer.setPassword(hashedPassword);
         return trainerDao.save(trainer);
     }

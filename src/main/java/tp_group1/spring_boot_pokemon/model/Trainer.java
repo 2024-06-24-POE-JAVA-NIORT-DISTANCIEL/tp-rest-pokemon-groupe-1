@@ -1,6 +1,9 @@
 package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
+
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +19,7 @@ public class Trainer {
 
     private String password;
 
+    @Column(columnDefinition = "int default 100")
     private int wallet;
 
 
