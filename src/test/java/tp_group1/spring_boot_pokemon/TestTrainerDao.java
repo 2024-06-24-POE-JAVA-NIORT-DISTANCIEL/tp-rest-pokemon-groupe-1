@@ -106,24 +106,6 @@ public class TestTrainerDao {
         assertEquals("Theo", trainersAsc.get(2).getUsername());
     }
 
-//    @Test
-//    public void testFindAllByOrderByUsernameDesc() {
-//        Trainer trainer1 = new Trainer(1L, "Clarence", "12", 100, null);
-//        Trainer trainer2 = new Trainer(2L, "Lucas", "12", 100, null);
-//        Trainer trainer3 = new Trainer(3L, "Framboisier", "12", 100, null);
-//
-//        trainerDao.save(trainer1);
-//        trainerDao.save(trainer2);
-//        trainerDao.save(trainer3);
-//        List<Trainer> trainersDesc = trainerDao.findAllByOrderByUsernameDesc();
-//
-//        // Vérifier l'ordre décroissant
-//        assertEquals("Ziky", trainersDesc.get(0).getUsername());
-//        assertEquals("Lucas", trainersDesc.get(1).getUsername());
-//        assertEquals("Framboisier", trainersDesc.get(2).getUsername());
-//    }
-
-
     @Test
     public void testFindByPokemonName() {
 // Create a new Trainer
@@ -144,6 +126,7 @@ public class TestTrainerDao {
         List<Trainer> foundTrainers = trainerDao.findByPokemonsId(pikachu.getId());
 
         // Vérifiez que le nombre de Pokémon du Trainer est correct
+
         assertNotNull(foundTrainers);
         assertFalse(foundTrainers.isEmpty());
         assertEquals(1, foundTrainers.size());
