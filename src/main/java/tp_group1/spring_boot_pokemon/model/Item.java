@@ -14,7 +14,9 @@ public class Item {
 
     private String itemName;
     private int cost;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
 
 //    @ManyToMany
 //    @JoinColumn(name = "TRAINER_ID")
@@ -44,15 +46,15 @@ public class Item {
         this.cost = cost;
     }
 
-    public String getType() {
-        return type;
+    public ItemType getItemType() {
+        return itemType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
-//    public Set<Trainer> getTrainers() {
+    //    public Set<Trainer> getTrainers() {
 //        return trainers;
 //    }
 //
