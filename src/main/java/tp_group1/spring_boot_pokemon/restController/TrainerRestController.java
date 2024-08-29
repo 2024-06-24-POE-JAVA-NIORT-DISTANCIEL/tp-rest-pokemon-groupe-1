@@ -8,6 +8,6 @@ import tp_group1.spring_boot_pokemon.service.TrainerService;
 @RestController
 @RequestMapping("/trainers")
 public class TrainerRestController {
-    @Autowired
-    private TrainerService trainerService;
+//    @Autowired
+//    private TrainerService trainerService;
 }

@@ -21,7 +21,7 @@ public class Trainer {
 
 
     // plusieurs dresseurs peuvent avoir le même pokemon
-    @OneToMany(mappedBy = "trainer")
+    @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
     private Set<Pokemon> pokemons = new HashSet<>();
 
     @OneToMany(mappedBy = "trainer")

@@ -126,28 +126,28 @@ public class TestTrainerDao {
 
     @Test
     public void testFindByPokemonName() {
+// Create a new Trainer
+        Trainer trainer1 = new Trainer(null, "Martin", "12", 100, new HashSet<>(), new HashSet<>());
 
-        Pokemon pikachu = new Pokemon(null, "Pikachu", 1, 0, 55, 100, null);
-        // Mettez à jour en fonction de la classe
-        Pokemon charmander = new Pokemon(null, "Charmander", 1, 0, 60, 100, null);
+        // Save the Trainer
+        trainerDao.save(trainer1);
+
+        // Create a new Pokemon and assign it to the Trainer
+        Pokemon pikachu = new Pokemon(null, "Pikachu", 1, 0, 55, 100, trainer1);
         pokemonDao.save(pikachu);
-        pokemonDao.save(charmander);
 
-        // Créez un Set contenant le Pokémon Pikachu
-        Set<Pokemon> pikachuSet = new HashSet<>();
-        pikachuSet.add(pikachu);
-
-        // Créez un Trainer avec le Set de Pokémon
-        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100, pikachuSet, null);
-
-        // Sauvegarde du Trainer dans la base de données
+        // Add the Pokemon to the Trainer's set and save the Trainer again
+        trainer1.getPokemons().add(pikachu);
         trainerDao.save(trainer1);
 
         // Rechercher par nom de Pokémon
-        Trainer foundTrainer = trainerDao.findByPokemonName("Pikachu");
+        List<Trainer> foundTrainers = trainerDao.findByPokemonsId(pikachu.getId());
 
         // Vérifiez que le nombre de Pokémon du Trainer est correct
-        assertEquals(1, foundTrainer.getPokemons().size());
+        assertNotNull(foundTrainers);
+        assertFalse(foundTrainers.isEmpty());
+        assertEquals(1, foundTrainers.size());
+        assertEquals(1, foundTrainers.get(0).getPokemons().size());
     }
 
 }
