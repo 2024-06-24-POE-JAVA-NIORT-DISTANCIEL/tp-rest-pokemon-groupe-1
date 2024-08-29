@@ -6,6 +6,6 @@ import tp_group1.spring_boot_pokemon.dao.TrainerDao;
 
 @Service
 public class TrainerService {
-    @Autowired
-    private TrainerDao trainerDao;
+//    @Autowired
+//    private TrainerDao trainerDao;
 }

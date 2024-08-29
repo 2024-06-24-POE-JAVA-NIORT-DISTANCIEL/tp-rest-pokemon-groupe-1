@@ -19,8 +19,8 @@ public interface TrainerDao extends CrudRepository<Trainer, Long> {
 
 //  List<Trainer> findAllByOrderByUsernameDesc();
 
-//    @Query("SELECT t FROM Trainer t JOIN t.pokemons p WHERE p.name = :name")
-    List<Trainer> findByPokemonName(String name);
+//    @Query("SELECT t FROM Trainer t JOIN t.pokemons WHERE p.name = :name")
+    List<Trainer> findByPokemonsId(Long id);
 
 
 
