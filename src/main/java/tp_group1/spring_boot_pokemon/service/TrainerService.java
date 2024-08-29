@@ -17,25 +17,23 @@ public class TrainerService {
     //methode save
     @Transactional
     public Trainer save(Trainer trainer) {
-        Trainer trainerSaved = this.trainerDao.save(trainer);
-        return trainerSaved;
+        return trainerDao.save(trainer);
     }
 
     //methode find by
-    public Trainer findById(Long id) {
-        Optional<Trainer> optionalTrainer = this.trainerDao.findById(id);
-        return optionalTrainer.orElse(null);
+    public Optional<Trainer> findById(Long id) {
+       return trainerDao.findById(id);
     }
 
     //methode pour trouver tous les trainers
     public List<Trainer> findAll() {
-        return (List<Trainer>) this.trainerDao.findAll();
+        return trainerDao.findAll();
     }
 
     //delete by id
     @Transactional
     public void deleteById(Long id) {
-        this.trainerDao.deleteById(id);
+        trainerDao.deleteById(id);
     }
 
 }
