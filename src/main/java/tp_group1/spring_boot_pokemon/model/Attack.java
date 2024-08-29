@@ -12,6 +12,16 @@ public class Attack {
     private String type;
     private int damage;
 
+    public Attack() {
+    }
+
+    public Attack(Long id, String attackName, String type, int damage) {
+        this.id = id;
+        this.attackName = attackName;
+        this.type = type;
+        this.damage = damage;
+    }
+
     public Long getId() {
         return id;
     }
