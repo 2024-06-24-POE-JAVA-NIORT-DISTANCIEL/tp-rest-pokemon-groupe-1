@@ -18,7 +18,7 @@ public class Trainer {
 
     private int wallet;
 
-    
+
 
     // plusieurs dresseurs peuvent avoir le même pokemon
     @ManyToOne
