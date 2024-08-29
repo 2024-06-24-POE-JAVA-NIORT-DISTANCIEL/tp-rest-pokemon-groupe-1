@@ -18,7 +18,7 @@ public class TestTrainerDao {
 
     @Test
     public void testSaveTrainer() {
-        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 100);
+        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 100, null);
         Trainer savedTrainer = trainerDao.save(trainerSaved);
 
         // Vérifier que l'ID a été généré et est non-null
@@ -28,7 +28,7 @@ public class TestTrainerDao {
 
     @Test
     public void testFindById() {
-        Trainer trainer = new Trainer(1L, "Ziky", "12", 100);
+        Trainer trainer = new Trainer(1L, "Ziky", "12", 100,null);
         Trainer savedTrainer = trainerDao.save(trainer);
 
         Trainer foundTrainer = trainerDao.findById(savedTrainer.getId()).orElse(null);
@@ -39,7 +39,7 @@ public class TestTrainerDao {
 
     @Test
     public void testDeleteById() {
-        Trainer trainer = new Trainer(1L, "Ivy", "12", 100);
+        Trainer trainer = new Trainer(1L, "Ivy", "12", 100, null);
         Trainer savedTrainer = trainerDao.save(trainer);
         trainerDao.deleteById(savedTrainer.getId());
 
@@ -48,9 +48,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindByUsernameContainingIgnoringCase() {
-        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100);
-        Trainer trainer2 = new Trainer(2L, "Ivyrest", "12", 100);
-        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100);
+        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null);
+        Trainer trainer2 = new Trainer(2L, "Ivyrest", "12", 100, null);
+        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null);
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
         trainerDao.save(trainer3);
@@ -62,9 +62,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindAll() {
-        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100);
-        Trainer trainer2 = new Trainer(2L, "Catherine", "12", 100);
-        Trainer trainer3 = new Trainer(3L, "Edmundo", "12", 100);
+        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100, null);
+        Trainer trainer2 = new Trainer(2L, "Catherine", "12", 100, null);
+        Trainer trainer3 = new Trainer(3L, "Edmundo", "12", 100, null);
 
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
@@ -82,9 +82,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindAllByOrderByUsernameAsc() {
-        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100);
-        Trainer trainer2 = new Trainer(2L, "Ivy", "12", 100);
-        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100);
+        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null);
+        Trainer trainer2 = new Trainer(2L, "Ivy", "12", 100, null);
+        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null);
 
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
@@ -100,9 +100,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindAllByOrderByUsernameDesc() {
-        Trainer trainer1 = new Trainer(1L, "Clarence", "12", 100);
-        Trainer trainer2 = new Trainer(2L, "Lucas", "12", 100);
-        Trainer trainer3 = new Trainer(3L, "Framboisier", "12", 100);
+        Trainer trainer1 = new Trainer(1L, "Clarence", "12", 100, null);
+        Trainer trainer2 = new Trainer(2L, "Lucas", "12", 100, null);
+        Trainer trainer3 = new Trainer(3L, "Framboisier", "12", 100, null);
 
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);

@@ -2,6 +2,9 @@ package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 @Entity
 public class Trainer {
@@ -9,30 +12,31 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String username;
+
     private String password;
+
     private int wallet;
 
+    
+
+    // plusieurs dresseurs peuvent avoir le même pokemon
+    @ManyToOne
+    @JoinColumn(name = "POKEMON_ID")
+    private Pokemon pokemon;
+
+
+
+    // Constructeurs
     public Trainer() {
-
     }
-
-    public Trainer(Long id, String username, String password, int wallet) {
+    // Constructeur avec id (a mettre au fur et a mesure des test : , Set<Item> items, Map<Item, Integer> itemQuantities
+    public Trainer(Long id, String username, String password, int wallet, Pokemon pokemon) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.wallet = wallet;
     }
-
-
-//    @ManyToMany
-//    @JoinTable
-//    private Set<Item> items = new HashSet();
-//
-//    @ManyToOne
-//    @JoinColumn(name = "POKEMON_ID")
-//    private Set<Pokemon> pokemons;
 
     public Long getId() {
         return id;
@@ -65,7 +69,7 @@ public class Trainer {
     public void setWallet(int wallet) {
         this.wallet = wallet;
     }
-//
+
 //    public Set<Item> getItems() {
 //        return items;
 //    }
@@ -74,11 +78,15 @@ public class Trainer {
 //        this.items = items;
 //    }
 //
-//    public Set<Pokemon> getPokemons() {
-//        return pokemons;
+//    public Map<Item, Integer> getItemQuantities() {
+//        return itemQuantities;
 //    }
 //
-//    public void setPokemons(Set<Pokemon> pokemons) {
-//        this.pokemons = pokemons;
+//    public void setItemQuantities(Map<Item, Integer> itemQuantities) {
+//        this.itemQuantities = itemQuantities;
 //    }
+//
+    public Pokemon getPokemon() { return pokemon; }
+
+    public void setPokemon(Pokemon pokemon) { this.pokemon = pokemon; }
 }
