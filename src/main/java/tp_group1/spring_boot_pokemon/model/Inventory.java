@@ -14,22 +14,18 @@ public class Inventory {
 
     private int quantity;
 
-    @OneToMany (mappedBy = "Inventory")
-    private Set<Item> items = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "ITEM_ID")
+    private Item item;
 
-    @OneToMany (mappedBy = "Inventory")
-    private Set<Trainer> trainers = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "TRAINER_ID")
+    private Trainer trainer;
 
     // Constructeurs
     public Inventory() {
     }
 
-    public Inventory(Long id, int quantity, Set<Item> items, Set<Trainer> trainers) {
-        this.id = id;
-        this.quantity = quantity;
-        this.items = items;
-        this.trainers = trainers;
-    }
 
     // Getters et Setters
     public Long getId() {
@@ -48,20 +44,21 @@ public class Inventory {
         this.quantity = quantity;
     }
 
-    public Set<Item> getItems() {
-        return items;
+
+    public Item getItem() {
+        return item;
     }
 
-    public void setItems(Set<Item> items) {
-        this.items = items;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public Set<Trainer> getTrainers() {
-        return trainers;
+    public Trainer getTrainer() {
+        return trainer;
     }
 
-    public void setTrainers(Set<Trainer> trainers) {
-        this.trainers = trainers;
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
     }
 
     @Override
@@ -69,8 +66,8 @@ public class Inventory {
         return "Inventory{" +
                 "id=" + id +
                 ", quantity=" + quantity +
-                ", items=" + items +
-                ", trainers=" + trainers +
+                ", items=" + item +
+                ", trainers=" + trainer +
                 '}';
     }
 }

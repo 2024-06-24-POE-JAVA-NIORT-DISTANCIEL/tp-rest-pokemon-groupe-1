@@ -21,21 +21,25 @@ public class Trainer {
 
 
     // plusieurs dresseurs peuvent avoir le même pokemon
-    @ManyToOne
-    @JoinColumn(name = "POKEMON_ID")
-    private Pokemon pokemon;
+    @OneToMany(mappedBy = "trainer")
+    private Set<Pokemon> pokemons = new HashSet<>();
+
+    @OneToMany(mappedBy = "trainer")
+    private Set<Inventory> inventories = new HashSet<>();
 
 
 
     // Constructeurs
     public Trainer() {
     }
-    // Constructeur avec id (a mettre au fur et a mesure des test : , Set<Item> items, Map<Item, Integer> itemQuantities
-    public Trainer(Long id, String username, String password, int wallet, Pokemon pokemon) {
+
+    public Trainer(Long id, String username, String password, int wallet, Set<Pokemon> pokemons, Set<Inventory> inventories) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.wallet = wallet;
+        this.pokemons = pokemons;
+        this.inventories = inventories;
     }
 
     public Long getId() {
@@ -70,23 +74,20 @@ public class Trainer {
         this.wallet = wallet;
     }
 
-//    public Set<Item> getItems() {
-//        return items;
-//    }
-//
-//    public void setItems(Set<Item> items) {
-//        this.items = items;
-//    }
-//
-//    public Map<Item, Integer> getItemQuantities() {
-//        return itemQuantities;
-//    }
-//
-//    public void setItemQuantities(Map<Item, Integer> itemQuantities) {
-//        this.itemQuantities = itemQuantities;
-//    }
-//
-    public Pokemon getPokemon() { return pokemon; }
 
-    public void setPokemon(Pokemon pokemon) { this.pokemon = pokemon; }
+    public Set<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(Set<Inventory> inventories) {
+        this.inventories = inventories;
+    }
+
+    public Set<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(Set<Pokemon> pokemons) {
+        this.pokemons = pokemons;
+    }
 }

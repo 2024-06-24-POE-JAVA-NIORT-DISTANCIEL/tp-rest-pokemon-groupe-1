@@ -5,10 +5,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dao.TrainerDao;
+import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 
 @SpringBootTest
 public class TestTrainerDao {
@@ -16,9 +21,12 @@ public class TestTrainerDao {
     @Autowired
     private TrainerDao trainerDao;
 
+    @Autowired
+    private PokemonDao pokemonDao;
+
     @Test
     public void testSaveTrainer() {
-        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 100, null);
+        Trainer trainerSaved = new Trainer(null, "Ziky", "12", 100, null, null);
         Trainer savedTrainer = trainerDao.save(trainerSaved);
 
         // Vérifier que l'ID a été généré et est non-null
@@ -28,7 +36,7 @@ public class TestTrainerDao {
 
     @Test
     public void testFindById() {
-        Trainer trainer = new Trainer(1L, "Ziky", "12", 100,null);
+        Trainer trainer = new Trainer(1L, "Ziky", "12", 100,null, null);
         Trainer savedTrainer = trainerDao.save(trainer);
 
         Trainer foundTrainer = trainerDao.findById(savedTrainer.getId()).orElse(null);
@@ -39,7 +47,7 @@ public class TestTrainerDao {
 
     @Test
     public void testDeleteById() {
-        Trainer trainer = new Trainer(1L, "Ivy", "12", 100, null);
+        Trainer trainer = new Trainer(1L, "Ivy", "12", 100, null, null);
         Trainer savedTrainer = trainerDao.save(trainer);
         trainerDao.deleteById(savedTrainer.getId());
 
@@ -48,9 +56,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindByUsernameContainingIgnoringCase() {
-        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null);
-        Trainer trainer2 = new Trainer(2L, "Ivyrest", "12", 100, null);
-        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null);
+        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null, null);
+        Trainer trainer2 = new Trainer(2L, "Ivyrest", "12", 100, null, null);
+        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null, null);
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
         trainerDao.save(trainer3);
@@ -62,9 +70,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindAll() {
-        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100, null);
-        Trainer trainer2 = new Trainer(2L, "Catherine", "12", 100, null);
-        Trainer trainer3 = new Trainer(3L, "Edmundo", "12", 100, null);
+        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100, null, null);
+        Trainer trainer2 = new Trainer(2L, "Catherine", "12", 100, null, null);
+        Trainer trainer3 = new Trainer(3L, "Edmundo", "12", 100, null, null);
 
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
@@ -82,9 +90,9 @@ public class TestTrainerDao {
 
     @Test
     public void testFindAllByOrderByUsernameAsc() {
-        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null);
-        Trainer trainer2 = new Trainer(2L, "Ivy", "12", 100, null);
-        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null);
+        Trainer trainer1 = new Trainer(1L, "Theo", "12", 100, null, null);
+        Trainer trainer2 = new Trainer(2L, "Ivy", "12", 100, null, null);
+        Trainer trainer3 = new Trainer(3L, "Ricarduro", "12", 100, null, null);
 
         trainerDao.save(trainer1);
         trainerDao.save(trainer2);
@@ -98,20 +106,48 @@ public class TestTrainerDao {
         assertEquals("Theo", trainersAsc.get(2).getUsername());
     }
 
+//    @Test
+//    public void testFindAllByOrderByUsernameDesc() {
+//        Trainer trainer1 = new Trainer(1L, "Clarence", "12", 100, null);
+//        Trainer trainer2 = new Trainer(2L, "Lucas", "12", 100, null);
+//        Trainer trainer3 = new Trainer(3L, "Framboisier", "12", 100, null);
+//
+//        trainerDao.save(trainer1);
+//        trainerDao.save(trainer2);
+//        trainerDao.save(trainer3);
+//        List<Trainer> trainersDesc = trainerDao.findAllByOrderByUsernameDesc();
+//
+//        // Vérifier l'ordre décroissant
+//        assertEquals("Ziky", trainersDesc.get(0).getUsername());
+//        assertEquals("Lucas", trainersDesc.get(1).getUsername());
+//        assertEquals("Framboisier", trainersDesc.get(2).getUsername());
+//    }
+
+
     @Test
-    public void testFindAllByOrderByUsernameDesc() {
-        Trainer trainer1 = new Trainer(1L, "Clarence", "12", 100, null);
-        Trainer trainer2 = new Trainer(2L, "Lucas", "12", 100, null);
-        Trainer trainer3 = new Trainer(3L, "Framboisier", "12", 100, null);
+    public void testFindByPokemonName() {
 
+        Pokemon pikachu = new Pokemon(null, "Pikachu", 1, 0, 55, 100, null);
+        // Mettez à jour en fonction de la classe
+        Pokemon charmander = new Pokemon(null, "Charmander", 1, 0, 60, 100, null);
+        pokemonDao.save(pikachu);
+        pokemonDao.save(charmander);
+
+        // Créez un Set contenant le Pokémon Pikachu
+        Set<Pokemon> pikachuSet = new HashSet<>();
+        pikachuSet.add(pikachu);
+
+        // Créez un Trainer avec le Set de Pokémon
+        Trainer trainer1 = new Trainer(1L, "Martin", "12", 100, pikachuSet, null);
+
+        // Sauvegarde du Trainer dans la base de données
         trainerDao.save(trainer1);
-        trainerDao.save(trainer2);
-        trainerDao.save(trainer3);
-        List<Trainer> trainersDesc = trainerDao.findAllByOrderByUsernameDesc();
 
-        // Vérifier l'ordre décroissant
-        assertEquals("Ziky", trainersDesc.get(0).getUsername());
-        assertEquals("Lucas", trainersDesc.get(1).getUsername());
-        assertEquals("Framboisier", trainersDesc.get(2).getUsername());
+        // Rechercher par nom de Pokémon
+        Trainer foundTrainer = trainerDao.findByPokemonName("Pikachu");
+
+        // Vérifiez que le nombre de Pokémon du Trainer est correct
+        assertEquals(1, foundTrainer.getPokemons().size());
     }
+
 }

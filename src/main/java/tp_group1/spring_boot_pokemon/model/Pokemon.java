@@ -17,7 +17,29 @@ public class Pokemon {
     private int healthPoints;
     private int maxHealthPoints;
 
-//    @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "TRAINER_ID")
+    private Trainer trainer;
+
+    public Pokemon() {
+    }
+
+    public Pokemon(Long id, String name, int level, int experience, int healthPoints, int maxHealthPoints, Trainer trainer) {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+        this.experience = experience;
+        this.healthPoints = healthPoints;
+        this.maxHealthPoints = maxHealthPoints;
+        this.trainer = trainer;
+    }
+
+
+
+
+
+
+    //    @ManyToOne
 //    @JoinColumn(name = "SPECIES_ID")
 //    private Species species;
 //
@@ -77,27 +99,11 @@ public class Pokemon {
         this.maxHealthPoints = maxHealthPoints;
     }
 
-//    public Species getSpecies() {
-//        return species;
-//    }
-//
-//    public void setSpecies(Species species) {
-//        this.species = species;
-//    }
-//
-//    public Trainer getTrainer() {
-//        return trainer;
-//    }
-//
-//    public void setTrainer(Trainer trainer) {
-//        this.trainer = trainer;
-//    }
-//
-//    public Set<Attack> getAttacks() {
-//        return attacks;
-//    }
-//
-//    public void setAttacks(Set<Attack> attacks) {
-//        this.attacks = attacks;
-//    }
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
 }

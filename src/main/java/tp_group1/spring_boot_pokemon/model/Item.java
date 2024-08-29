@@ -2,6 +2,7 @@ package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,9 +19,8 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
-//    @ManyToMany
-//    @JoinColumn(name = "TRAINER_ID")
-//    private Set<Trainer> trainers;
+    @OneToMany(mappedBy = "item")
+    private Set<Inventory> items = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -52,6 +52,14 @@ public class Item {
 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
+    }
+
+    public Set<Inventory> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Inventory> items) {
+        this.items = items;
     }
 
     //    public Set<Trainer> getTrainers() {
