@@ -12,10 +12,10 @@ public class Pokemon {
     private Long id;
 
     private String name;
-    private int level;
-    private int experience;
-    private int healthPoints;
-    private int maxHealthPoints;
+    private Integer level;
+    private Integer experience;
+    private Integer healthPoints;
+    private Integer maxHealthPoints;
 
     @ManyToOne
     @JoinColumn(name = "TRAINER_ID")
@@ -37,7 +37,7 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String name, int level, int experience, int healthPoints, int maxHealthPoints, Trainer trainer) {
+    public Pokemon(Long id, String name, Integer level, Integer experience, Integer healthPoints, Integer maxHealthPoints, Trainer trainer) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -64,35 +64,35 @@ public class Pokemon {
         this.name = name;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
-    public int getExperience() {
+    public Integer getExperience() {
         return experience;
     }
 
-    public void setExperience(int experience) {
+    public void setExperience(Integer experience) {
         this.experience = experience;
     }
 
-    public int getHealthPoints() {
+    public Integer getHealthPoints() {
         return healthPoints;
     }
 
-    public void setHealthPoints(int healthPoints) {
+    public void setHealthPoints(Integer healthPoints) {
         this.healthPoints = healthPoints;
     }
 
-    public int getMaxHealthPoints() {
+    public Integer getMaxHealthPoints() {
         return maxHealthPoints;
     }
 
-    public void setMaxHealthPoints(int maxHealthPoints) {
+    public void setMaxHealthPoints(Integer maxHealthPoints) {
         this.maxHealthPoints = maxHealthPoints;
     }
 

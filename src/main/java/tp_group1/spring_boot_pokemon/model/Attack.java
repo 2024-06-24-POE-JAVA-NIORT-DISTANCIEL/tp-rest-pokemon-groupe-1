@@ -12,7 +12,7 @@ public class Attack {
 
     private String attackName;
     private String type;
-    private int damage;
+    private Integer damage;
 
     @ManyToMany
     @JoinTable(
@@ -25,7 +25,7 @@ public class Attack {
     public Attack() {
     }
 
-    public Attack(Long id, String attackName, String type, int damage) {
+    public Attack(Long id, String attackName, String type, Integer damage) {
         this.id = id;
         this.attackName = attackName;
         this.type = type;
@@ -56,11 +56,11 @@ public class Attack {
         this.type = type;
     }
 
-    public int getDamage() {
+    public Integer getDamage() {
         return damage;
     }
 
-    public void setDamage(int damage) {
+    public void setDamage(Integer damage) {
         this.damage = damage;
     }
 }

@@ -11,7 +11,17 @@ public class Species {
 
     private String name;
     private String type;
-    private int initialHealthPoints;
+    private Integer initialHealthPoints;
+
+    public Species() {
+    }
+
+    public Species(Long id, String name, String type, Integer initialHealthPoints) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.initialHealthPoints = initialHealthPoints;
+    }
 
     public Long getId() {
         return id;
@@ -37,11 +47,11 @@ public class Species {
         this.type = type;
     }
 
-    public int getInitialHealthPoints() {
+    public Integer getInitialHealthPoints() {
         return initialHealthPoints;
     }
 
-    public void setInitialHealthPoints(int initialHealthPoints) {
+    public void setInitialHealthPoints(Integer initialHealthPoints) {
         this.initialHealthPoints = initialHealthPoints;
     }
 }
