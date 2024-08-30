@@ -31,6 +31,7 @@ public class Item {
         this.itemName = itemName;
         this.cost = cost;
         this.itemType = itemType;
+
         this.inventories = items;
     }
 

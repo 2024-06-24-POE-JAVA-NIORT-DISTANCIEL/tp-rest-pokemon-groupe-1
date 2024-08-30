@@ -81,7 +81,7 @@ class ItemDaoTest {
 // }
     @Test
     public void testItemExistsInInventory() {
-        Inventory inventory = new Inventory(null, 0, null, null);
+        Inventory inventory = new Inventory(null, 0, itemUn, null);
         inventoryDao.save(inventory);
         assertNotNull(inventory.getId());
 //        inventory.setItem(itemUn);
@@ -90,6 +90,7 @@ class ItemDaoTest {
 
         // Ajout d'inventaire à la liste
         Set<Inventory> inventories = new HashSet<>();
+        inventories.add(inventory);
         itemUn.setInventories(inventory.getItem().getInventories());
         Item itemSaved = itemDao.save(itemUn);
         assertNotNull(itemSaved.getId());
@@ -97,13 +98,11 @@ class ItemDaoTest {
 
 
         // Vérification
-//        List<Item> inventorySaved = itemDao.findByInventoriesId(inventory.getId());
-//        assertNotNull(inventorySaved);
-//        assertFalse(inventorySaved.isEmpty());
-//        assertEquals(1, inventorySaved.size());
+        List<Item> inventorySaved = itemDao.findByInventoriesId(inventory.getId());
+        assertNotNull(inventorySaved);
+        assertFalse(inventorySaved.isEmpty());
+        assertEquals(1, inventorySaved.size());
     }
-
-
 
 
 }
