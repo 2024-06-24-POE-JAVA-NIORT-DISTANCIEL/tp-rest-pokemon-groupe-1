@@ -22,11 +22,12 @@ public class Species {
     public Species() {
     }
 
-    public Species(Long id, String name, String type, Integer initialHealthPoints) {
+    public Species(Long id, String name, String type, Integer initialHealthPoints, Set<Attack> attacks) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.initialHealthPoints = initialHealthPoints;
+        this.attacks = attacks;
     }
 
     public Long getId() {
@@ -59,5 +60,13 @@ public class Species {
 
     public void setInitialHealthPoints(Integer initialHealthPoints) {
         this.initialHealthPoints = initialHealthPoints;
+    }
+
+    public Set<Attack> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(Set<Attack> attacks) {
+        this.attacks = attacks;
     }
 }

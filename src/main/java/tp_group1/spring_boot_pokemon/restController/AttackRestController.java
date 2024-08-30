@@ -16,7 +16,7 @@ public class AttackRestController {
     private AttackService attackService;
 
     //GET
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Attack> getAttackById(@PathVariable Long id) {
         Optional<Attack> attack = attackService.findById(id);
         return attack.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -35,7 +35,7 @@ public class AttackRestController {
     }
 
     //DELETE BY ID
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAttackById(@PathVariable Long id) {
         attackService.findById(id);
         if(attackService.findById(id).isPresent()) {
@@ -45,6 +45,4 @@ public class AttackRestController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 }

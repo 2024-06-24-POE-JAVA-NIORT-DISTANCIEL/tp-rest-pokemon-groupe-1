@@ -7,7 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tp_group1.spring_boot_pokemon.dao.AttackDao;
+import tp_group1.spring_boot_pokemon.dao.PokemonDao;
+import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.model.Pokemon;
+import tp_group1.spring_boot_pokemon.model.Species;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +20,10 @@ import java.util.Optional;
 public class AttackDaoTest {
     @Autowired
     private AttackDao attackDao;
+    @Autowired
+    private SpeciesDao speciesDao;
+    @Autowired
+    private PokemonDao pokemonDao;
 
     private Attack attack1;
     private Attack attack2;
@@ -24,10 +32,10 @@ public class AttackDaoTest {
 
     @BeforeEach
     public void setUp() {
-        attack1 = new Attack(null, "green attack", "water", 10);
-        attack2 = new Attack(null, "fireball", "fire", 34);
-        attack3 = new Attack(null, "thunder strike", "electric", 104);
-        attack4 = new Attack(null, "rock throw", "rock", 5);
+        attack1 = new Attack(null, "green attack", "water", 10, null, null);
+        attack2 = new Attack(null, "fireball", "fire", 34, null, null);
+        attack3 = new Attack(null, "thunder strike", "electric", 104, null, null);
+        attack4 = new Attack(null, "rock throw", "rock", 5, null, null);
 
         attackDao.save(attack1);
         attackDao.save(attack2);
@@ -81,5 +89,19 @@ public class AttackDaoTest {
         Assertions.assertEquals(1, foundAttacks.size());
         Assertions.assertEquals("thunder strike", foundAttacks.get(0).getAttackName());
     }
+
+    @Test
+    public void testFindAttackBySpeciesId() {
+        Species espece1 = new Species(null, "Dragon", "feu", 3);
+        speciesDao.save(espece1);
+        Attack attack5 = new Attack(null, "fireball", "fire", 34, null, null);
+        attack5.setSpecies(espece1);
+        attackDao.save(attack5);
+
+        Assertions.assertNotNull(attack5.getSpecies().getId());
+        Assertions.assertEquals(espece1.getId(), attack5.getSpecies().getId());
+    }
+
+
 
 }

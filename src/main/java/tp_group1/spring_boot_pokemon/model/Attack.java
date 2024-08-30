@@ -29,11 +29,13 @@ public class Attack {
     public Attack() {
     }
 
-    public Attack(Long id, String attackName, String type, Integer damage) {
+    public Attack(Long id, String attackName, String type, Integer damage, Set<Pokemon> pokemons, Species species) {
         this.id = id;
         this.attackName = attackName;
         this.type = type;
         this.damage = damage;
+        this.pokemons = pokemons;
+        this.species = species;
     }
 
     public Long getId() {
@@ -66,5 +68,21 @@ public class Attack {
 
     public void setDamage(Integer damage) {
         this.damage = damage;
+    }
+
+    public Set<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(Set<Pokemon> pokemons) {
+        this.pokemons = pokemons;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
     }
 }

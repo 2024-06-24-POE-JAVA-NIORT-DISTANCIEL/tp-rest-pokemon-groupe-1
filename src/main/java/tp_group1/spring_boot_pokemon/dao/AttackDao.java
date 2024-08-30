@@ -16,4 +16,8 @@ public interface AttackDao extends CrudRepository<Attack, Long> {
     List<Attack> findAllByOrderByAttackNameAsc();
 
     List<Attack> findAllByOrderByAttackNameDesc();
+
+    List<Attack> findBySpeciesId(Long id);
+
+    List<Attack> findByPokemonsId(Long id);
 }

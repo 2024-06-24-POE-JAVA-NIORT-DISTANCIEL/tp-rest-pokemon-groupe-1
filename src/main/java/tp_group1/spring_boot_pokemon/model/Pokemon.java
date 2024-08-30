@@ -37,7 +37,7 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String name, Integer level, Integer experience, Integer healthPoints, Integer maxHealthPoints, Trainer trainer) {
+    public Pokemon(Long id, String name, Integer level, Integer experience, Integer healthPoints, Integer maxHealthPoints, Trainer trainer, Species species, Set<Attack> attacks) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -45,8 +45,9 @@ public class Pokemon {
         this.healthPoints = healthPoints;
         this.maxHealthPoints = maxHealthPoints;
         this.trainer = trainer;
+        this.species = species;
+        this.attacks = attacks;
     }
-
 
     public Long getId() {
         return id;
@@ -102,5 +103,21 @@ public class Pokemon {
 
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
+    }
+
+    public Set<Attack> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(Set<Attack> attacks) {
+        this.attacks = attacks;
     }
 }
