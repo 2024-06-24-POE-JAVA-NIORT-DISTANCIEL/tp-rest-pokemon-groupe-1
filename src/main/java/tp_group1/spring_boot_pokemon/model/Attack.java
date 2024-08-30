@@ -17,8 +17,8 @@ public class Attack {
     @ManyToMany
     @JoinTable(
             name = "pokemon_attack",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "attack_id")
+            joinColumns = @JoinColumn(name = "attack_id"),
+            inverseJoinColumns = @JoinColumn(name = "pokemon_id")
     )
     private Set<Pokemon> pokemons;
 

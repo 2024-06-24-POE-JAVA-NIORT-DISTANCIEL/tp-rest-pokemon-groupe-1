@@ -30,6 +30,16 @@ public class SpeciesService {
         return speciesDao.findById(id);
     }
 
+    // Find species by pokemon ID
+    public List<Species> findSpeciesByPokemonId(Long id) {
+        return speciesDao.findByPokemonsId(id);
+    }
+
+    // Find species by attack ID
+    public List<Species> findSpeciesByAttackId(Long id) {
+        return speciesDao.findByAttacksId(id);
+    }
+
     // Find all species
     public List<Species> findAll() {
         return speciesDao.findAll();
@@ -39,9 +49,9 @@ public class SpeciesService {
     @Transactional
     public void deleteById(Long id) throws Exception {
         if(pokemonDao.findBySpeciesId(id).isEmpty()) {
-            throw new Exception("Species is linked to a Pokémon");
-        } else {
             speciesDao.deleteById(id);
+        } else {
+            throw new RuntimeException("Species is linked to a Pokémon");
         }
     }
 }
