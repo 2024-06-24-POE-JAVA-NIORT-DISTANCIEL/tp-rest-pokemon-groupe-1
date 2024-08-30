@@ -15,10 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class PokemonService {
 
-    @Autowired
-    private PokemonDto pokemonDto;
-    @Autowired
-    private PokemonDao pokemonDao;
+    private final PokemonDao pokemonDao;
+
+    public PokemonService(PokemonDao pokemonDao) {
+        this.pokemonDao = pokemonDao;
+    }
 
     //methode save
     @Transactional

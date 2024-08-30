@@ -31,8 +31,9 @@ public class SpeciesService {
     }
 
     // Find species by pokemon ID
-    public List<Species> findSpeciesByPokemonId(Long id) {
-        return speciesDao.findByPokemonsId(id);
+
+    public List<Species> findSpeciesByPokemonId(Long pokemonId) {
+        return speciesDao.findByPokemonsId(pokemonId);
     }
 
     // Find species by attack ID

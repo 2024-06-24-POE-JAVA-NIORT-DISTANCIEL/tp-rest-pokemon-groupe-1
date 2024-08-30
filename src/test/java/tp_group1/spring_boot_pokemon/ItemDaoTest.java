@@ -35,7 +35,7 @@ class ItemDaoTest {
     private TrainerDao trainerDao;
 
     @Enumerated(EnumType.STRING)
-//    private ItemType itemType;
+    private ItemType itemType;
 
 
     private Item itemUn;
@@ -45,7 +45,7 @@ class ItemDaoTest {
     @BeforeEach
     void setUp() {
         // Créer un objet et un dresseur pour les tests
-        itemUn = new Item(1L, "Potion", 50, null, null);
+        itemUn = new Item(1L, "Potion", 50, ItemType.AIR, null);
         itemDeux = new Item(2L, "Pokéball", 30, ItemType.EAU, null);
 
         Trainer trainer = new Trainer(1L, "Sasha", "password", 200, null, null);

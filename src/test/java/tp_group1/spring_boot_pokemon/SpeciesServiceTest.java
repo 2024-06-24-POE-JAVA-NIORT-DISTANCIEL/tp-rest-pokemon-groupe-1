@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.misc.LogManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.service.SpeciesService;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
@@ -94,10 +95,10 @@ public class SpeciesServiceTest {
         pokemon.setSpecies(savedSpecies); // Lier ce Pokémon à l'espèce
         // Assurez-vous que le constructeur ou les setters pour Pokémon sont correctement configurés pour cet usage.
 
-        Pokemon savedPokemon = pokemonService.save(pokemon);
+        //PokemonDto savedPokemon = pokemonService.save(pokemon);
 
         // Étape 3: Rechercher l'espèce par ID de Pokémon
-        List<Species> foundSpecies = speciesService.findSpeciesByPokemonId(savedPokemon.getId());
+        List<Species> foundSpecies = speciesService.findSpeciesByPokemonId(pokemon.getId());
 
         // Vérifier que l'espèce est trouvée
         assertNotNull(foundSpecies);
