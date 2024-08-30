@@ -9,6 +9,7 @@ import tp_group1.spring_boot_pokemon.service.SpeciesService;
 import java.util.List;
 import java.util.Optional;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -20,7 +21,7 @@ public class SpeciesServiceTest {
     @Test
     public void testSaveSpecies() {
         // Créer une nouvelle espèce
-        Species species = new Species(null, "Pikachu", "Electric", 100, null);
+        Species species = new Species(null, "Pikachu", "Electric", 100, null, null);
         Species savedSpecies = speciesService.save(species);
 
         // Vérifier que l'ID est généré et n'est pas null
@@ -36,7 +37,7 @@ public class SpeciesServiceTest {
     @Test
     public void testFindSpeciesById() {
         // Sauvegarder une nouvelle espèce
-        Species species = new Species(null, "Charmander", "Fire", 80, null);
+        Species species = new Species(null, "Charmander", "Fire", 80, null, null);
         Species savedSpecies = speciesService.save(species);
 
         // Rechercher l'espèce par ID
@@ -51,8 +52,8 @@ public class SpeciesServiceTest {
     @Test
     public void testFindAllSpecies() {
         // Sauvegarder quelques espèces
-        speciesService.save(new Species(null, "Bulbasaur", "Grass", 90, null));
-        speciesService.save(new Species(null, "Squirtle", "Water", 95, null));
+        speciesService.save(new Species(null, "Bulbasaur", "Grass", 90, null, null));
+        speciesService.save(new Species(null, "Squirtle", "Water", 95, null, null));
 
         // Récupérer toutes les espèces
         List<Species> speciesList = speciesService.findAll();
@@ -65,7 +66,7 @@ public class SpeciesServiceTest {
     @Test
     public void testDeleteSpeciesById() {
         // Sauvegarder une nouvelle espèce
-        Species species = new Species(null, "Meowth", "Normal", 70, null);
+        Species species = new Species(null, "Meowth", "Normal", 70, null, null);
         Species savedSpecies = speciesService.save(species);
 
         // Essayer de supprimer l'espèce
@@ -83,14 +84,13 @@ public class SpeciesServiceTest {
 
     @Test
     public void testDeleteSpeciesLinkedToPokemon() {
-        // Ce test suppose qu'il existe une logique pour lier une espèce à un Pokémon,
+
         // ce qui empêcherait la suppression. Vous devrez créer un Pokémon lié à une espèce pour ce test.
-        Species species = new Species(1L, "Eevee", "Normal", 100, null);
+        Species species = new Species(1L, "Eevee", "Normal", 100, null, null);
         Species savedSpecies = speciesService.save(species);
 
-        // Supposons que nous ayons une méthode pour lier un Pokémon à cette espèce.
-        // Cette partie est du pseudocode car nous n'avons pas les détails de l'implémentation :
-        // pokemonService.createPokemonLinkedToSpecies(savedSpecies);
+
+
 
         // Essayer de supprimer l'espèce liée à un Pokémon
         try {

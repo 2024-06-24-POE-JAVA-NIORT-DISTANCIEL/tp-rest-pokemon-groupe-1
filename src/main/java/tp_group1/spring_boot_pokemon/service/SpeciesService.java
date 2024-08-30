@@ -38,10 +38,10 @@ public class SpeciesService {
     // Delete a species by ID, checking if linked to any Pokémon
     @Transactional
     public void deleteById(Long id) throws Exception {
-        if (pokemonDao.findByTrainerId(id).isEmpty()) {  // Assuming trainerId is used to find linked Pokémon, adjust as necessary
-            speciesDao.deleteById(id);
+        if(pokemonDao.findBySpeciesId(id).isEmpty()) {
+            throw new Exception("Species is linked to a Pokémon");
         } else {
-            throw new Exception("Cannot delete species linked to Pokémon");
+            speciesDao.deleteById(id);
         }
     }
 }
