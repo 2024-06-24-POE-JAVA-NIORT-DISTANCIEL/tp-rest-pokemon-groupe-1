@@ -18,16 +18,19 @@ public class Species {
     @OneToMany(mappedBy = "species")
     private Set<Attack> attacks = new HashSet<>();
 
+    @OneToMany(mappedBy = "species")
+    private Set<Pokemon> pokemons = new HashSet<>();
 
     public Species() {
     }
 
-    public Species(Long id, String name, String type, Integer initialHealthPoints, Set<Attack> attacks) {
+    public Species(Long id, String name, String type, Integer initialHealthPoints, Set<Attack> attacks, Set<Pokemon> pokemons) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.initialHealthPoints = initialHealthPoints;
         this.attacks = attacks;
+        this.pokemons = pokemons;
     }
 
     public Long getId() {
@@ -68,5 +71,13 @@ public class Species {
 
     public void setAttacks(Set<Attack> attacks) {
         this.attacks = attacks;
+    }
+
+    public Set<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(Set<Pokemon> pokemons) {
+        this.pokemons = pokemons;
     }
 }
