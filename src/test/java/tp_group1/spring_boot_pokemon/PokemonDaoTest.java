@@ -34,16 +34,16 @@ public class PokemonDaoTest {
 
     @BeforeEach
     public void setUp() {
-        pokemon1 = new Pokemon(null, "Pikachu", 5, 120, 35, 35, null);
-        pokemon2 = new Pokemon(null, "Charmander", 8, 240, 39, 39, null);
-        pokemon3 = new Pokemon(null, "Bulbasaur", 7, 180, 45, 45, null);
-        pokemon4 = new Pokemon(null, "Squirtle", 6, 160, 44, 44, null);
-        pokemon5 = new Pokemon(null, "Jigglypuff", 3, 90, 115, 115, null);
-        pokemon6 = new Pokemon(null, "Meowth", 4, 110, 40, 40, null);
-        pokemon7 = new Pokemon(null, "Psyduck", 6, 160, 50, 50, null);
-        pokemon8 = new Pokemon(null, "Machop", 9, 270, 70, 70, null);
-        pokemon9 = new Pokemon(null, "Geodude", 7, 210, 40, 40, null);
-        pokemon10 = new Pokemon(null, "Eevee", 5, 130, 55, 55, null);
+        pokemon1 = new Pokemon(null, "Pikachu", 5, 120, 35, 35, null, null, null);
+        pokemon2 = new Pokemon(null, "Charmander", 8, 240, 39, 39, null, null, null);
+        pokemon3 = new Pokemon(null, "Bulbasaur", 7, 180, 45, 45, null, null, null);
+        pokemon4 = new Pokemon(null, "Squirtle", 6, 160, 44, 44, null, null, null);
+        pokemon5 = new Pokemon(null, "Jigglypuff", 3, 90, 115, 115, null, null, null);
+        pokemon6 = new Pokemon(null, "Meowth", 4, 110, 40, 40, null, null, null);
+        pokemon7 = new Pokemon(null, "Psyduck", 6, 160, 50, 50, null, null, null);
+        pokemon8 = new Pokemon(null, "Machop", 9, 270, 70, 70, null, null, null);
+        pokemon9 = new Pokemon(null, "Geodude", 7, 210, 40, 40, null, null, null);
+        pokemon10 = new Pokemon(null, "Eevee", 5, 130, 55, 55, null, null, null);
 
         pokemonDao.save(pokemon1);
         pokemonDao.save(pokemon2);

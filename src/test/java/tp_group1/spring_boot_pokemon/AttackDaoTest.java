@@ -102,6 +102,12 @@ public class AttackDaoTest {
         Assertions.assertEquals(espece1.getId(), attack5.getSpecies().getId());
     }
 
-
+    @Test
+    public void testFindAttackByPokemonsId() {
+        Pokemon pokemon1 = new Pokemon(null, "Pikachu", 5, 120, 35, 35, null);
+        pokemonDao.save(pokemon1);
+        Attack attack6 = new Attack(null, "fireball", "fire", 34, null, null);
+        attack6.setPokemons(pokemon1);
+    }
 
 }
