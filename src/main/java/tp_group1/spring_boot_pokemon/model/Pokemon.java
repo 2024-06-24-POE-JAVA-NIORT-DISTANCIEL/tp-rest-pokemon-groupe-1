@@ -1,6 +1,7 @@
 package tp_group1.spring_boot_pokemon.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class Pokemon {
 
     @ManyToOne
     @JoinColumn(name = "SPECIES_ID")
+    @JsonBackReference
     private Species species;
 
     @ManyToMany(mappedBy = "pokemons")
