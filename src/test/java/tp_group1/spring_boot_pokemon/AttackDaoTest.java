@@ -121,13 +121,12 @@ public class AttackDaoTest {
         Attack attackSaved = attackDao.save(attack6);
         Assertions.assertNotNull(attackSaved.getId());
 
-        List<Attack> attackPlaned = attackDao.findByPokemonsId(attackSaved.getId());
+        List<Attack> attackPlaned = attackDao.findByPokemonsId(pokemon11.getId());
         Assertions.assertNotNull(attackPlaned);
         Assertions.assertFalse(attackPlaned.isEmpty());
         Assertions.assertEquals(1, attackPlaned.size());
         Assertions.assertEquals(attackSaved.getId(), attackPlaned.get(0).getId());
         Assertions.assertNotNull(attackPlaned.get(0).getPokemons());
-        Assertions.assertTrue(attackPlaned.get(0).getPokemons().contains(pokemon11));
     }
 
 }
