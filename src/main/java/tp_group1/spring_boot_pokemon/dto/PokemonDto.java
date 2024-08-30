@@ -1,7 +1,7 @@
 package tp_group1.spring_boot_pokemon.dto;
 
 import tp_group1.spring_boot_pokemon.model.Species;
-import tp_group1.spring_boot_pokemon.model.Attack
+import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
 public class PokemonDto {
