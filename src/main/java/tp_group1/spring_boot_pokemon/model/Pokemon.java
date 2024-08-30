@@ -13,8 +13,8 @@ public class Pokemon {
     private Long id;
 
     private String name;
-    private Integer level;
-    private Integer experience;
+    private Integer level = 1;
+    private Integer experience = 0;
     private Integer healthPoints;
     private Integer maxHealthPoints;
 
