@@ -115,7 +115,7 @@ public class TestTrainerDao {
         trainerDao.save(trainer1);
 
         // Create a new Pokemon and assign it to the Trainer
-        Pokemon pikachu = new Pokemon(null, "Pikachu", 1, 0, 55, 100, trainer1);
+        Pokemon pikachu = new Pokemon(null, "Bulbasaur", 7, 180, 45, 45, null, null, null);
         pokemonDao.save(pikachu);
 
         // Add the Pokemon to the Trainer's set and save the Trainer again
