@@ -1,8 +1,6 @@
 package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Value;
-
 
 import java.util.Set;
 import java.util.HashSet;
@@ -19,33 +17,29 @@ public class Trainer {
 
     private String password;
 
-    @Column(columnDefinition = "int default 100")
-    private int wallet;
+    private Integer wallet = 100; // Valeur par défaut si aucun constructeur n'est utilisé
 
-
-
-    // plusieurs dresseurs peuvent avoir le même pokemon
     @OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
     private Set<Pokemon> pokemons = new HashSet<>();
 
     @OneToMany(mappedBy = "trainer")
     private Set<Inventory> inventories = new HashSet<>();
 
-
-
     // Constructeurs
     public Trainer() {
+        // Ce constructeur vide utilise la valeur par défaut définie dans la déclaration du champ.
     }
 
-    public Trainer(Long id, String username, String password, int wallet, Set<Pokemon> pokemons, Set<Inventory> inventories) {
+    public Trainer(Long id, String username, String password, Integer wallet, Set<Pokemon> pokemons, Set<Inventory> inventories) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.wallet = wallet;
+        this.wallet = (wallet != null) ? wallet : 100; // Valeur par défaut de 100 lors de la création
         this.pokemons = pokemons;
         this.inventories = inventories;
     }
 
+    // Getters et Setters
     public Long getId() {
         return id;
     }
@@ -70,14 +64,15 @@ public class Trainer {
         this.password = password;
     }
 
-    public int getWallet() {
+    public Integer getWallet() {
         return wallet;
     }
 
-    public void setWallet(int wallet) {
-        this.wallet = wallet;
+    public void setWallet(Integer wallet) {
+        if (wallet != null && wallet >= 0) {
+            this.wallet = wallet;
+        }
     }
-
 
     public Set<Inventory> getInventories() {
         return inventories;

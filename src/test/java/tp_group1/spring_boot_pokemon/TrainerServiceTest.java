@@ -23,4 +23,20 @@ public class TrainerServiceTest {
         assertNotNull(savedTrainer.getId());
         assertTrue(savedTrainer.getId() > 0);
     }
+
+    @Test
+    public void testSaveTrainerWithSpecifiedWallet() {
+        // Création d'un Trainer avec wallet spécifié
+        Trainer trainerWithSpecifiedWallet = new Trainer(null, "Ziky", "12", null, null, null);
+
+        // Sauvegarde du Trainer
+        Trainer savedTrainer = trainerService.save(trainerWithSpecifiedWallet);
+
+        // Vérification que l'ID a été généré
+        assertNotNull(savedTrainer.getId());
+        assertTrue(savedTrainer.getId() > 0);
+
+        // Vérification que le wallet est bien défini à 50
+        assertEquals(Integer.valueOf(100), savedTrainer.getWallet());
+    }
 }
