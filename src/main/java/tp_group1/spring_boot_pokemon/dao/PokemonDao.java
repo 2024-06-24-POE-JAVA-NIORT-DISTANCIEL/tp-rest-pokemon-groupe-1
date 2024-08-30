@@ -21,6 +21,9 @@ public interface PokemonDao extends CrudRepository<Pokemon, Long> {
     List<Pokemon> findByTrainerId(Long id);
 
     // Trouver les Pokémon par ID de l'espèce
-    List<Pokemon> findBySpeciesId(Long speciesId);
+    List<Pokemon> findBySpeciesId(Long id);
+
+    //trouver les Pokemons par id de l'attaque
+    List<Pokemon> findByAttacksId(Long id);
 
 }

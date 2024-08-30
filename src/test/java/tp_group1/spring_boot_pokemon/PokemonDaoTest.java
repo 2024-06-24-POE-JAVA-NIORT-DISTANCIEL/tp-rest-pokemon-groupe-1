@@ -6,13 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import tp_group1.spring_boot_pokemon.dao.AttackDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
+import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.dao.TrainerDao;
+import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
+import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootTest
 public class PokemonDaoTest {
@@ -20,6 +26,10 @@ public class PokemonDaoTest {
     private PokemonDao pokemonDao;
     @Autowired
     private TrainerDao trainerDao;
+    @Autowired
+    private SpeciesDao speciesDao;
+    @Autowired
+    private AttackDao attackDao;
 
     private Pokemon pokemon1;
     private Pokemon pokemon2;
@@ -122,6 +132,49 @@ public class PokemonDaoTest {
         Assertions.assertFalse(foundPokemon.isEmpty());
         Assertions.assertEquals(1, foundPokemon.size());
         Assertions.assertEquals(trainer1.getId(), foundPokemon.get(0).getTrainer().getId());
+    }
+
+    @Test
+    public void testFindBySpeciesId() {
+        //create a new specie
+        Species espece1 = new Species(null, "Dragon", "feu", 3, null, null);
+        speciesDao.save(espece1);
+        //assign a specie to a pokemon
+        pokemon1.setSpecies(espece1);
+        pokemonDao.save(pokemon1);
+        //find a pokemon by specie id
+        List<Pokemon> pokemonWithSpecie = pokemonDao.findBySpeciesId(espece1.getId());
+        //Assertions
+        Assertions.assertNotNull(pokemonWithSpecie);
+        Assertions.assertFalse(pokemonWithSpecie.isEmpty());
+        Assertions.assertEquals(1, pokemonWithSpecie.size());
+        Assertions.assertEquals(espece1.getId(), pokemonWithSpecie.get(0).getSpecies().getId());
+
+    }
+
+    @Test
+    public void testFindByAttacksId() {
+        //create a new attack
+        Attack attack1 = new Attack(null, "green attack", "water", 10, null, null);
+        attackDao.save(attack1);
+        //assign this attack to a pokemon
+        Set<Attack> attacks = new HashSet<>();
+        attacks.add(attack1);
+        pokemon1.setAttacks(attacks);
+        //update pokemon
+        Set<Pokemon> pokemons = new HashSet<>();
+        pokemons.add(pokemon1);
+        attack1.setPokemons(pokemons);
+        //save pokemon and attack
+        pokemonDao.save(pokemon1);
+        attackDao.save(attack1);
+        //Get the pokemon with attack
+        List<Pokemon> pokemonsWithAttack = pokemonDao.findByAttacksId(attack1.getId());
+
+        Assertions.assertNotNull(pokemonsWithAttack);
+        Assertions.assertFalse(pokemonsWithAttack.isEmpty());
+        Assertions.assertEquals(1, pokemonsWithAttack.size());
+        Assertions.assertEquals(pokemon1.getId(), pokemonsWithAttack.get(0).getId());
     }
 
 }
