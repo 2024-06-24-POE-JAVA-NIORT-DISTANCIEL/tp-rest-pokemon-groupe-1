@@ -2,6 +2,8 @@ package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Attack {
     @Id
@@ -11,6 +13,14 @@ public class Attack {
     private String attackName;
     private String type;
     private int damage;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pokemon_attack",
+            joinColumns = @JoinColumn(name = "pokemon_id"),
+            inverseJoinColumns = @JoinColumn(name = "attack_id")
+    )
+    private Set<Pokemon> pokemons;
 
     public Attack() {
     }

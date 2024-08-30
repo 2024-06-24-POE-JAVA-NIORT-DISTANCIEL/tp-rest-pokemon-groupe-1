@@ -21,6 +21,19 @@ public class Pokemon {
     @JoinColumn(name = "TRAINER_ID")
     private Trainer trainer;
 
+    @ManyToOne
+    @JoinColumn(name = "SPECIES_ID")
+    private Species species;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pokemon_attack",
+            joinColumns = @JoinColumn(name = "pokemon_id"),
+            inverseJoinColumns = @JoinColumn(name = "attack_id")
+    )
+    private Set<Attack> attacks;
+
+
     public Pokemon() {
     }
 
@@ -34,22 +47,6 @@ public class Pokemon {
         this.trainer = trainer;
     }
 
-
-
-
-
-
-    //    @ManyToOne
-//    @JoinColumn(name = "SPECIES_ID")
-//    private Species species;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "TRAINER_ID")
-//    private Trainer trainer;
-//
-//    @OneToMany
-//    @JoinColumn(name = "ATTACK_ID")
-//    private Set<Attack> attacks;
 
     public Long getId() {
         return id;
