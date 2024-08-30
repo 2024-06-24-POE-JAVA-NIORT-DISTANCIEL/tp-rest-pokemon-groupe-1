@@ -12,13 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import tp_group1.spring_boot_pokemon.dao.InventoryDao;
 import tp_group1.spring_boot_pokemon.dao.ItemDao;
 import tp_group1.spring_boot_pokemon.dao.TrainerDao;
-import tp_group1.spring_boot_pokemon.model.Inventory;
-import tp_group1.spring_boot_pokemon.model.Item;
-import tp_group1.spring_boot_pokemon.model.ItemType;
-import tp_group1.spring_boot_pokemon.model.Trainer;
+import tp_group1.spring_boot_pokemon.model.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,13 +66,6 @@ class ItemDaoTest {
     assertEquals(itemUn.getItemName(), item.getItemName());
     }
 
-//    @Test
-//    public void findItemById()
-//    {
-//        itemUn.setItemType(ItemType.INSECTE);
-//        Item item = itemDao.save(itemUn);
-//        assertEquals(itemUn.getId(), item.getId());
-//    }
 
 //    @Test
 //    public void testItemExistsInTrainerInventory() {
@@ -87,13 +79,31 @@ class ItemDaoTest {
 //        assertTrue(inventory.contains(itemUn), "The item should be in the trainer's inventory.");
 
 // }
-//    @Test
-//    public void testItemExistsInInventory() {
-//        Inventory inventory = new Inventory(null, 0, null, null);
-//        inventoryDao.save(inventory);
-//        assertNotNull(inventory.getId());
+    @Test
+    public void testItemExistsInInventory() {
+        Inventory inventory = new Inventory(null, 0, null, null);
+        inventoryDao.save(inventory);
+        assertNotNull(inventory.getId());
 //        inventory.setItem(itemUn);
 //        inventoryDao.save(inventory);
-//    }
+
+
+        // Ajout d'inventaire à la liste
+        Set<Inventory> inventories = new HashSet<>();
+        itemUn.setInventories(inventory.getItem().getInventories());
+        Item itemSaved = itemDao.save(itemUn);
+        assertNotNull(itemSaved.getId());
+
+
+
+        // Vérification
+//        List<Item> inventorySaved = itemDao.findByInventoriesId(inventory.getId());
+//        assertNotNull(inventorySaved);
+//        assertFalse(inventorySaved.isEmpty());
+//        assertEquals(1, inventorySaved.size());
+    }
+
+
+
 
 }
