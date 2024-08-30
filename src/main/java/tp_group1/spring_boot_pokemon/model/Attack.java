@@ -22,6 +22,10 @@ public class Attack {
     )
     private Set<Pokemon> pokemons;
 
+    @ManyToOne
+    @JoinColumn(name = "SPECIES_ID")
+    private Species species;
+
     public Attack() {
     }
 
