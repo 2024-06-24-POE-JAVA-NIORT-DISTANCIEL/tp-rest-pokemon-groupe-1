@@ -3,6 +3,7 @@ package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,13 +26,8 @@ public class Pokemon {
     @JoinColumn(name = "SPECIES_ID")
     private Species species;
 
-    @ManyToMany
-    @JoinTable(
-            name = "pokemon_attack",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "attack_id")
-    )
-    private Set<Attack> attacks;
+    @ManyToMany(mappedBy = "pokemons")
+    private Set<Attack> attacks = new HashSet<>();
 
 
     public Pokemon() {

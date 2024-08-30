@@ -13,8 +13,10 @@ import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.model.Species;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootTest
 public class AttackDaoTest {
@@ -92,7 +94,7 @@ public class AttackDaoTest {
 
     @Test
     public void testFindAttackBySpeciesId() {
-        Species espece1 = new Species(null, "Dragon", "feu", 3, null);
+        Species espece1 = new Species(null, "Dragon", "feu", 3, null, null);
         speciesDao.save(espece1);
         Attack attack5 = new Attack(null, "fireball", "fire", 34, null, null);
         attack5.setSpecies(espece1);
@@ -100,7 +102,29 @@ public class AttackDaoTest {
 
         Assertions.assertNotNull(attack5.getSpecies().getId());
         Assertions.assertEquals(espece1.getId(), attack5.getSpecies().getId());
+
+        List<Attack> attackBySpecies = attackDao.findBySpeciesId(espece1.getId());
+        Assertions.assertNotNull(attackBySpecies);
+        Assertions.assertEquals(1, attackBySpecies.size());
+        Assertions.assertEquals(espece1.getId(), attackBySpecies.get(0).getSpecies().getId());
+
     }
 
+    @Test
+    public void testFindAttackByPokemonsId() {
+        Pokemon pokemon11 = new Pokemon(null, "Pikachu", 1, 120, 35, 35, null, null, null);
+        pokemonDao.save(pokemon11);
+        Attack attack6 = new Attack(null, "fireball", "fire", 34, null, null);
+        Set<Pokemon> pokemons = new HashSet<>();
+        pokemons.add(pokemon11);
+        attack6.setPokemons(pokemons);
+        Attack attackSaved = attackDao.save(attack6);
+        Assertions.assertNotNull(attackSaved.getId());
+
+        Attack attackPlaned = attackDao.findById(attackSaved.getId()).orElse(null);
+        Assertions.assertNotNull(attackPlaned);
+        Assertions.assertNotNull(attackPlaned.getPokemons());
+
+    }
 
 }
