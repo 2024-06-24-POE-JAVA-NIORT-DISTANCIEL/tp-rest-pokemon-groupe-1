@@ -1,5 +1,7 @@
 package tp_group1.spring_boot_pokemon.model;
 
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -12,6 +14,10 @@ public class Species {
     private String name;
     private String type;
     private Integer initialHealthPoints;
+
+    @OneToMany(mappedBy = "species")
+    private Set<Attack> attacks = new HashSet<>();
+
 
     public Species() {
     }
