@@ -27,6 +27,15 @@ public class Inventory {
     }
 
 
+
+
+    public Inventory(Long id, Integer quantity, Item item, Trainer trainer) {
+        this.id = id;
+        this.quantity = quantity;
+        this.item = item;
+        this.trainer = trainer;
+    }
+
     // Getters et Setters
     public Long getId() {
         return id;

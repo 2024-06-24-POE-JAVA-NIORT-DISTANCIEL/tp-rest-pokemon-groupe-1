@@ -6,6 +6,6 @@ import tp_group1.spring_boot_pokemon.dao.InventoryDao;
 
 @Service
 public class InventoryService {
-    @Autowired
-    private InventoryDao inventoryDao;
+//    @Autowired
+//    private InventoryDao inventoryDao;
 }

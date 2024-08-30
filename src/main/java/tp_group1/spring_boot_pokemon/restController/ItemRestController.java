@@ -8,6 +8,6 @@ import tp_group1.spring_boot_pokemon.service.ItemService;
 @RestController
 @RequestMapping("/items")
 public class ItemRestController {
-    @Autowired
-    private ItemService itemService;
+//    @Autowired
+//    private ItemService itemService;
 }

@@ -8,6 +8,6 @@ import tp_group1.spring_boot_pokemon.service.InventoryService;
 @RestController
 @RequestMapping("/inventory")
 public class InventoryRestController {
-    @Autowired
-    private InventoryService inventoryService;
+//    @Autowired
+//    private InventoryService inventoryService;
 }

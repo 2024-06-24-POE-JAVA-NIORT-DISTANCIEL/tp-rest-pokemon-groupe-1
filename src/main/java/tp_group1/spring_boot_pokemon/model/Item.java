@@ -20,17 +20,18 @@ public class Item {
     private ItemType itemType;
 
     @OneToMany(mappedBy = "item")
-    private Set<Inventory> items = new HashSet<>();
+    private Set<Inventory> inventories = new HashSet<>();
 
     // Constructeurs
     public Item() {
     }
 
-    public Item(Long id, String itemName, Integer cost, ItemType itemType) {
+    public Item(Long id, String itemName, Integer cost, ItemType itemType, Set<Inventory> items) {
         this.id = id;
         this.itemName = itemName;
         this.cost = cost;
         this.itemType = itemType;
+        this.inventories = items;
     }
 
     public Long getId() {
@@ -65,19 +66,11 @@ public class Item {
         this.itemType = itemType;
     }
 
-    public Set<Inventory> getItems() {
-        return items;
+    public Set<Inventory> getInventories() {
+        return inventories;
     }
 
-    public void setItems(Set<Inventory> items) {
-        this.items = items;
+    public void setInventories(Set<Inventory> inventories) {
+        this.inventories = inventories;
     }
-
-    //    public Set<Trainer> getTrainers() {
-//        return trainers;
-//    }
-//
-//    public void setTrainers(Set<Trainer> trainers) {
-//        this.trainers = trainers;
-//    }
 }
