@@ -10,15 +10,15 @@ import java.util.List;
 @Repository
 public interface ItemDao extends CrudRepository<Item, Long> {
 
-//    List<Item> findAll();
+    List<Item> findAll();
 
-//    List<Item> findByItemNameContainingIgnoringCase(String itemName);
+    List<Item> findByItemNameContainingIgnoringCase(String itemName);
 
     List<Item> findByInventoriesId(Long id);
 
-//    List<Item> findAllByOrderByItemNameAsc();
-//
-//    List<Item> findAllByOrderByItemNameDesc();
+    List<Item> findAllByOrderByItemNameAsc();
+
+    List<Item> findAllByOrderByItemNameDesc();
 
 
 }
