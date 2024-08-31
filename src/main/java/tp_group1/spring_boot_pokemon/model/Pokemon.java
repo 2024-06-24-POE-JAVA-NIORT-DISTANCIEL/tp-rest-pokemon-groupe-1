@@ -17,8 +17,8 @@ public class Pokemon {
     private String name;
     private Integer level = 1;
     private Integer experience = 0;
-    private Integer healthPoints;
     private Integer maxHealthPoints;
+    private Integer healthPoints = maxHealthPoints;
 
     @ManyToOne
     @JoinColumn(name = "TRAINER_ID")
@@ -38,7 +38,7 @@ public class Pokemon {
     public Pokemon(Long id, String name, Integer level, Integer experience, Integer healthPoints, Integer maxHealthPoints, Trainer trainer, Species species, Set<Attack> attacks) {
         this.id = id;
         this.name = name;
-        this.level = level;
+        this.level = (level != null) ? level : 1;
         this.experience = experience;
         this.healthPoints = healthPoints;
         this.maxHealthPoints = maxHealthPoints;
