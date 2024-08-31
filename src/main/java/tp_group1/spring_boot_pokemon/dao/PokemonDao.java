@@ -8,14 +8,17 @@ import java.util.List;
 
 @Repository
 public interface PokemonDao extends CrudRepository<Pokemon, Long> {
-    //find all Pokemons
+    //trouver tous les pokemons
     List<Pokemon> findAll();
 
-    //find all Pokemons by Name Asc
+    //trouver tous les pokemons par nom par ordre alphabétique
     List<Pokemon> findAllByOrderByName();
 
-    //find a pokemon By Name
+    //trouver un pokemon par nom, par une partie du nom en paramètre et ne tenant pas compte de la casse
     List<Pokemon> findByNameContainingIgnoringCase(String name);
+
+    //trouver tous les pokemons par id
+    List<Pokemon> findAllById(Iterable<Long> ids);
 
     //find by Trainer id
     List<Pokemon> findByTrainerId(Long id);

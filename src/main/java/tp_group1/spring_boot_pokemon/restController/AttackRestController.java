@@ -16,9 +16,9 @@ public class AttackRestController {
     private AttackService attackService;
 
     //GET
-    @GetMapping("/{id}")
-    public ResponseEntity<Attack> getAttackById(@PathVariable Long id) {
-        Optional<Attack> attack = attackService.findById(id);
+    @GetMapping("/{AttackId}")
+    public ResponseEntity<Attack> getAttackById(@PathVariable Long AttackId) {
+        Optional<Attack> attack = attackService.findById(AttackId);
         return attack.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -35,11 +35,11 @@ public class AttackRestController {
     }
 
     //DELETE BY ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAttackById(@PathVariable Long id) {
-        attackService.findById(id);
-        if(attackService.findById(id).isPresent()) {
-            attackService.deleteById(id);
+    @DeleteMapping("/{AttackId}")
+    public ResponseEntity<Void> deleteAttackById(@PathVariable Long AttackId) {
+        attackService.findById(AttackId);
+        if(attackService.findById(AttackId).isPresent()) {
+            attackService.deleteById(AttackId);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -47,7 +47,7 @@ public class AttackRestController {
     }
 
     //PUT - mettre à jour une attaque existante par son id
-    @PutMapping("/{id}")
+    @PutMapping("/{AttackId}")
     public ResponseEntity<Attack> updateAttack(@PathVariable Long id, @RequestBody Attack attack) {
         attack.setId(id);
         try {
@@ -57,4 +57,17 @@ public class AttackRestController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //créer une nouvelle attaque et relier deux pokemons déjà existants
+    @PostMapping("/createAttackForPokemons")
+    public void createAttackForPokemons(@RequestBody Attack attack) {
+
+    }
+
+    //assigner une attaque déjà existantee et rajouter des pokemons déjà existants à cette attaque
+    @PostMapping("/assignAttackToPokemons/{AttackId}/{PokemonId}")
+    public void assigneAttackToPokemons(@PathVariable Long AttackId, @PathVariable Long PokemonId) {
+
+    }
+
 }

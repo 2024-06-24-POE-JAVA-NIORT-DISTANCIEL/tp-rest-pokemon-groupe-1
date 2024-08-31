@@ -28,8 +28,8 @@ public class PokemonService {
     }
 
     //methode pour trouver un pokemon par son id
-    public Optional<Pokemon> findById(Long id) {
-        return pokemonDao.findById(id);
+    public Optional<Pokemon> findById(Long PokemonId) {
+        return pokemonDao.findById(PokemonId);
     }
 
     //methode pour trouver tous les pokemons
@@ -39,13 +39,13 @@ public class PokemonService {
 
     //methode pour supprimer un pokemon par son id
     @Transactional
-    public void deleteById(Long id) {
-        pokemonDao.deleteById(id);
+    public void deleteById(Long PokemonId) {
+        pokemonDao.deleteById(PokemonId);
     }
 
     //methode pour mettre à jour un pokemon existant par id
-    public Pokemon update(Long id, Pokemon newPokemonData) {
-        return pokemonDao.findById(id)
+    public Pokemon update(Long PokemonId, Pokemon newPokemonData) {
+        return pokemonDao.findById(PokemonId)
                 .map(existingPokemon -> {
             //mettre à jour les differents champs du pokemon
             existingPokemon.setName(newPokemonData.getName());
@@ -59,5 +59,15 @@ public class PokemonService {
             return pokemonDao.save(existingPokemon);
         })
                 .orElseThrow();
+    }
+
+    //methode pour trouver tous les pokemons par ids
+    public List<Pokemon> findAllById(List<Long> pokemonIds) {
+        return pokemonDao.findAllById(pokemonIds);
+    }
+
+    // Trouver un Pokémon avec ses attaques
+    public Optional<Pokemon> findWithAttacksById(Long pokemonId) {
+        return pokemonDao.findById(pokemonId);
     }
 }
