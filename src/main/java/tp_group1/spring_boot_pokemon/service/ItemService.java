@@ -30,5 +30,10 @@ public class ItemService {
         return itemDao.findAll();
     }
 
+    //methode supprimer un objet par son id
+    @Transactional
+    public void deleteById(Long id) {
+        itemDao.deleteById(id);
+    }
 
 }
