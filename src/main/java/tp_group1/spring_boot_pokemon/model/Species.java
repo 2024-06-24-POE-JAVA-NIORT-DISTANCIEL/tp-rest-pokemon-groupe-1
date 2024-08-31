@@ -3,9 +3,11 @@ package tp_group1.spring_boot_pokemon.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
+
 public class Species {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,7 @@ public class Species {
     private Set<Attack> attacks = new HashSet<>();
 
     @OneToMany(mappedBy = "species")
+    @JsonIgnore
     private Set<Pokemon> pokemons = new HashSet<>();
 
     public Species() {
