@@ -1,6 +1,5 @@
 package tp_group1.spring_boot_pokemon.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Set;

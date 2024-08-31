@@ -1,9 +1,6 @@
 package tp_group1.spring_boot_pokemon.model;
 
 import jakarta.persistence.*;
-import java.util.Set;
-import java.util.HashSet;
-
 
 @Entity
 public class Inventory {
