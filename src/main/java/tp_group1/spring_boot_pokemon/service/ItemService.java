@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tp_group1.spring_boot_pokemon.dao.ItemDao;
 import tp_group1.spring_boot_pokemon.model.Item;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

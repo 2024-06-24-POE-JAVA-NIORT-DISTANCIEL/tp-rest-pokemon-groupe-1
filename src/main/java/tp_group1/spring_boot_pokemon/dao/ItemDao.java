@@ -14,11 +14,11 @@ public interface ItemDao extends CrudRepository<Item, Long> {
 
     List<Item> findByItemNameContainingIgnoringCase(String itemName);
 
-    List<Item> findByInventoriesId(Long id);
-
     List<Item> findAllByOrderByItemNameAsc();
 
     List<Item> findAllByOrderByItemNameDesc();
+
+    List<Item> findByInventoriesId(Long id);
 
 
 }
