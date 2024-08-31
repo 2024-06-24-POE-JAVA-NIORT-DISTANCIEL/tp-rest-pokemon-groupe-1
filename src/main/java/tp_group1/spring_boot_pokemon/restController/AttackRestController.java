@@ -65,7 +65,7 @@ public class AttackRestController {
     }
 
     //assigner une attaque déjà existantee et rajouter des pokemons déjà existants à cette attaque
-    @PostMapping("/assignAttackToPokemons/{AttackId}/{PokemonId}")
+    @PostMapping("/assignAttackToPokemons/{AttackId}")
     public void assigneAttackToPokemons(@PathVariable Long AttackId, @PathVariable Long PokemonId) {
 
     }
