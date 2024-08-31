@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.service.PokemonService;
@@ -19,29 +20,28 @@ public class PokemonRestController {
 
     //GET
     @GetMapping("/{id}")
-    public ResponseEntity<PokemonDto> getPokemonById(@PathVariable Long id) {
-        Optional<PokemonDto> pokemonDto = pokemonService.findById(id);
-        return pokemonDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Pokemon> getPokemonById(@PathVariable Long id) {
+        Optional<Pokemon> pokemon = pokemonService.findById(id);
+        return pokemon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     //GET ALL
     @GetMapping
-    public List<PokemonDto> getAllPokemons() {
+    public List<Pokemon> getAllPokemons() {
         return pokemonService.findAll();
     }
 
     //POST
     @PostMapping
-    public ResponseEntity<PokemonDto> save(@RequestBody Pokemon pokemon) {
-        PokemonDto pokemonDtoSaved = pokemonService.save(pokemon);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pokemonDtoSaved);
+    public Pokemon save(@RequestBody Pokemon pokemon) {
+        return pokemonService.save(pokemon);
     }
 
     //DELETE BY ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePokemonById(@PathVariable Long id) {
-        Optional<PokemonDto> pokemonDto = pokemonService.findById(id);
-        if (pokemonDto.isPresent()) {
+        pokemonService.findById(id);
+        if(pokemonService.findById(id).isPresent()) {
             pokemonService.deleteById(id);
             return ResponseEntity.ok().build();
         } else {
