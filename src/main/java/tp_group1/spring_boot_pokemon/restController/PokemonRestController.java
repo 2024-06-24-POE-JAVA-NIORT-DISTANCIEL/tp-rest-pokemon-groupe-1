@@ -4,8 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import tp_group1.spring_boot_pokemon.dao.PokemonDao;
-import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.service.PokemonService;
 
@@ -18,26 +16,27 @@ public class PokemonRestController {
     @Autowired
     private PokemonService pokemonService;
 
-    //GET
+    //GET - trouver un pokemon par son id
     @GetMapping("/{id}")
     public ResponseEntity<Pokemon> getPokemonById(@PathVariable Long id) {
         Optional<Pokemon> pokemon = pokemonService.findById(id);
         return pokemon.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //GET ALL
+    //GET ALL - trouver tous les pokemons
     @GetMapping
     public List<Pokemon> getAllPokemons() {
         return pokemonService.findAll();
     }
 
-    //POST
+    //POST - créer un nouveau pokemon ou mettre à jour un pokemon existant et sauvegarder
     @PostMapping
-    public Pokemon save(@RequestBody Pokemon pokemon) {
-        return pokemonService.save(pokemon);
+    public ResponseEntity<Pokemon>createPokemon(@RequestBody Pokemon pokemon) {
+        Pokemon savedPokemon = pokemonService.save(pokemon);
+        return ResponseEntity.ok(savedPokemon);
     }
 
-    //DELETE BY ID
+    //DELETE BY ID - supprimer un pokemon par son id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePokemonById(@PathVariable Long id) {
         pokemonService.findById(id);
@@ -48,4 +47,13 @@ public class PokemonRestController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //PUT - mettre à jour un pokemon existant par son id
+    @PutMapping("/{id}")
+    public ResponseEntity<Pokemon> updatePokemon(@PathVariable Long id, @RequestBody Pokemon pokemon) {
+        pokemon.setId(id);
+        Pokemon savedPokemon = pokemonService.save(pokemon);
+        return ResponseEntity.ok(savedPokemon);
+    }
+
 }
