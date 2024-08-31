@@ -18,7 +18,7 @@ public interface SpeciesDao extends CrudRepository<Species, Long> {
     List<Species> findByPokemonsId(Long pokemonId);
 
     // Find species by Attack ID
-    List<Species> findByAttacksId(Long id);
+    List<Species> findByAttacksId(Long attackId);
 
 }
 

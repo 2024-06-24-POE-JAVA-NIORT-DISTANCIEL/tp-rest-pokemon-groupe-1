@@ -26,7 +26,7 @@ public class SpeciesRestController {
     // GET all
     @GetMapping
     public List<Species> getAllSpecies() {
-        return speciesService.findAll();
+        return speciesService.findAllSpecies();
     }
 
     // POST to create a species

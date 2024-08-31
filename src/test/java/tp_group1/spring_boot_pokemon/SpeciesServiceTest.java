@@ -1,25 +1,28 @@
 package tp_group1.spring_boot_pokemon;
 
-import org.antlr.v4.runtime.misc.LogManager;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import tp_group1.spring_boot_pokemon.dto.PokemonDto;
-import tp_group1.spring_boot_pokemon.model.Species;
-import tp_group1.spring_boot_pokemon.service.SpeciesService;
-import tp_group1.spring_boot_pokemon.model.Pokemon;
-import tp_group1.spring_boot_pokemon.service.PokemonService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.model.Pokemon;
+import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.service.AttackService;
+import tp_group1.spring_boot_pokemon.service.PokemonService;
+import tp_group1.spring_boot_pokemon.service.SpeciesService;
 
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SpeciesServiceTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(SpeciesServiceTest.class);
 
     @Autowired
     private SpeciesService speciesService;
@@ -30,138 +33,134 @@ public class SpeciesServiceTest {
     @Autowired
     private AttackService attackService;
 
+    private Species testSpecies1;
+    private Species testSpecies2;
+    private Species testSpecies3;
+    private Pokemon testPokemon;
+    private Attack testAttack;
+
+    @BeforeEach
+    public void setUp() {
+        logger.info("Initialisation des données pour le test...");
+        testSpecies1 = new Species(null, "TestSpecies1", "TestType1", 50, null, null);
+        speciesService.save(testSpecies1);
+        testSpecies2 = new Species(null, "TestSpecies2", "TestType2", 50, null, null);
+        speciesService.save(testSpecies2);
+        testSpecies3 = new Species(null, "TestSpecies3", "TestType3", 50, null, null);
+        speciesService.save(testSpecies3);
+
+        testPokemon = new Pokemon();
+        testPokemon.setName("TestPokemon");
+        testPokemon.setLevel(5);
+        testPokemon.setExperience(120);
+        testPokemon.setHealthPoints(35);
+        testPokemon.setMaxHealthPoints(35);
+        testPokemon.setSpecies(testSpecies1);
+        pokemonService.save(testPokemon);
+
+        testAttack = new Attack();
+        testAttack.setAttackName("TestAttack");
+        testAttack.setType("TestType");
+        testAttack.setDamage(30);
+        testAttack.setSpecies(testSpecies1);
+        attackService.save(testAttack);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        logger.info("Nettoyage des données après le test...");
+        attackService.deleteById(1L);  // Suppression des attaques
+        pokemonService.deleteById(1L);  // Suppression des Pokémon
+        speciesService.deleteById(1L);  // Suppression des espèces
+    }
+
     @Test
     public void testSaveSpecies() {
-        // Créer une nouvelle espèce
+        logger.info("Exécution de testSaveSpecies...");
         Species species = new Species(null, "Pikachu", "Electric", 100, null, null);
         Species savedSpecies = speciesService.save(species);
 
-        // Vérifier que l'ID est généré et n'est pas null
-        assertNotNull(savedSpecies.getId());
-        assertTrue(savedSpecies.getId() > 0);
-
-        // Vérifier que l'espèce sauvegardée a les attributs corrects
-        assertEquals("Pikachu", savedSpecies.getName());
-        assertEquals("Electric", savedSpecies.getType());
-        assertEquals(Integer.valueOf(100), savedSpecies.getInitialHealthPoints());
+        assertNotNull(savedSpecies.getId(), "L'ID de l'espèce ne doit pas être nul après la sauvegarde.");
+        assertEquals("Pikachu", savedSpecies.getName(), "Le nom de l'espèce doit correspondre.");
+        assertEquals("Electric", savedSpecies.getType(), "Le type de l'espèce doit correspondre.");
+        assertEquals(Integer.valueOf(100), savedSpecies.getInitialHealthPoints(), "Les points de vie initiaux doivent correspondre.");
     }
 
     @Test
     public void testFindSpeciesById() {
-        // Sauvegarder une nouvelle espèce
-        Species species = new Species(null, "Charmander", "Fire", 80, null, null);
-        Species savedSpecies = speciesService.save(species);
+        logger.info("Exécution de testFindSpeciesById...");
+        Optional<Species> foundSpecies = speciesService.findById(testSpecies1.getId());
 
-        // Rechercher l'espèce par ID
-        Optional<Species> foundSpecies = speciesService.findById(savedSpecies.getId());
-
-        // Vérifier que l'espèce est trouvée
-        assertTrue(foundSpecies.isPresent());
-        assertEquals(savedSpecies.getId(), foundSpecies.get().getId());
-        assertEquals("Charmander", foundSpecies.get().getName());
+        assertTrue(foundSpecies.isPresent(), "L'espèce devrait être trouvée avec un ID valide.");
+        assertEquals(testSpecies1.getId(), foundSpecies.get().getId(), "L'ID de l'espèce trouvée doit correspondre à l'ID sauvegardé.");
+        assertEquals(testSpecies1.getName(), foundSpecies.get().getName(), "Le nom de l'espèce trouvée doit correspondre.");
     }
 
     @Test
     public void testFindAllSpecies() {
-        // Sauvegarder quelques espèces
-        speciesService.save(new Species(null, "Bulbasaur", "Grass", 90, null, null));
-        speciesService.save(new Species(null, "Squirtle", "Water", 95, null, null));
+        logger.info("Exécution de testFindAllSpecies...");
+        List<Species> speciesList = speciesService.findAllSpecies();
+        logger.info("Liste des espèces : " + speciesList);
 
-        // Récupérer toutes les espèces
-        List<Species> speciesList = speciesService.findAll();
+        assertNotNull(speciesList, "La liste des espèces ne doit pas être nulle.");
+        assertTrue(speciesList.size() > 0, "La liste des espèces doit contenir au moins une espèce.");
 
-        // Vérifier que la liste n'est pas vide et contient au moins 2 espèces
-        assertNotNull(speciesList);
-        assertTrue(speciesList.size() >= 2);
+        // Affiche l'ID de testSpecies3 pour vérifier s'il est dans la liste
+        logger.info("ID de testSpecies3 : " + testSpecies3.getId());
+
+        // Vérifie si l'ID de testSpecies3 est présent dans les IDs récupérés
+        boolean containsSpecies3 = speciesList.stream()
+                .anyMatch(species -> species.getId().equals(testSpecies3.getId()));
+        assertTrue(containsSpecies3, "La liste des espèces doit contenir l'espèce de test.");
     }
+
 
     @Test
     public void testFindSpeciesByPokemonId() {
-        // Étape 1: Créer et sauvegarder une espèce
-        Species species = new Species();
-        species.setName("Eevee");
-        species.setType("Normal");
-        species.setInitialHealthPoints(100);
+        logger.info("Exécution de testFindSpeciesByPokemonId...");
 
-        Species savedSpecies = speciesService.save(species);
+        List<Species> foundSpecies = speciesService.findSpeciesByPokemonId(testPokemon.getId());
 
-        // Étape 2: Créer et sauvegarder un Pokémon lié à cette espèce
-        Pokemon pokemon = new Pokemon();
-        pokemon.setName("Pikachu");
-        pokemon.setLevel(5);
-        pokemon.setExperience(120);
-        pokemon.setHealthPoints(35);
-        pokemon.setMaxHealthPoints(35);
-        pokemon.setSpecies(savedSpecies); // Lier ce Pokémon à l'espèce
-        // Assurez-vous que le constructeur ou les setters pour Pokémon sont correctement configurés pour cet usage.
-
-        //PokemonDto savedPokemon = pokemonService.save(pokemon);
-
-        // Étape 3: Rechercher l'espèce par ID de Pokémon
-        List<Species> foundSpecies = speciesService.findSpeciesByPokemonId(pokemon.getId());
-
-        // Vérifier que l'espèce est trouvée
-        assertNotNull(foundSpecies);
-        assertEquals(1, foundSpecies.size());
+        assertNotNull(foundSpecies, "La recherche d'espèces par ID de Pokémon ne doit pas retourner null.");
+        assertEquals(1, foundSpecies.size(), "Une seule espèce doit être trouvée pour un ID de Pokémon donné.");
+        assertEquals(testSpecies1.getId(), foundSpecies.get(0).getId(), "L'ID de l'espèce trouvée doit correspondre à l'espèce de test.");
     }
 
-//    @Test
-//    public void testFindSpeciesByAttackId() {
-//        // Étape 1: Créer et sauvegarder une espèce
-//        Species species = new Species();
-//        species.setName("Eevee");
-//        species.setType("Normal");
-//        species.setInitialHealthPoints(100);
-//
-//        Species savedSpecies = speciesService.save(species);
-//
-//        // Étape 2: Créer et sauvegarder un Pokémon lié à cette espèce
-//        Pokemon pokemon = new Pokemon();
-//        pokemon.setName("Pikachu");
-//        pokemon.setLevel(5);
-//        pokemon.setExperience(120);
-//        pokemon.setHealthPoints(35);
-//        pokemon.setMaxHealthPoints(35);
-//        pokemon.setSpecies(savedSpecies); // Lier ce Pokémon à l'espèce
-//        // Assurez-vous que le constructeur ou les setters pour Pokémon sont correctement configurés pour cet usage.
-//
-//        Pokemon savedPokemon = pokemonService.save(pokemon);
-//
-//        // Étape 3: Créer et sauvegarder une attaque liée à cette espèce
-//        Attack attack = new Attack();
-//        attack.setAttackName("plantball");
-//        attack.setType("grass");
-//        attack.setDamage(34);
-//        attack.setPokemons(savedPokemon); // Lier cette attaque au Pokémon
-//        attack.setSpecies(savedSpecies); // Lier cette attaque à l'espèce
-//        // Assurez-vous que le constructeur ou les setters pour Attaque sont correctement configurés pour cet usage.
-//
-//        Attack savedAttack = attackService.save(attack);
-//
-//        // Étape 3: Rechercher l'espèce par ID d'attaque
-//        List<Species> foundSpecies = speciesService.findSpeciesByAttackId(savedAttack.getId());
-//
-//        // Vérifier que l'espèce est trouvée
-//        assertNotNull(foundSpecies);
-//        assertEquals(1, foundSpecies.size());
-//    }
-
     @Test
-    public void testDeleteSpeciesById() {
-        // Sauvegarder une nouvelle espèce
+    public void testDeleteSpeciesByIdSuccess() {
+        logger.info("Exécution de testDeleteSpeciesByIdSuccess...");
         Species species = new Species(null, "Meowth", "Normal", 70, null, null);
         Species savedSpecies = speciesService.save(species);
 
-        // Essayer de supprimer l'espèce
-        try {
-            speciesService.deleteById(savedSpecies.getId());
+        speciesService.deleteById(savedSpecies.getId());
 
-            // Vérifier que l'espèce a été supprimée
-            Optional<Species> deletedSpecies = speciesService.findById(savedSpecies.getId());
-            assertFalse(deletedSpecies.isPresent());
-        } catch (Exception e) {
-            // Si une exception se produit (par exemple, espèce liée à un Pokémon), échouer le test
-            fail("Une exception est survenue lors de la suppression de l'espèce : " + e.getMessage());
-        }
+        Optional<Species> deletedSpecies = speciesService.findById(savedSpecies.getId());
+        assertFalse(deletedSpecies.isPresent(), "L'espèce devrait être supprimée.");
+    }
+
+    @Test
+    public void testDeleteSpeciesByIdFailure() {
+        logger.info("Exécution de testDeleteSpeciesByIdFailure...");
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            speciesService.deleteById(testSpecies1.getId());
+        });
+
+        String expectedMessage = "Species is linked to a Pokémon and cannot be deleted.";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage), "L'exception devrait indiquer que l'espèce est liée à un Pokémon.");
+    }
+
+    @Test
+    public void testFindSpeciesByAttackId() {
+        logger.info("Exécution de testFindSpeciesByAttackId...");
+
+        List<Species> foundSpecies = speciesService.findSpeciesByAttackId(testAttack.getId());
+
+        assertNotNull(foundSpecies, "La recherche d'espèces par ID d'attaque ne doit pas retourner null.");
+        assertEquals(1, foundSpecies.size(), "Une seule espèce doit être trouvée pour un ID d'attaque donné.");
+        assertEquals(testSpecies1.getId(), foundSpecies.get(0).getId(), "L'ID de l'espèce trouvée doit correspondre à l'espèce associée à l'attaque.");
+        assertEquals(testSpecies1.getName(), foundSpecies.get(0).getName(), "Le nom de l'espèce trouvée doit correspondre.");
     }
 }

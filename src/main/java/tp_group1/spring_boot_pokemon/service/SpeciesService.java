@@ -37,22 +37,22 @@ public class SpeciesService {
     }
 
     // Find species by attack ID
-    public List<Species> findSpeciesByAttackId(Long id) {
-        return speciesDao.findByAttacksId(id);
+    public List<Species> findSpeciesByAttackId(Long attackId) {
+        return speciesDao.findByAttacksId(attackId);
     }
 
     // Find all species
-    public List<Species> findAll() {
+    public List<Species> findAllSpecies() {
         return speciesDao.findAll();
     }
 
     // Delete a species by ID, checking if linked to any Pokémon
     @Transactional
-    public void deleteById(Long id) throws Exception {
-        if(pokemonDao.findBySpeciesId(id).isEmpty()) {
+    public void deleteById(Long id) {
+        if (pokemonDao.findBySpeciesId(id).isEmpty()) {
             speciesDao.deleteById(id);
         } else {
-            throw new RuntimeException("Species is linked to a Pokémon");
+            throw new IllegalStateException("Species is linked to a Pokémon and cannot be deleted.");
         }
     }
 }

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tp_group1.spring_boot_pokemon.dao.AttackDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
