@@ -14,26 +14,45 @@ public class AttackService {
     @Autowired
     private AttackDao attackDao;
 
-    //methode save an attack
+    //methode pour créer une nouvelle attaque et sauvegarder ou mettre à jour une attaque existante par son id
     @Transactional
     public Attack save(Attack attack) {
-        return attackDao.save(attack);
+        //verifier si l'id existe
+        if(attack.getId() != null) {
+            return update(attack.getId(), attack);
+        } else { //si l'id n'existe pas, créer une nouvelle attaque
+            return attackDao.save(attack);
+        }
     }
 
-    //methode find an attack by id
+    //methode pour trouver une attaque par son id
     public Optional<Attack> findById(Long id) {
         return attackDao.findById(id);
     }
 
-    //find all attacks
+    //methode pour trouver toutes les attaques
     public List<Attack> findAll() {
         return attackDao.findAll();
     }
 
-    //delete an attack by id
+    //methode pour supprimer une attaque par son id
     @Transactional
     public void deleteById(Long id) {
         attackDao.deleteById(id);
+    }
+
+    //methode pour mettre à jour un pokemon existant par son id
+    public Attack update(Long id, Attack newAttackData) {
+        return attackDao.findById(id)
+                .map(existingAttack -> {
+                    existingAttack.setAttackName(newAttackData.getAttackName());
+                    existingAttack.setType(newAttackData.getType());
+                    existingAttack.setDamage(newAttackData.getDamage());
+                    existingAttack.setPokemons(newAttackData.getPokemons());
+                    existingAttack.setSpecies(newAttackData.getSpecies());
+                    return attackDao.save(existingAttack);
+                }) .orElseThrow();
+
     }
 
 }

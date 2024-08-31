@@ -15,7 +15,7 @@ public class PokemonService {
     @Autowired
     private PokemonDao pokemonDao;
 
-    //methode pour créer et sauvegarder un pokemon
+    //methode pour créer et sauvegarder un pokemon ou mettre à jour un pokemon existant
     @Transactional
     public Pokemon save(Pokemon pokemon) {
         //verifier si l'id existe

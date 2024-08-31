@@ -45,4 +45,16 @@ public class AttackRestController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //PUT - mettre à jour une attaque existante par son id
+    @PutMapping("/{id}")
+    public ResponseEntity<Attack> updateAttack(@PathVariable Long id, @RequestBody Attack attack) {
+        attack.setId(id);
+        try {
+            Attack updatedAttack = attackService.save(attack);
+            return ResponseEntity.ok(updatedAttack);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
