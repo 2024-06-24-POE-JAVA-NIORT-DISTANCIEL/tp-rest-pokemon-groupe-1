@@ -16,7 +16,7 @@ public interface ItemDao extends CrudRepository<Item, Long> {
 
     List<Item> findAllByOrderByItemNameAsc();
 
-    List<Item> findAllByOrderByItemNameDesc();
+//    List<Item> findAllByOrderByItemNameDesc();
 
     List<Item> findByInventoriesId(Long id);
 
