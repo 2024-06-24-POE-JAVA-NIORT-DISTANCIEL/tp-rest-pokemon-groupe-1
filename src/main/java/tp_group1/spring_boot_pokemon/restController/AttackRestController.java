@@ -4,16 +4,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.service.AttackService;
+import tp_group1.spring_boot_pokemon.service.PokemonService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/attacks")
 public class AttackRestController {
     @Autowired
     private AttackService attackService;
+
+    @Autowired
+    private PokemonService pokemonService;
 
     //GET
     @GetMapping("/{AttackId}")
@@ -60,14 +67,46 @@ public class AttackRestController {
 
     //créer une nouvelle attaque et relier deux pokemons déjà existants
     @PostMapping("/createAttackForPokemons")
-    public void createAttackForPokemons(@RequestBody Attack attack) {
+    public ResponseEntity<Attack> createAttackForPokemons(@RequestParam Long PokemonId1, @RequestParam Long PokemonId2, @RequestBody Attack attack) {
+        //récupérer les pokemons
+        Optional<Pokemon> pokemon1 = pokemonService.findById(PokemonId1);
+        Optional<Pokemon> pokemon2 = pokemonService.findById(PokemonId2);
+        //vérifier si pokemon existe
+        if (pokemon1.isEmpty() || pokemon2.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        // Obtenir les objets Pokémon à partir des optionals
+        Pokemon savedPokemon1 = pokemon1.get();
+        Pokemon savedPokemon2 = pokemon2.get();
+        //créer tableau pokemons
+        Set<Pokemon> pokemons = new HashSet<>();
+        pokemons.add(savedPokemon1);
+        pokemons.add(savedPokemon2);
+        //créer une nouvelle attaque en lui assignant des pokemons
+        attack.setPokemons(pokemons);
+        Attack savedAttack = attackService.save(attack);
 
+        return ResponseEntity.ok().build();
     }
 
     //assigner une attaque déjà existantee et rajouter des pokemons déjà existants à cette attaque
     @PostMapping("/assignAttackToPokemons/{AttackId}")
-    public void assigneAttackToPokemons(@PathVariable Long AttackId, @PathVariable Long PokemonId) {
+    public ResponseEntity<Attack> assignAttackToPokemons(@PathVariable Long AttackId, @RequestParam List<Long> PokemonIds) {
+        //recuperer l'attaque par son id
+        Optional<Attack> plannedAttack = attackService.findWithPokemonsById(AttackId);
+        if(!plannedAttack.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        Attack attack = plannedAttack.get();
 
+        //récupérer les pokemons par leurs ids
+        List<Pokemon> pokemons = pokemonService.findAllById(PokemonIds);
+        if(pokemons.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        //ajouter les pokemons à l'attaque
+        attackService.addPokemonsToAttack(attack, pokemons);
+        return ResponseEntity.ok(attack);
     }
 
 }

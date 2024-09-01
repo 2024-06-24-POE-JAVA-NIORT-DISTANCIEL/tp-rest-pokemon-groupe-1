@@ -63,10 +63,11 @@ public class AttackService {
 
     @Transactional
     public void addPokemonsToAttack(Attack attack, List<Pokemon> pokemons) {
+        //récupérer les pokemons dans un tableau
         Set<Pokemon> savedPokemons = new HashSet<>(attack.getPokemons());
         savedPokemons.addAll(pokemons);
         attack.setPokemons(savedPokemons);
-
+        //sauvegarder l'attaque
         save(attack);
 
         //lier l'attaque aux pokemons
