@@ -25,7 +25,7 @@ public class SpeciesService {
 
     public List<Species> findAllSpecies() { return speciesDao.findAll(); }
 
-    public Optional<Species> findById(Long id) { return speciesDao.findById(id);}
+    public Optional<Species> findById(Long SpecieId) { return speciesDao.findById(SpecieId);}
 
     public List<Species> findSpeciesByPokemonId(Long pokemonId) { return speciesDao.findByPokemonsId(pokemonId);}
 

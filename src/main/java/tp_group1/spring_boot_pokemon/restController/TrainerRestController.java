@@ -1,7 +1,6 @@
 package tp_group1.spring_boot_pokemon.restController;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp_group1.spring_boot_pokemon.model.Trainer;
@@ -38,10 +37,13 @@ public class TrainerRestController {
     //DELETE BY ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrainerById(@PathVariable Long id) {
-        trainerService.findById(id);
         if(trainerService.findById(id).isPresent()){
-            trainerService.deleteById(id);
-            return ResponseEntity.ok().build();
+            if(!trainerService.findById(id).get().getPokemons().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }else {
+                trainerService.deleteById(id);
+                return ResponseEntity.ok().build();
+            }
         }
         else {
             return ResponseEntity.notFound().build();
