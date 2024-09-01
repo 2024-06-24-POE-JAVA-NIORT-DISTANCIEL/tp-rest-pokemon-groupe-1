@@ -28,7 +28,7 @@ public class Pokemon {
     @JoinColumn(name = "SPECIE_ID")
     private Species species;
 
-    @ManyToMany(mappedBy = "pokemons")
+    @ManyToMany(mappedBy = "pokemons", cascade = CascadeType.ALL)
     private Set<Attack> attacks = new HashSet<>();
 
 
