@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pokemon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,34 +18,34 @@ public class Pokemon {
     private String name;
     private Integer level = 1;
     private Integer experience = 0;
-    private Integer maxHealthPoints;
-    private Integer healthPoints = maxHealthPoints;
-
-    @ManyToOne
-    @JoinColumn(name = "TRAINER_ID")
-    private Trainer trainer;
 
     @ManyToOne
     @JoinColumn(name = "SPECIE_ID")
     private Species species;
 
+    private Integer maxHealthPoints;
+    private Integer healthPoints;
+
     @ManyToMany(mappedBy = "pokemons", cascade = CascadeType.ALL)
     private Set<Attack> attacks = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "TRAINER_ID")
+    private Trainer trainer;
 
 
     public Pokemon() {
     }
 
-    public Pokemon(Long id, String name, Integer level, Integer experience, Integer healthPoints, Integer maxHealthPoints, Trainer trainer, Species species, Set<Attack> attacks) {
+    public Pokemon(Long id, String name, Integer level, Integer experience, Integer maxHealthPoints, Integer healthPoints, Trainer trainer, Species species, Set<Attack> attacks) {
         this.id = id;
         this.name = name;
         this.level = (level != null) ? level : 1;
         this.experience = (experience != null) ? level : 0;
-        this.healthPoints = (healthPoints != null) ? healthPoints : this.maxHealthPoints;
-        this.maxHealthPoints = maxHealthPoints;
-        this.trainer = trainer;
         this.species = species;
         this.attacks = attacks;
+        this.trainer = trainer;
+        initializeHealthPoints();
     }
 
     public Long getId() {
@@ -88,7 +89,11 @@ public class Pokemon {
     }
 
     public void setHealthPoints(Integer healthPoints) {
-        this.healthPoints = healthPoints;
+        if (healthPoints != null && healthPoints >= 0 && healthPoints <= this.maxHealthPoints) {
+            this.healthPoints = healthPoints;
+        } else {
+            throw new IllegalArgumentException("Health points must be non-negative and less than or equal to max health points.");
+        }
     }
 
     public Integer getMaxHealthPoints() {
@@ -113,6 +118,7 @@ public class Pokemon {
 
     public void setSpecies(Species species) {
         this.species = species;
+        initializeHealthPoints();
     }
 
     public Set<Attack> getAttacks() {
@@ -121,5 +127,14 @@ public class Pokemon {
 
     public void setAttacks(Set<Attack> attacks) {
         this.attacks = attacks;
+    }
+
+    @PostLoad
+    @PostPersist
+    private void initializeHealthPoints() {
+        if (this.species != null) {
+            this.maxHealthPoints = this.species.getInitialHealthPoints();
+            this.healthPoints = this.maxHealthPoints;
+        }
     }
 }
