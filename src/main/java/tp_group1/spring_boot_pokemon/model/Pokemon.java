@@ -39,8 +39,8 @@ public class Pokemon {
         this.id = id;
         this.name = name;
         this.level = (level != null) ? level : 1;
-        this.experience = experience;
-        this.healthPoints = healthPoints;
+        this.experience = (experience != null) ? level : 0;
+        this.healthPoints = (healthPoints != null) ? healthPoints : this.maxHealthPoints;
         this.maxHealthPoints = maxHealthPoints;
         this.trainer = trainer;
         this.species = species;
@@ -68,7 +68,9 @@ public class Pokemon {
     }
 
     public void setLevel(Integer level) {
-        this.level = level;
+        if(level != null && level >=1) {
+            this.level = level;
+        }
     }
 
     public Integer getExperience() {
@@ -76,7 +78,9 @@ public class Pokemon {
     }
 
     public void setExperience(Integer experience) {
-        this.experience = experience;
+        if(experience != null && experience >= 0) {
+            this.experience = experience;
+        }
     }
 
     public Integer getHealthPoints() {
