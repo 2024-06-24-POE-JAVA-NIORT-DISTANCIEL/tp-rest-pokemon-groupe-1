@@ -25,7 +25,7 @@ public class Pokemon {
     private Trainer trainer;
 
     @ManyToOne
-    @JoinColumn(name = "SPECIES_ID")
+    @JoinColumn(name = "SPECIE_ID")
     private Species species;
 
     @ManyToMany(mappedBy = "pokemons")

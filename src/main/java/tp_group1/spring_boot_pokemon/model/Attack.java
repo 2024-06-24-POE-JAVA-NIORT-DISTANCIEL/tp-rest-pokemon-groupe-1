@@ -23,7 +23,7 @@ public class Attack {
     private Set<Pokemon> pokemons;
 
     @ManyToOne
-    @JoinColumn(name = "SPECIES_ID")
+    @JoinColumn(name = "SPECIE_ID")
     private Species species;
 
     public Attack() {

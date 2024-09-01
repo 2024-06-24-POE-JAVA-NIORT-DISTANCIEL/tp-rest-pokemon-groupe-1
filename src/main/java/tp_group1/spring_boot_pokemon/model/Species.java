@@ -3,7 +3,6 @@ package tp_group1.spring_boot_pokemon.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,24 +12,23 @@ public class Species {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String type;
+    private String specieName;
+    private String specieType;
     private Integer initialHealthPoints;
 
     @OneToMany(mappedBy = "species")
     private Set<Attack> attacks = new HashSet<>();
 
     @OneToMany(mappedBy = "species")
-    @JsonIgnore
     private Set<Pokemon> pokemons = new HashSet<>();
 
     public Species() {
     }
 
-    public Species(Long id, String name, String type, Integer initialHealthPoints, Set<Attack> attacks, Set<Pokemon> pokemons) {
+    public Species(Long id, String specieName, String specieType, Integer initialHealthPoints, Set<Attack> attacks, Set<Pokemon> pokemons) {
         this.id = id;
-        this.name = name;
-        this.type = type;
+        this.specieName = specieName;
+        this.specieType = specieType;
         this.initialHealthPoints = initialHealthPoints;
         this.attacks = attacks;
         this.pokemons = pokemons;
@@ -44,20 +42,20 @@ public class Species {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSpecieName() {
+        return specieName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSpecieName(String specieName) {
+        this.specieName = specieName;
     }
 
-    public String getType() {
-        return type;
+    public String getSpecieType() {
+        return specieType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSpecieType(String specieType) {
+        this.specieType = specieType;
     }
 
     public Integer getInitialHealthPoints() {
@@ -82,5 +80,18 @@ public class Species {
 
     public void setPokemons(Set<Pokemon> pokemons) {
         this.pokemons = pokemons;
+    }
+
+    // For logging purposes
+    @Override
+    public String toString() {
+        return "Species{" +
+                "id=" + id +
+                ", specieName='" + specieName + '\'' +
+                ", specieType='" + specieType + '\'' +
+                ", initialHealthPoints=" + initialHealthPoints +
+                ", attacks=" + attacks +
+                ", pokemons=" + pokemons +
+                '}';
     }
 }

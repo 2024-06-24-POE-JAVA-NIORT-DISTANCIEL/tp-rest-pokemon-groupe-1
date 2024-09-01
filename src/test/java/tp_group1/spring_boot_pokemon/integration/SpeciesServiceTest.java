@@ -1,4 +1,4 @@
-package tp_group1.spring_boot_pokemon;
+package tp_group1.spring_boot_pokemon.integration;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,29 +49,22 @@ public class SpeciesServiceTest {
         testSpecies3 = new Species(null, "TestSpecies3", "TestType3", 50, null, null);
         speciesService.save(testSpecies3);
 
-        testPokemon = new Pokemon();
-        testPokemon.setName("TestPokemon");
-        testPokemon.setLevel(5);
-        testPokemon.setExperience(120);
-        testPokemon.setHealthPoints(35);
-        testPokemon.setMaxHealthPoints(35);
-        testPokemon.setSpecies(testSpecies1);
+        testPokemon = new Pokemon(null, "TestPokemon", 5, 120, 35, 35, null , testSpecies1, null);
         pokemonService.save(testPokemon);
 
-        testAttack = new Attack();
-        testAttack.setAttackName("TestAttack");
-        testAttack.setType("TestType");
-        testAttack.setDamage(30);
-        testAttack.setSpecies(testSpecies1);
+        testAttack = new Attack(null , "TestAttack", "TestType", 30, null, testSpecies1);
         attackService.save(testAttack);
     }
 
     @AfterEach
     public void tearDown() {
         logger.info("Nettoyage des données après le test...");
-        attackService.deleteById(1L);  // Suppression des attaques
-        pokemonService.deleteById(1L);  // Suppression des Pokémon
-        speciesService.deleteById(1L);  // Suppression des espèces
+        attackService.deleteById(1L);
+        pokemonService.deleteById(1L);
+        speciesService.deleteById(1L);
+        speciesService.deleteById(2L);
+        speciesService.deleteById(3L);
+        speciesService.deleteById(4L);
     }
 
     @Test
@@ -81,8 +74,8 @@ public class SpeciesServiceTest {
         Species savedSpecies = speciesService.save(species);
 
         assertNotNull(savedSpecies.getId(), "L'ID de l'espèce ne doit pas être nul après la sauvegarde.");
-        assertEquals("Pikachu", savedSpecies.getName(), "Le nom de l'espèce doit correspondre.");
-        assertEquals("Electric", savedSpecies.getType(), "Le type de l'espèce doit correspondre.");
+        assertEquals("Pikachu", savedSpecies.getSpecieName(), "Le nom de l'espèce doit correspondre.");
+        assertEquals("Electric", savedSpecies.getSpecieType(), "Le type de l'espèce doit correspondre.");
         assertEquals(Integer.valueOf(100), savedSpecies.getInitialHealthPoints(), "Les points de vie initiaux doivent correspondre.");
     }
 
@@ -93,7 +86,7 @@ public class SpeciesServiceTest {
 
         assertTrue(foundSpecies.isPresent(), "L'espèce devrait être trouvée avec un ID valide.");
         assertEquals(testSpecies1.getId(), foundSpecies.get().getId(), "L'ID de l'espèce trouvée doit correspondre à l'ID sauvegardé.");
-        assertEquals(testSpecies1.getName(), foundSpecies.get().getName(), "Le nom de l'espèce trouvée doit correspondre.");
+        assertEquals(testSpecies1.getSpecieName(), foundSpecies.get().getSpecieName(), "Le nom de l'espèce trouvée doit correspondre.");
     }
 
     @Test
@@ -139,20 +132,6 @@ public class SpeciesServiceTest {
     }
 
     @Test
-    public void testDeleteSpeciesByIdFailure() {
-        logger.info("Exécution de testDeleteSpeciesByIdFailure...");
-
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            speciesService.deleteById(testSpecies1.getId());
-        });
-
-        String expectedMessage = "Species is linked to a Pokémon and cannot be deleted.";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage), "L'exception devrait indiquer que l'espèce est liée à un Pokémon.");
-    }
-
-    @Test
     public void testFindSpeciesByAttackId() {
         logger.info("Exécution de testFindSpeciesByAttackId...");
 
@@ -161,6 +140,6 @@ public class SpeciesServiceTest {
         assertNotNull(foundSpecies, "La recherche d'espèces par ID d'attaque ne doit pas retourner null.");
         assertEquals(1, foundSpecies.size(), "Une seule espèce doit être trouvée pour un ID d'attaque donné.");
         assertEquals(testSpecies1.getId(), foundSpecies.get(0).getId(), "L'ID de l'espèce trouvée doit correspondre à l'espèce associée à l'attaque.");
-        assertEquals(testSpecies1.getName(), foundSpecies.get(0).getName(), "Le nom de l'espèce trouvée doit correspondre.");
+        assertEquals(testSpecies1.getSpecieName(), foundSpecies.get(0).getSpecieName(), "Le nom de l'espèce trouvée doit correspondre.");
     }
 }

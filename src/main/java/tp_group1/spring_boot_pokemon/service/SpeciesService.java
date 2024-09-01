@@ -19,40 +19,18 @@ public class SpeciesService {
     @Autowired
     private PokemonDao pokemonDao;
 
-    // Save a species
+
     @Transactional
-    public Species save(Species species) {
-        return speciesDao.save(species);
-    }
+    public Species save(Species species) { return speciesDao.save(species);}
 
-    // Find a species by ID
-    public Optional<Species> findById(Long id) {
-        return speciesDao.findById(id);
-    }
+    public List<Species> findAllSpecies() { return speciesDao.findAll(); }
 
-    // Find species by pokemon ID
+    public Optional<Species> findById(Long id) { return speciesDao.findById(id);}
 
-    public List<Species> findSpeciesByPokemonId(Long pokemonId) {
-        return speciesDao.findByPokemonsId(pokemonId);
-    }
+    public List<Species> findSpeciesByPokemonId(Long pokemonId) { return speciesDao.findByPokemonsId(pokemonId);}
 
-    // Find species by attack ID
-    public List<Species> findSpeciesByAttackId(Long attackId) {
-        return speciesDao.findByAttacksId(attackId);
-    }
+    public List<Species> findSpeciesByAttackId(Long attackId) { return speciesDao.findByAttacksId(attackId);}
 
-    // Find all species
-    public List<Species> findAllSpecies() {
-        return speciesDao.findAll();
-    }
-
-    // Delete a species by ID, checking if linked to any Pokémon
     @Transactional
-    public void deleteById(Long id) {
-        if (pokemonDao.findBySpeciesId(id).isEmpty()) {
-            speciesDao.deleteById(id);
-        } else {
-            throw new IllegalStateException("Species is linked to a Pokémon and cannot be deleted.");
-        }
-    }
+    public void deleteById(Long SpecieId) { speciesDao.deleteById(SpecieId); }
 }

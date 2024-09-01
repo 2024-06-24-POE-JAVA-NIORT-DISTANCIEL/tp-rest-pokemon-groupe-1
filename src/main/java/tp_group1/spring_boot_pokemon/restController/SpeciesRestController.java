@@ -1,5 +1,6 @@
 package tp_group1.spring_boot_pokemon.restController;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class SpeciesRestController {
     private SpeciesService speciesService;
 
     // GET by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Species> getSpeciesById(@PathVariable Long id) {
-        Optional<Species> species = speciesService.findById(id);
+    @GetMapping("/{SpecieId}")
+    public ResponseEntity<Species> getSpeciesById(@PathVariable Long SpecieId) {
+        Optional<Species> species = speciesService.findById(SpecieId);
         return species.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -36,13 +37,18 @@ public class SpeciesRestController {
     }
 
     // DELETE by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSpeciesById(@PathVariable Long id) {
-        try {
-            speciesService.deleteById(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    @DeleteMapping("/{SpecieId}")
+    public ResponseEntity<Void> deleteSpeciesById(@PathVariable Long SpecieId) {
+        Optional<Species> savedSpecies = speciesService.findById(SpecieId);
+        if(!savedSpecies.isPresent()) {
+            speciesService.deleteById(SpecieId);
+            return ResponseEntity.notFound().build();
         }
+        Species species = savedSpecies.get();
+        if(!species.getPokemons().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        speciesService.deleteById(SpecieId);
+        return ResponseEntity.ok().build();
     }
 }
