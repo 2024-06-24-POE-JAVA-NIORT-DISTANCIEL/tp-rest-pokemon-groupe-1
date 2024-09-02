@@ -1,6 +1,8 @@
 package tp_group1.spring_boot_pokemon.service;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tp_group1.spring_boot_pokemon.dao.FightDao;
@@ -18,14 +20,19 @@ public class FightService {
     @Autowired
     private PokemonService pokemonService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(FightService.class);
+
     //créer un combat
     @Transactional
     public Fight startFight(Long pokemonId1, Long pokemonId2) {
+        LOGGER.info("Début du combat entre les Pokémon avec ID: {} et {}", pokemonId1, pokemonId2);
+
         // Vérifier si les pokemons existent avec leur ID
         PokemonDto savedPokemon1 = pokemonService.findById(pokemonId1);
         PokemonDto savedPokemon2 = pokemonService.findById(pokemonId2);
 
         if (savedPokemon1 == null || savedPokemon2 == null) {
+            LOGGER.error("L'un des deux pokémons n'existe pas ! ID1: {}, ID2: {}", pokemonId1, pokemonId2);
             throw new IllegalArgumentException("L'un des deux pokemons n'existe pas !");
         }
 
@@ -35,6 +42,9 @@ public class FightService {
 
         // Vérifier si ces pokemons n'ont pas les points de vie = 0
         if (pokemon1.getHealthPoints() <= 0 || pokemon2.getHealthPoints() <= 0) {
+            LOGGER.error("L'un de ces pokémons n'a plus de points de vie ! {}: {} HP, {}: {} HP",
+                    pokemon1.getName(), pokemon1.getHealthPoints(),
+                    pokemon2.getName(), pokemon2.getHealthPoints());
             throw new IllegalArgumentException("L'un de ces pokémons n'a plus de points de vie !");
         }
 
@@ -47,11 +57,17 @@ public class FightService {
         Pokemon attacker = Math.random() < 0.5 ? pokemon1 : pokemon2;
         Pokemon defender = attacker == pokemon1 ? pokemon2 : pokemon1;
 
+        LOGGER.info("{} commence l'attaque contre {}", attacker.getName(), defender.getName());
+        //boucle du combat
         while(pokemon1.getHealthPoints() > 0 && pokemon2.getHealthPoints() >0) {
+            LOGGER.info("{} attaque {} et inflige 5 points de dégâts", attacker.getName(), defender.getName());
             // Chaque Pokemon perd 5 points de vie par tour
             defender.setHealthPoints(defender.getHealthPoints() - 5);
+            LOGGER.info("{} a maintenant {} HP", defender.getName(), defender.getHealthPoints());
+
             // Vérification du vainqueur
             if (defender.getHealthPoints() <= 0) {
+                LOGGER.info("{} a gagné le combat contre {}", attacker.getName(), defender.getName());
                 fight.setWinner(attacker.getName());
                 fight.setLoser(defender.getName());
                 fight.setResult(attacker.getName() + " a gagné le combat !");
@@ -61,6 +77,7 @@ public class FightService {
             Pokemon temp = attacker;
             attacker = defender;
             defender = temp;
+            LOGGER.info("Maintenant, {} attaque {}", attacker.getName(), defender.getName());
         }
 
         // Sauvegarder le combat
