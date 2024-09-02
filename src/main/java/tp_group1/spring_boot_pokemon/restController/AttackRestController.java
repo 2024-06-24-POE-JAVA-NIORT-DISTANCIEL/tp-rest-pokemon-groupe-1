@@ -95,3 +95,4 @@ public class AttackRestController {
         return ResponseEntity.ok(attack);
     }
 }
+

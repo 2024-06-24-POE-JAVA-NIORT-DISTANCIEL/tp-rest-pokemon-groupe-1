@@ -27,7 +27,7 @@ public class Pokemon {
     private Integer maxHealthPoints;
     private Integer healthPoints;
 
-    @ManyToMany(mappedBy = "pokemons", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "pokemons")
     private Set<Attack> attacks = new HashSet<>();
 
     @ManyToOne
