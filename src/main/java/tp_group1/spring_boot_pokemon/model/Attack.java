@@ -24,7 +24,7 @@ public class Attack {
             joinColumns = @JoinColumn(name = "attack_id"),
             inverseJoinColumns = @JoinColumn(name = "pokemon_id")
     )
-    private Set<Pokemon> pokemons;
+    private Set<Pokemon> pokemons = new HashSet<>();
 
     @OneToMany(mappedBy = "attack")
     private Set<Species> species= new HashSet<>();

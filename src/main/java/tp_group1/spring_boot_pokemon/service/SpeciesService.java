@@ -23,22 +23,6 @@ public class SpeciesService {
     @Transactional
     public Species save(Species species) { return speciesDao.save(species);}
 
-    public Species update(Long SpecieId, Species speciesUpdate) {
-        return speciesDao.findById(SpecieId)
-                .map(species -> {
-                    species.setSpecieName(speciesUpdate.getSpecieName());
-                    species.setSpecieType(speciesUpdate.getSpecieType());
-                    species.setInitialHealthPoints(speciesUpdate.getInitialHealthPoints());
-                    species.setAttacks(speciesUpdate.getAttacks());
-                    species.setPokemons(speciesUpdate.getPokemons());
-                    return speciesDao.save(species);
-                })
-                .orElseGet(() -> {
-                    speciesUpdate.setId(SpecieId);
-                    return speciesDao.save(speciesUpdate);
-                });
-    }
-
     public List<Species> findAllSpecies() { return speciesDao.findAll(); }
 
     public Optional<Species> findById(Long SpecieId) { return speciesDao.findById(SpecieId);}

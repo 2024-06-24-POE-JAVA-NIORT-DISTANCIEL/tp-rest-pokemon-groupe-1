@@ -6,6 +6,7 @@ import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PokemonDto {
@@ -22,6 +23,9 @@ public class PokemonDto {
     private Integer healthPoints;
 
     private Long trainerId;
+
+    private Set<Attack> attacks = new HashSet<>();
+
 
     public Long getId() {
         return id;
@@ -85,5 +89,13 @@ public class PokemonDto {
 
     public void setTrainerId(Long trainerId) {
         this.trainerId = trainerId;
+    }
+
+    public Set<Attack> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(Set<Attack> attacks) {
+        this.attacks = attacks;
     }
 }

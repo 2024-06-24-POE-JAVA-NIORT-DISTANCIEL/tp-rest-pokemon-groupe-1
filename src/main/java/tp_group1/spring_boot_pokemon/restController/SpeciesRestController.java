@@ -41,24 +41,6 @@ public class SpeciesRestController {
         return speciesService.save(species);
     }
 
-    // PUT to update a species
-    @PutMapping("/{SpecieId}")
-    public ResponseEntity<Species> updateSpecies(@PathVariable Long SpecieId, @RequestBody Species species) {
-        Species updatedSpecies = speciesService.update(SpecieId, species);
-        return ResponseEntity.ok(updatedSpecies);
-    }
-
-    @PostMapping("/assignAttackToSpecies/{SpecieId}")
-    public ResponseEntity<Species> assignAttackToSpecies(@PathVariable Long SpecieId, @RequestParam Long AttackId) {
-        Species species = speciesService.findById(SpecieId).orElse(null);
-        if (species == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            species.getAttacks().add(attackService.findById(AttackId).orElse(null));
-            return ResponseEntity.ok(speciesService.save(species));
-        }
-    }
-
     // DELETE by ID
     @DeleteMapping("/{SpecieId}")
     public ResponseEntity<Void> deleteSpeciesById(@PathVariable Long SpecieId) {
