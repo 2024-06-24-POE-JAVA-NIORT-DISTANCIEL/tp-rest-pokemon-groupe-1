@@ -1,69 +1,75 @@
 // Définition des entités
 entity Pokemon {
-  id Integer required,
-  name String required,              // Nom propre du Pokémon
-  level Integer required,            // Niveau
-  experience Integer required,       // Points d'expérience
-  healthPoints Integer required,     // Points de vie actuels
-  maxHealthPoints Integer required   // Points de vie maximum
-//  attack ForeignKey required       // Attaques
-//  trainer Foreignkey,		         // Entraineur
-//  species Foreignkey required,
+  id Long required,
+  name String required,
+  level Integer required,
+  experience Integer ,
+  healthPoints Integer ,
+  maxHealthPoints Integer,
+  attackId ForeignKey,
+  trainerId Foreignkey,
+  specieId Foreignkey,
 }
 
 entity Species {
-  id Integer required,
-  speciesName String required,       // Nom d'espèce
-  type String required,              // Type (par exemple, EAU, PLANTE)
-  initialHealthPoints Integer required, // Points de vie initiax
-//  initialAttack Foreignkey required,
+  id Long required,
+  speciesName String required,
+  type String required,
+  initialHealthPoints Integer required,
+  initialAttackId Foreignkey required,
 }
 
 
 entity Attack {
-  id Integer required,
-  attackName String required,        // Nom d'attaque
-  type String required,              // Type (par exemple, EAU, FEU)
-  damage Integer required            // Points de dégâts
+  id Long required,
+  attackName String required,
+  type String required,
+  damage Integer required
 }
 
 entity Trainer {
-  id Integer required,
-  username String required unique,   // Pseudonyme
-  password String required,          // Mot de passe
-  wallet Integer required,           // Montant de portefeuille
+  id Long required,
+  username String required unique,
+  password String required,
+  wallet Integer required,
 }
 
 entity Inventory {
-  trainerId_ItemId Long required,
-  quantity Integer required,         // Quantité
+  id Long required,
+  trainerId Long required,
+  itemId Long required,
+  quantity Integer required,
 }
 
 entity Item {
   id Integer required,
-  itemName String required,          // Nom de l'objet
-  cost Integer required,             // Coût
-  type String                        // Type de l'objet
+  itemName String required,
+  cost Integer required,
+  type String
 
 }
 
 // Relations entre les entités
+
 relationship ManyToOne {
-  Pokemon{species} to Species         // Un Pokémon appartient à une espèce
-  Pokemon{trainer} to Trainer         // Un Pokémon peut avoir un dresseur
+  Pokemon{species} to Species
+  Pokemon{trainer} to Trainer
+  Inventory{trainer} to Trainer
+  Inventory{items} to Item
 }
 
 relationship OneToMany {
-  Species{attacks} to Attack          // Une espèce peut avoir une attaque initiale
-  Trainer{pokemons} to Pokemon        // Un dresseur peut avoir plusieurs Pokémon
+  Species{attacks} to Attack
+  Trainer{pokemons} to Pokemon
+  Item{inventory} to Inventory
+  Trainer{inventory} to Inventory
 }
 
 relationship ManyToMany {
-  Pokemon{attacks} to Attack          // Un Pokémon peut avoir plusieurs attaques
-  Trainer{items} to Item              // Un dresseur peut avoir plusieurs objets
+  Pokemon{attacks} to Attack
 }
 
 // Options globales (facultatif)
-dto * with mapstruct                  // Génération de DTOs avec MapStruct
-service * with serviceClass           // Génération de services
-paginate Item, Pokemon with pagination // Pagination pour les entités Item et Pokemon
+dto * with mapstruct
+service * with serviceClass
+paginate Item, Pokemon with pagination
