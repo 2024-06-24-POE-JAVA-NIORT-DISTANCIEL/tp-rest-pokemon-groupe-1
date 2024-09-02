@@ -3,8 +3,10 @@ package tp_group1.spring_boot_pokemon.restController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Fight;
 import tp_group1.spring_boot_pokemon.service.FightService;
+import tp_group1.spring_boot_pokemon.service.PokemonService;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,8 @@ import java.util.Optional;
 public class FightRestController {
     @Autowired
     private FightService fightService;
+    @Autowired
+    private PokemonService pokemonService;
 
 
     //GET - trouver un combat par id
@@ -27,12 +31,6 @@ public class FightRestController {
     @GetMapping
     public List<Fight> getAllFights() {
         return fightService.findAll();
-    }
-
-    //POST - créer un nouveau combat
-    @PostMapping
-    public Fight save(@RequestBody Fight fight) {
-        return fightService.save(fight);
     }
 
     //DELETE BY ID - supprimer une attaque uniquement s'il n'y a plus de pokemon associé
@@ -52,6 +50,32 @@ public class FightRestController {
         fightService.deleteById(id);
         return ResponseEntity.ok().build();
 
+    }
+
+    //POST - commence le combat
+    @PostMapping("/start")
+    public ResponseEntity<Fight> startFight(@RequestBody Fight fight) {
+        // Vérifiez que les IDs des Pokémon sont bien présents dans la requête
+        if (fight.getPokemonA() == null || fight.getPokemonB() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        // Assurez-vous que les IDs des Pokémon sont récupérés correctement
+        Long pokemonId1 = fight.getPokemonA().getId();
+        Long pokemonId2 = fight.getPokemonB().getId();
+
+        // Vérifiez les Pokémon avec leurs IDs
+        PokemonDto savedPokemon1 = pokemonService.findById(pokemonId1);
+        PokemonDto savedPokemon2 = pokemonService.findById(pokemonId2);
+
+        if (savedPokemon1 == null || savedPokemon2 == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        // Démarrer le combat
+        Fight actualFight = fightService.startFight(savedPokemon1.getId(), savedPokemon2.getId());
+
+        // Retourner le résultat du combat
+        return ResponseEntity.ok(actualFight);
     }
 
 }
