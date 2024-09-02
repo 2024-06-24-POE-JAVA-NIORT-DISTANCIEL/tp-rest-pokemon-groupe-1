@@ -64,14 +64,13 @@ public class Pokemon {
 
     public Integer getHealthPoints() { return healthPoints; }
     public void setHealthPoints(Integer healthPoints) {
-        if (healthPoints != null && healthPoints >= 0) {
-            if (this.maxHealthPoints != null && healthPoints > this.maxHealthPoints) {
-                throw new IllegalArgumentException("Health points must be less than or equal to max health points.");
-            }
-            this.healthPoints = healthPoints;
-        } else {
+        if (healthPoints == null || healthPoints < 0) {
             throw new IllegalArgumentException("Health points must be non-negative.");
         }
+        if (this.maxHealthPoints != null && healthPoints > this.maxHealthPoints) {
+            throw new IllegalArgumentException("Health points must be less than or equal to max health points.");
+        }
+        this.healthPoints = healthPoints;
     }
 
     public Integer getMaxHealthPoints() { return maxHealthPoints; }
