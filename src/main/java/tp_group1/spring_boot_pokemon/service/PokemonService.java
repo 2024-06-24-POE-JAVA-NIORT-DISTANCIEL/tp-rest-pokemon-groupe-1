@@ -4,7 +4,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
+import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
+import tp_group1.spring_boot_pokemon.dao.TrainerDao;
+import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
+import tp_group1.spring_boot_pokemon.model.Species;
+import tp_group1.spring_boot_pokemon.model.Trainer;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,59 +20,116 @@ public class PokemonService {
     @Autowired
     private PokemonDao pokemonDao;
 
-    //methode pour créer et sauvegarder un pokemon ou mettre à jour un pokemon existant
+    @Autowired
+    private SpeciesDao speciesDao;
+
+    @Autowired
+    private TrainerDao trainerDao;
+
     @Transactional
-    public Pokemon save(Pokemon pokemon) {
-        //verifier si l'id existe
-        if(pokemon.getId() != null && pokemonDao.existsById(pokemon.getId())) {
-            //mettre a jour le pokemon existant
-            return update(pokemon.getId(), pokemon);
-        } else { //si l'id n'existe pas, créer un nouveau pokemon
-            return pokemonDao.save(pokemon);
+    public PokemonDto save(PokemonDto pokemonDto) {
+        Species species = null;
+        if (pokemonDto.getSpeciesId() != null) {
+            species = speciesDao.findById(pokemonDto.getSpeciesId())
+                    .orElseThrow(() -> new RuntimeException("Species not found"));
+        }
+
+        Trainer trainer = null;
+        if (pokemonDto.getTrainerId() != null) {
+            trainer = trainerDao.findById(pokemonDto.getTrainerId())
+                    .orElseThrow(() -> new RuntimeException("Trainer not found"));
+        }
+
+        Pokemon pokemon = new Pokemon( null, pokemonDto.getName(), pokemonDto.getLevel(), pokemonDto.getExperience(), pokemonDto.getHealthPoints(), pokemonDto.getMaxHealthPoints(), trainer, species, null);
+        initializeHealthPointsIfNeeded(pokemon);
+        Pokemon savedPokemon = pokemonDao.save(pokemon);
+        return entityToDto(savedPokemon);
+    }
+
+    private void initializeHealthPointsIfNeeded(Pokemon pokemon) {
+        if (pokemon.getHealthPoints() == null || pokemon.getMaxHealthPoints() == null) {
+            pokemon.setMaxHealthPoints(pokemon.getSpecies().getInitialHealthPoints());
+            pokemon.setHealthPoints(pokemon.getMaxHealthPoints());
         }
     }
 
-    //methode pour trouver un pokemon par son id
-    public Optional<Pokemon> findById(Long PokemonId) {
-        return pokemonDao.findById(PokemonId);
+    public PokemonDto findById(Long PokemonId) {
+        return pokemonDao.findById(PokemonId)
+                .map(this::entityToDto)
+                .orElse(null);
     }
 
-    //methode pour trouver tous les pokemons
-    public List<Pokemon> findAll() {
-        return pokemonDao.findAll();
+    public List<PokemonDto> findAll() {
+        return pokemonDao.findAll().stream()
+                .map(this::entityToDto)
+                .toList();
     }
 
-    //methode pour supprimer un pokemon par son id
     @Transactional
     public void deleteById(Long PokemonId) {
         pokemonDao.deleteById(PokemonId);
     }
 
-    //methode pour mettre à jour un pokemon existant par id
-    public Pokemon update(Long PokemonId, Pokemon newPokemonData) {
-        return pokemonDao.findById(PokemonId)
-                .map(existingPokemon -> {
-            //mettre à jour les differents champs du pokemon
-            existingPokemon.setName(newPokemonData.getName());
-            existingPokemon.setLevel(newPokemonData.getLevel());
-            existingPokemon.setExperience(newPokemonData.getExperience());
-            existingPokemon.setHealthPoints(newPokemonData.getHealthPoints());
-            existingPokemon.setMaxHealthPoints(newPokemonData.getMaxHealthPoints());
-            existingPokemon.setSpecies(newPokemonData.getSpecies());
-            existingPokemon.setTrainer(newPokemonData.getTrainer());
-
-            return pokemonDao.save(existingPokemon);
-        })
-                .orElseThrow();
+    public PokemonDto update(Long PokemonId, PokemonDto newPokemonData) {
+        Optional<Pokemon> existingPokemon = pokemonDao.findById(PokemonId);
+        if (existingPokemon.isEmpty()) {
+            throw new RuntimeException("Pokemon not found");
+        }
+        Pokemon pokemon = dtoToEntity(newPokemonData);
+        initializeHealthPointsIfNeeded(pokemon);
+        return entityToDto(pokemonDao.save(pokemon));
     }
 
-    //methode pour trouver tous les pokemons par ids
-    public List<Pokemon> findAllById(List<Long> pokemonIds) {
-        return pokemonDao.findAllById(pokemonIds);
+    public PokemonDto entityToDto(Pokemon pokemon) {
+        PokemonDto dto = new PokemonDto();
+        dto.setId(pokemon.getId());
+        dto.setName(pokemon.getName());
+        dto.setLevel(pokemon.getLevel());
+        dto.setExperience(pokemon.getExperience());
+        dto.setHealthPoints(pokemon.getHealthPoints());
+        dto.setMaxHealthPoints(pokemon.getMaxHealthPoints());
+        if (pokemon.getSpecies() != null) {
+            dto.setSpeciesId(pokemon.getSpecies().getId());
+        }
+        if (pokemon.getTrainer() != null) {
+            dto.setTrainerId(pokemon.getTrainer().getId());
+        }
+        return dto;
     }
 
-    // Trouver un Pokémon avec ses attaques
-    public Optional<Pokemon> findWithAttacksById(Long pokemonId) {
-        return pokemonDao.findById(pokemonId);
+    public Pokemon dtoToEntity(PokemonDto dto) {
+        Pokemon pokemon = new Pokemon();
+        pokemon.setId(dto.getId());
+        pokemon.setName(dto.getName());
+        pokemon.setLevel(dto.getLevel());
+        pokemon.setExperience(dto.getExperience());
+        pokemon.setHealthPoints(dto.getHealthPoints());
+        pokemon.setMaxHealthPoints(dto.getMaxHealthPoints());
+
+        if (dto.getSpeciesId() != null) {
+            Species species = speciesDao.findById(dto.getSpeciesId())
+                    .orElseThrow(() -> new RuntimeException("Species not found"));
+            pokemon.setSpecies(species);
+        }
+
+        if (dto.getTrainerId() != null) {
+            Trainer trainer = trainerDao.findById(dto.getTrainerId())
+                    .orElseThrow(() -> new RuntimeException("Trainer not found"));
+            pokemon.setTrainer(trainer);
+        }
+
+        return pokemon;
+    }
+
+    public List<PokemonDto> findAllById(List<Long> pokemonIds) {
+        return pokemonDao.findAllById(pokemonIds).stream()
+                .map(this::entityToDto)
+                .toList();
+    }
+
+    public Optional<PokemonDto> findWithAttacksById(Long pokemonId) {
+        return pokemonDao.findByAttacksId(pokemonId).stream()
+                .findFirst()
+                .map(this::entityToDto);
     }
 }

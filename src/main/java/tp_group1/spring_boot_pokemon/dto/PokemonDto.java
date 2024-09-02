@@ -1,23 +1,27 @@
 package tp_group1.spring_boot_pokemon.dto;
 
+import jakarta.persistence.*;
 import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PokemonDto {
-    // Pokemon attributes
+   
     private Long id;
+
     private String name;
-    private Integer level;
-    private Integer experience;
-    private Integer healthPoints;
+    private Integer level = 1;
+    private Integer experience = 0;
+
+    private Long speciesId;
+
     private Integer maxHealthPoints;
+    private Integer healthPoints;
 
-    // Pokemon relationships
-    private Species species;
-    private Attack attack;
-    private Trainer trainer;
-
+    private Long trainerId;
 
     public Long getId() {
         return id;
@@ -51,12 +55,12 @@ public class PokemonDto {
         this.experience = experience;
     }
 
-    public Integer getHealthPoints() {
-        return healthPoints;
+    public Long getSpeciesId() {
+        return speciesId;
     }
 
-    public void setHealthPoints(Integer healthPoints) {
-        this.healthPoints = healthPoints;
+    public void setSpeciesId(Long speciesId) {
+        this.speciesId = speciesId;
     }
 
     public Integer getMaxHealthPoints() {
@@ -67,27 +71,19 @@ public class PokemonDto {
         this.maxHealthPoints = maxHealthPoints;
     }
 
-    public Species getSpecies() {
-        return species;
+    public Integer getHealthPoints() {
+        return healthPoints;
     }
 
-    public void setSpecies(Species species) {
-        this.species = species;
+    public void setHealthPoints(Integer healthPoints) {
+        this.healthPoints = healthPoints;
     }
 
-    public Attack getAttack() {
-        return attack;
+    public Long getTrainerId() {
+        return trainerId;
     }
 
-    public void setAttack(Attack attack) {
-        this.attack = attack;
-    }
-
-    public Trainer getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(Trainer trainer) {
-        this.trainer = trainer;
+    public void setTrainerId(Long trainerId) {
+        this.trainerId = trainerId;
     }
 }

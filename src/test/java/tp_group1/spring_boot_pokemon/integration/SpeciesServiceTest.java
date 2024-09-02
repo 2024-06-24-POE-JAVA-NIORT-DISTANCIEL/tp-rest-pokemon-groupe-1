@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tp_group1.spring_boot_pokemon.model.Attack;
-import tp_group1.spring_boot_pokemon.model.Pokemon;
+import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.service.AttackService;
 import tp_group1.spring_boot_pokemon.service.PokemonService;
@@ -36,7 +36,7 @@ public class SpeciesServiceTest {
     private Species testSpecies1;
     private Species testSpecies2;
     private Species testSpecies3;
-    private Pokemon testPokemon;
+    private PokemonDto testPokemon;
     private Attack testAttack;
 
     @BeforeEach
@@ -49,7 +49,10 @@ public class SpeciesServiceTest {
         testSpecies3 = new Species(null, "TestSpecies3", "TestType3", 50, null, null);
         speciesService.save(testSpecies3);
 
-        testPokemon = new Pokemon(null, "TestPokemon", 5, 120, 35, 35, null , testSpecies1, null);
+        testPokemon = new PokemonDto();
+        testPokemon.setName("TestPokemon");
+        testPokemon.setLevel(1);
+        testPokemon.setHealthPoints(50);
         pokemonService.save(testPokemon);
 
         testAttack = new Attack(null , "TestAttack", "TestType", 30, null, testSpecies1);

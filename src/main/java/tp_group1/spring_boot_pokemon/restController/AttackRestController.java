@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.dto.PokemonDto;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.service.AttackService;
 import tp_group1.spring_boot_pokemon.service.PokemonService;
@@ -23,95 +24,74 @@ public class AttackRestController {
     @Autowired
     private PokemonService pokemonService;
 
-    //GET - trouver une attaque par id
     @GetMapping("/{AttackId}")
     public ResponseEntity<Attack> getAttackById(@PathVariable Long AttackId) {
         Optional<Attack> attack = attackService.findById(AttackId);
         return attack.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //GET ALL - trouver toutes les attaques
     @GetMapping
     public List<Attack> getAllAttacks() {
         return attackService.findAll();
     }
 
-    //POST - créer une nouvelle attaque
     @PostMapping
     public Attack save(@RequestBody Attack attack) {
         return attackService.save(attack);
     }
 
-    //DELETE BY ID - supprimer une attaque uniquement s'il n'y a plus de pokemons associés
     @DeleteMapping("/{AttackId}")
     public ResponseEntity<Void> deleteAttackById(@PathVariable Long AttackId) {
-        //trouver l'attaque par son id
         Optional<Attack> savedAttack = attackService.findById(AttackId);
-        if(!savedAttack.isPresent()) {
-            attackService.deleteById(AttackId);
+        if (!savedAttack.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         Attack attack = savedAttack.get();
-        //vérifier s'il y a un ou plusieurs pokemons associés à l'attaque
-        if(!attack.getPokemons().isEmpty()) {
+        if (!attack.getPokemons().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        //supprimer l'attaque par son id
         attackService.deleteById(AttackId);
         return ResponseEntity.ok().build();
     }
 
-    //PUT - mettre à jour une attaque existante par son id
     @PutMapping("/{AttackId}")
-    public ResponseEntity<Attack> updateAttack(@PathVariable Long id, @RequestBody Attack attack) {
-        attack.setId(id);
+    public ResponseEntity<Attack> updateAttack(@PathVariable Long AttackId, @RequestBody Attack attack) {
         try {
-            Attack updatedAttack = attackService.save(attack);
+            Attack updatedAttack = attackService.update(AttackId, attack);
             return ResponseEntity.ok(updatedAttack);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    //POST - créer une nouvelle attaque et relier un pokemon déjà existant
     @PostMapping("/createAttackForPokemons")
     public ResponseEntity<Attack> createAttackForPokemons(@RequestParam Long PokemonId1, @RequestBody Attack attack) {
-        //récupérer les pokemons
-        Optional<Pokemon> pokemon = pokemonService.findById(PokemonId1);
-        //vérifier si pokemon existe
-        if (pokemon.isEmpty()) {
+        Optional<PokemonDto> pokemonDto = Optional.ofNullable(pokemonService.findById(PokemonId1));
+        if (pokemonDto.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
-        // Obtenir les objets Pokémon à partir des optionals
-        Pokemon savedPokemon = pokemon.get();
-        //créer tableau pokemons
+        Pokemon savedPokemon = pokemonService.dtoToEntity(pokemonDto.get());
         Set<Pokemon> pokemons = new HashSet<>();
         pokemons.add(savedPokemon);
-        //créer une nouvelle attaque en lui assignant des pokemons
         attack.setPokemons(pokemons);
         Attack savedAttack = attackService.save(attack);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(savedAttack);
     }
 
-    //POST - assigner une attaque déjà existantee et rajouter des pokemons déjà existants à cette attaque
     @PostMapping("/assignAttackToPokemons/{AttackId}")
     public ResponseEntity<Attack> assignAttackToPokemons(@PathVariable Long AttackId, @RequestParam List<Long> PokemonIds) {
-        //recuperer l'attaque par son id
         Optional<Attack> plannedAttack = attackService.findWithPokemonsById(AttackId);
-        if(!plannedAttack.isPresent()) {
+        if (!plannedAttack.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         Attack attack = plannedAttack.get();
-
-        //récupérer les pokemons par leurs ids
-        List<Pokemon> pokemons = pokemonService.findAllById(PokemonIds);
-        if(pokemons.isEmpty()) {
+        List<PokemonDto> pokemonDtos = pokemonService.findAllById(PokemonIds).stream()
+                .toList();
+        if (pokemonDtos.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
-        //ajouter les pokemons à l'attaque
-        attackService.addPokemonsToAttack(attack, pokemons);
+        attackService.addPokemonsToAttack(attack, pokemonDtos);
         return ResponseEntity.ok(attack);
     }
-
 }
