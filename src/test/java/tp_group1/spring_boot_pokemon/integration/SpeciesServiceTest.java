@@ -55,7 +55,7 @@ public class SpeciesServiceTest {
         testPokemon.setHealthPoints(50);
         pokemonService.save(testPokemon);
 
-        testAttack = new Attack(null , "TestAttack", "TestType", 30, null, testSpecies1);
+        testAttack = new Attack(null , "TestAttack", "TestType", 30, null, null);
         attackService.save(testAttack);
     }
 

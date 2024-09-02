@@ -45,7 +45,7 @@ public class SpeciesService {
 
     public List<Species> findSpeciesByPokemonId(Long pokemonId) { return speciesDao.findByPokemonsId(pokemonId);}
 
-    public List<Species> findSpeciesByAttackId(Long attackId) { return speciesDao.findByAttacksId(attackId);}
+    public List<Species> findSpeciesByAttackId(Long attackId) { return speciesDao.findByAttackId(attackId);}
 
     @Transactional
     public void deleteById(Long SpecieId) { speciesDao.deleteById(SpecieId); }

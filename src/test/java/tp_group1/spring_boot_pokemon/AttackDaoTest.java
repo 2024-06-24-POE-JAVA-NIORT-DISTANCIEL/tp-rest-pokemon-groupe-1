@@ -98,17 +98,28 @@ public class AttackDaoTest {
     public void testFindAttackBySpeciesId() {
         Species espece1 = new Species(null, "Dragon", "feu", 3, null, null);
         speciesDao.save(espece1);
-        Attack attack5 = new Attack(null, "fireball", "fire", 34, null, null);
-        attack5.setSpecies(espece1);
+        Set<Species> savedSpecies = new HashSet<>();
+        savedSpecies.add(espece1);
+
+        //créer une nouvelle attaque
+        Attack attack5 = new Attack();
+        attack5.setAttackName("fireball");
+        attack5.setType("fire");
+        attack5.setDamage(5);
+        attack5.setSpecies(savedSpecies);
         attackDao.save(attack5);
 
-        Assertions.assertNotNull(attack5.getSpecies().getId());
-        Assertions.assertEquals(espece1.getId(), attack5.getSpecies().getId());
+        // Vérifier que l'espèce est correctement associée à l'attaque
+        Assertions.assertNotNull(attack5.getSpecies());
+        Assertions.assertFalse(attack5.getSpecies().isEmpty());
+        Assertions.assertEquals(1, attack5.getSpecies().size());
+        Assertions.assertTrue(attack5.getSpecies().contains(espece1));
 
+        // Rechercher les attaques par ID de l'espèce
         List<Attack> attackBySpecies = attackDao.findBySpeciesId(espece1.getId());
         Assertions.assertNotNull(attackBySpecies);
         Assertions.assertEquals(1, attackBySpecies.size());
-        Assertions.assertEquals(espece1.getId(), attackBySpecies.get(0).getSpecies().getId());
+        Assertions.assertEquals(espece1.getId(), attackBySpecies.get(0).getSpecies().iterator().next().getId());
 
     }
 
