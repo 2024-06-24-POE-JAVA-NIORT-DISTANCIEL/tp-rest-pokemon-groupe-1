@@ -3,9 +3,12 @@ package tp_group1.spring_boot_pokemon.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Species {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +18,9 @@ public class Species {
     private String specieType;
     private Integer initialHealthPoints;
 
-    @OneToMany(mappedBy = "species")
-    private Set<Attack> attacks = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "ATTACK_ID")
+    private Attack attack;
 
     @OneToMany(mappedBy = "species")
     private Set<Pokemon> pokemons = new HashSet<>();
@@ -24,12 +28,12 @@ public class Species {
     public Species() {
     }
 
-    public Species(Long id, String specieName, String specieType, Integer initialHealthPoints, Set<Attack> attacks, Set<Pokemon> pokemons) {
+    public Species(Long id, String specieName, String specieType, Integer initialHealthPoints, Attack attack, Set<Pokemon> pokemons) {
         this.id = id;
         this.specieName = specieName;
         this.specieType = specieType;
         this.initialHealthPoints = initialHealthPoints;
-        this.attacks = attacks;
+        this.attack = attack;
         this.pokemons = pokemons;
     }
 
@@ -65,12 +69,12 @@ public class Species {
         this.initialHealthPoints = initialHealthPoints;
     }
 
-    public Set<Attack> getAttacks() {
-        return attacks;
+    public Attack getAttack() {
+        return attack;
     }
 
-    public void setAttacks(Set<Attack> attacks) {
-        this.attacks = attacks;
+    public void setAttack(Attack attack) {
+        this.attack = attack;
     }
 
     public Set<Pokemon> getPokemons() {
@@ -89,7 +93,7 @@ public class Species {
                 ", specieName='" + specieName + '\'' +
                 ", specieType='" + specieType + '\'' +
                 ", initialHealthPoints=" + initialHealthPoints +
-                ", attacks=" + attacks +
+                ", attacks=" + attack +
                 ", pokemons=" + pokemons +
                 '}';
     }

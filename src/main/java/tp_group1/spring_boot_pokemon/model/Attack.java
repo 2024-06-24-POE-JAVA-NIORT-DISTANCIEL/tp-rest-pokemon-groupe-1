@@ -1,10 +1,14 @@
 package tp_group1.spring_boot_pokemon.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Attack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +26,14 @@ public class Attack {
     )
     private Set<Pokemon> pokemons;
 
-    @ManyToOne
-    @JoinColumn(name = "SPECIE_ID")
-    private Species species;
+    @OneToMany(mappedBy = "attack")
+    private Set<Species> species= new HashSet<>();
+
 
     public Attack() {
     }
 
-    public Attack(Long id, String attackName, String type, Integer damage, Set<Pokemon> pokemons, Species species) {
+    public Attack(Long id, String attackName, String type, Integer damage, Set<Pokemon> pokemons, Set<Species> species) {
         this.id = id;
         this.attackName = attackName;
         this.type = type;
@@ -78,11 +82,11 @@ public class Attack {
         this.pokemons = pokemons;
     }
 
-    public Species getSpecies() {
+    public Set<Species> getSpecies() {
         return species;
     }
 
-    public void setSpecies(Species species) {
+    public void setSpecies(Set<Species> species) {
         this.species = species;
     }
 }

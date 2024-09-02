@@ -42,7 +42,7 @@ public class SpeciesDaoTest {
         // Assuming Pokemon and Attack classes are correctly mapped
         testPokemon = new Pokemon(null, "TestPokemon", 5, 120, 35, 35, null, testSpecies, null);
         pokemonDao.save(testPokemon);
-        testAttack = new Attack(null, "TestAttack", "TestType", 30, null, testSpecies);
+        testAttack = new Attack(null, "TestAttack", "TestType", 30, null, null);
         attackDao.save(testAttack);
     }
 
@@ -77,7 +77,7 @@ public class SpeciesDaoTest {
     @Test
     public void testFindSpeciesByAttackId() {
         speciesDao.save(testSpecies);  // Sauvegarde la species
-        List<Species> foundSpecies = speciesDao.findByAttacksId(testAttack.getId());
+        List<Species> foundSpecies = speciesDao.findByAttackId(testAttack.getId());
         assertFalse(foundSpecies.isEmpty(), "La species doit être trouvée par Attack ID");
         assertEquals(testSpecies.getSpecieName(), foundSpecies.get(0).getSpecieName(), "Le nom de la species doit correspondre");
     }
