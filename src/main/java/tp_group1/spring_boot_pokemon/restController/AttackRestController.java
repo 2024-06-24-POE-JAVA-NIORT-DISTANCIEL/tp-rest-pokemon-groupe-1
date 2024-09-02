@@ -73,23 +73,20 @@ public class AttackRestController {
         }
     }
 
-    //POST - créer une nouvelle attaque et relier deux pokemons déjà existants
+    //POST - créer une nouvelle attaque et relier un pokemon déjà existant
     @PostMapping("/createAttackForPokemons")
-    public ResponseEntity<Attack> createAttackForPokemons(@RequestParam Long PokemonId1, @RequestParam Long PokemonId2, @RequestBody Attack attack) {
+    public ResponseEntity<Attack> createAttackForPokemons(@RequestParam Long PokemonId1, @RequestBody Attack attack) {
         //récupérer les pokemons
-        Optional<Pokemon> pokemon1 = pokemonService.findById(PokemonId1);
-        Optional<Pokemon> pokemon2 = pokemonService.findById(PokemonId2);
+        Optional<Pokemon> pokemon = pokemonService.findById(PokemonId1);
         //vérifier si pokemon existe
-        if (pokemon1.isEmpty() || pokemon2.isEmpty()) {
+        if (pokemon.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
         // Obtenir les objets Pokémon à partir des optionals
-        Pokemon savedPokemon1 = pokemon1.get();
-        Pokemon savedPokemon2 = pokemon2.get();
+        Pokemon savedPokemon = pokemon.get();
         //créer tableau pokemons
         Set<Pokemon> pokemons = new HashSet<>();
-        pokemons.add(savedPokemon1);
-        pokemons.add(savedPokemon2);
+        pokemons.add(savedPokemon);
         //créer une nouvelle attaque en lui assignant des pokemons
         attack.setPokemons(pokemons);
         Attack savedAttack = attackService.save(attack);
