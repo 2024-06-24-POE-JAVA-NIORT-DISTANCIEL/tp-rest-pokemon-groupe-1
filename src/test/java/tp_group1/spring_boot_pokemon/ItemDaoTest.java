@@ -79,6 +79,15 @@ class ItemDaoTest {
 //        assertTrue(inventory.contains(itemUn), "The item should be in the trainer's inventory.");
 
 // }
+
+    @Test
+    void testFindByCostRange() {
+        List<Item> items = itemDao.findByCostBetween(20, 60);
+        assertNotNull(items);
+        assertEquals(2, items.size());
+    }
+
+
     @Test
     public void testItemExistsInInventory() {
         Inventory inventory = new Inventory(null, 0, itemUn, null);

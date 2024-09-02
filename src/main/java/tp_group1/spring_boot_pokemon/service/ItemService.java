@@ -36,4 +36,8 @@ public class ItemService {
         itemDao.deleteById(id);
     }
 
+    public List<Item> findByCostRange(int minCost, int maxCost) {
+        return itemDao.findByCostBetween(minCost, maxCost);
+    }
+
 }

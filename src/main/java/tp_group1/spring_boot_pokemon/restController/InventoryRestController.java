@@ -10,4 +10,5 @@ import tp_group1.spring_boot_pokemon.service.InventoryService;
 public class InventoryRestController {
 //    @Autowired
 //    private InventoryService inventoryService;
+
 }
