@@ -8,8 +8,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 public class ItemRestController {
-//    @Autowired
-//    private ItemService itemService;
 
     @Autowired
     private ItemService itemService;

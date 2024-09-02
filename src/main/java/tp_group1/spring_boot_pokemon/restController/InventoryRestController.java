@@ -30,5 +30,4 @@ public class InventoryRestController {
         return ResponseEntity.ok(savedInventory);
     }
 
-
 }
