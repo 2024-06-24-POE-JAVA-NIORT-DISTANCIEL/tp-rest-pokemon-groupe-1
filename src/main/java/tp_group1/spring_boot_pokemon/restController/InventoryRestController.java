@@ -1,4 +1,6 @@
 package tp_group1.spring_boot_pokemon.restController;
+import tp_group1.spring_boot_pokemon.service.ItemService;
+import tp_group1.spring_boot_pokemon.service.TrainerService;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import tp_group1.spring_boot_pokemon.service.InventoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,12 @@ public class InventoryRestController {
 
     @Autowired
     private InventoryService inventoryService;
+
+    @Autowired
+    private TrainerService trainerService;
+
+    @Autowired
+    private ItemService itemService;
 
     // On récupére l'inventaire d'un dresseur
     @GetMapping("/trainer/{trainerId}")
@@ -31,12 +40,28 @@ public class InventoryRestController {
     @PostMapping("/add")
     public ResponseEntity<Inventory> addInventory(@RequestBody Inventory inventory) {
         try {
+            // Vérifier si le Trainer existe
+            if (inventory.getTrainer() == null || inventory.getTrainer().getId() == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            // Vérifier si l'Item existe
+            if (inventory.getItem() == null || inventory.getItem().getId() == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+            Optional<Item> itemOpt = itemService.findById(inventory.getItem().getId());
+            if (itemOpt.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            // Si les objets sont valides, sauvegarde l'inventory
             Inventory savedInventory = inventoryService.addInventory(inventory);
             return ResponseEntity.ok(savedInventory);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
     // Récupérer l'ensemble de l'inventaire
     @GetMapping
     public List<Inventory> getAllInventories() {
