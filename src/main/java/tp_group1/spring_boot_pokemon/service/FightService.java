@@ -48,6 +48,14 @@ public class FightService {
             throw new IllegalArgumentException("L'un de ces pokémons n'a plus de points de vie !");
         }
 
+        // Initialiser les points de vie actuels à leur valeur maximale
+        pokemon1.setHealthPoints(pokemon1.getMaxHealthPoints());
+        pokemon2.setHealthPoints(pokemon2.getMaxHealthPoints());
+
+        LOGGER.info("Points de vie actuels définis: {} (HP: {}), {} (HP: {})",
+                pokemon1.getName(), pokemon1.getHealthPoints(),
+                pokemon2.getName(), pokemon2.getHealthPoints());
+
         //initialiser le combat
         Fight fight = new Fight();
         fight.setPokemonA(pokemon1);
@@ -59,10 +67,20 @@ public class FightService {
 
         LOGGER.info("{} commence l'attaque contre {}", attacker.getName(), defender.getName());
         //boucle du combat
-        while(pokemon1.getHealthPoints() > 0 && pokemon2.getHealthPoints() >0) {
+        while(pokemon1.getHealthPoints() >= 0 && pokemon2.getHealthPoints() >=0) {
             LOGGER.info("{} attaque {} et inflige 5 points de dégâts", attacker.getName(), defender.getName());
-            // Chaque Pokemon perd 5 points de vie par tour
-            defender.setHealthPoints(defender.getHealthPoints() - 5);
+            // Calcul des dégâts infligés : (niveau du pokemon / 10) * nombre de points de dégâts de l’attaque * modificateur d’attaque
+            // Modificateur de combat
+            double damageFight = 1.0;
+            // Points de dégâts de l'attaque
+            int baseDamage = attacker.getSpecies().getAttack().getDamage();
+            // Facteur basé sur le niveau du Pokémon
+            double levelFactor = attacker.getLevel() / 10.0;
+            // Calcul final des dégâts
+            int damage = (int) (levelFactor * baseDamage * damageFight);
+            //pour mettre à 0 et ne pas avoir de points négatifs
+            int newHealthPoints = Math.max(defender.getHealthPoints() - damage, 0);
+            defender.setMaxHealthPoints(newHealthPoints);
             LOGGER.info("{} a maintenant {} HP", defender.getName(), defender.getHealthPoints());
 
             // Vérification du vainqueur
