@@ -17,9 +17,6 @@ public interface AttackDao extends CrudRepository<Attack, Long> {
     //trouver toutes les attaques par nom par ordre croissant
     List<Attack> findAllByOrderByAttackNameAsc();
 
-    //trouver toutes les attaques par nom par ordre décroissant
-    List<Attack> findAllByOrderByAttackNameDesc();
-
     //trouver une attaque par l'espèce id
     List<Attack> findBySpeciesId(Long id);
 

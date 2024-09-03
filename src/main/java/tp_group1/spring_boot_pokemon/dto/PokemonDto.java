@@ -91,9 +91,7 @@ public class PokemonDto {
         this.trainerId = trainerId;
     }
 
-    public Set<Attack> getAttacks() {
-        return attacks;
-    }
+    public Set<Attack> getAttacks() {return attacks;}
 
     public void setAttacks(Set<Attack> attacks) {
         this.attacks = attacks;
