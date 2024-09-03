@@ -10,15 +10,15 @@ import java.util.List;
 
 @Repository
 public interface TrainerDao extends CrudRepository<Trainer, Long> {
-
+    //trouver tous les dresseurs
     List<Trainer> findAll();
 
+    //trouver un dresseur par son nom, une partie de son, sans prendre en compte la casse
     List<Trainer> findByUsernameContainingIgnoringCase(String username);
 
+    //trouver tous les dresseurs leur nom par ordre alphabétique
     List<Trainer> findAllByOrderByUsernameAsc();
 
-//  List<Trainer> findAllByOrderByUsernameDesc();
-
-//    @Query("SELECT t FROM Trainer t JOIN t.pokemons WHERE p.name = :name")
+    //trouver un dresseur par le pokemon id
     List<Trainer> findByPokemonsId(Long id);
 }

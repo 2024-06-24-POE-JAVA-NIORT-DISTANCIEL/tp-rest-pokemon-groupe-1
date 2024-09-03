@@ -8,8 +8,10 @@ import java.util.List;
 
 @Repository
 public interface InventoryDao extends CrudRepository<Inventory, Long> {
+    //trouver un inventaire par le dresseur id
     List<Inventory> findTrainerById(Long id);
 
+    //trouver tous les inventaires
     List<Inventory> findAll();
 
 }

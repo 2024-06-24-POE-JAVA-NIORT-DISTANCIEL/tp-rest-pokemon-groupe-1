@@ -8,16 +8,16 @@ import java.util.List;
 
 @Repository
 public interface SpeciesDao extends CrudRepository<Species, Long> {
-    // Find all species
+    // trouver toutes les espèces
     List<Species> findAll();
 
-    // Find species by name
+    // trouver une espèce par son nom, une partie de son nom, sans prendre en compte la casse
     List<Species> findBySpecieNameContainingIgnoreCase(String specieName);
 
-    // Find species by Pokemon ID
+    // trouver une espèce par le pokemon id
     List<Species> findByPokemonsId(Long id);
 
-    // Find species by Attack ID
+    // trouver une espèece par l'attaque id
     List<Species> findByAttackId(Long id);
 
 }

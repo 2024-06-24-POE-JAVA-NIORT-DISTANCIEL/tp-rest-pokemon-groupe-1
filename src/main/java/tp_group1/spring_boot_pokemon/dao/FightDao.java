@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface FightDao extends CrudRepository<Fight, Long> {
-
+    //trouver tous les combats
     List<Fight> findAll();
 }
