@@ -62,16 +62,31 @@ public class InventoryRestController {
         }
     }
 
-    // Récupérer l'ensemble de l'inventaire
-    @GetMapping
-    public List<Inventory> getAllInventories() {
-        return inventoryService.findAll();
-    }
+//    // Récupérer l'ensemble de l'inventaire
+//    @GetMapping
+//    public List<Inventory> getAllInventories() {
+//        return inventoryService.findAll();
+//    }
+//
+//    // Récupérer un inventaire par son ID
+//    @GetMapping("/{id}")
+//    public Optional<Inventory> getInventoryById(@PathVariable Long id) {
+//        return inventoryService.findById(id);
+//    }
+//
+//    // Supprimer un inventaire par son ID
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteInventoryById(@PathVariable Long id) {
+//        Optional<Inventory> inventory = inventoryService.findById(id);
+//
+//        if (inventory.isPresent()) {
+//            inventoryService.deleteInventoryById(id);
+//            return ResponseEntity.noContent().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//
 
-    //
-    @GetMapping("/{id}")
-    public Optional<Inventory> getInventoryById(@PathVariable Long id) {
-        return inventoryService.findById(id);
     }
 }
 

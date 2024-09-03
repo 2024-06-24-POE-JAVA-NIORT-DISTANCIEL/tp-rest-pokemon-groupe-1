@@ -39,5 +39,8 @@ public class InventoryService {
         return inventoryDao.findById(id);
     }
 
-    }
+
+//    // Suppression de l'inventaire par id
+//    public void deleteInventoryById(Long id) { return inventoryDao.deleteById(); }
+}
 
