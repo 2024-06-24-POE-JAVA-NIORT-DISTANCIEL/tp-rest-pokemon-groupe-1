@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/inventories")
 public class InventoryRestController {
 
     @Autowired
@@ -31,13 +31,13 @@ public class InventoryRestController {
     private ItemService itemService;
 
     // On récupére l'inventaire d'un dresseur
-    @GetMapping("/trainer/{trainerId}")
-    public List<Inventory> getInventoryByTrainer(@PathVariable Long trainerId) {
-        return inventoryService.findInventoryByTrainer(trainerId);
-    }
+//    @GetMapping("/{trainerId}")
+//    public List<Inventory> getInventoryByTrainer(@PathVariable Long trainerId) {
+//        return inventoryService.findInventoryByTrainer(trainerId);
+//    }
 
     // Ajout d'objet à l'inventaire
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<Inventory> addInventory(@RequestBody Inventory inventory) {
         try {
             // Vérifier si le Trainer existe
@@ -62,31 +62,30 @@ public class InventoryRestController {
         }
     }
 
-//    // Récupérer l'ensemble de l'inventaire
-//    @GetMapping
-//    public List<Inventory> getAllInventories() {
-//        return inventoryService.findAll();
-//    }
-//
-//    // Récupérer un inventaire par son ID
-//    @GetMapping("/{id}")
-//    public Optional<Inventory> getInventoryById(@PathVariable Long id) {
-//        return inventoryService.findById(id);
-//    }
-//
-//    // Supprimer un inventaire par son ID
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteInventoryById(@PathVariable Long id) {
-//        Optional<Inventory> inventory = inventoryService.findById(id);
-//
-//        if (inventory.isPresent()) {
-//            inventoryService.deleteInventoryById(id);
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//
+    // Récupérer l'ensemble de l'inventaire
+    @GetMapping
+    public List<Inventory> getAllInventories() {
+        return inventoryService.findAll();
+    }
 
+    // Récupérer un inventaire par son ID
+    @GetMapping("/{id}")
+    public Optional<Inventory> getInventoryById(@PathVariable Long id) {
+        return inventoryService.findById(id);
+    }
+
+    // Supprimer un inventaire par son ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInventoryById(@PathVariable Long id) {
+        Optional<Inventory> inventory = inventoryService.findById(id);
+
+        if (inventory.isPresent()) {
+            inventoryService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
+
 

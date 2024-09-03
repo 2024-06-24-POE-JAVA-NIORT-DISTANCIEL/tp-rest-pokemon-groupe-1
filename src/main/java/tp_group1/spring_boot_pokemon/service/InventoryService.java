@@ -1,6 +1,7 @@
 package tp_group1.spring_boot_pokemon.service;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tp_group1.spring_boot_pokemon.dao.InventoryDao;
@@ -25,6 +26,7 @@ public class InventoryService {
 
 
     // Ajout d'objet à l'inventaire
+    @Transactional
     public Inventory addInventory(Inventory inventory) {
         return inventoryDao.save(inventory);
     }
@@ -40,7 +42,8 @@ public class InventoryService {
     }
 
 
-//    // Suppression de l'inventaire par id
-//    public void deleteInventoryById(Long id) { return inventoryDao.deleteById(); }
+    // Suppression de l'inventaire par id
+    @Transactional
+    public void deleteById(Long id) { inventoryDao.deleteById(id); }
 }
 
