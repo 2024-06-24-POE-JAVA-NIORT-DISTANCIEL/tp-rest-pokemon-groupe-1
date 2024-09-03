@@ -61,7 +61,7 @@ public class InventoryDaoTest {
         Inventory inventory = new Inventory(null, 10, item, trainer);
         inventoryDao.save(inventory);
 
-        List<Inventory> inventories = inventoryDao.findTrainerById(trainer.getId());
+        List<Inventory> inventories = inventoryDao.findByTrainerId(trainer.getId());
         assertFalse(inventories.isEmpty());
         assertEquals(1, inventories.size());
         assertEquals(item.getItemName(), inventories.get(0).getItem().getItemName());
