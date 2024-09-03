@@ -20,7 +20,7 @@ public class InventoryService {
 
     // Récupération de l'inventaire du trainer
     public List<Inventory> findInventoryByTrainer(Long trainerId) {
-        return inventoryDao.findTrainerById(trainerId);
+        return inventoryDao.findByTrainerId(trainerId);
     }
 
 
