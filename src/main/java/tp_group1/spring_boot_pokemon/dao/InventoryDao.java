@@ -15,8 +15,4 @@ public interface InventoryDao extends CrudRepository<Inventory, Long> {
     List<Inventory> findAll();
 
 
-//    // supprimer un inventaire par id
-//    <List>Inventory deleteByInventoryId(Long id);
-
-
 }
