@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tp_group1.spring_boot_pokemon.model.Attack;
 import tp_group1.spring_boot_pokemon.dto.PokemonDto;
+import tp_group1.spring_boot_pokemon.model.AttackType;
 import tp_group1.spring_boot_pokemon.model.Species;
 import tp_group1.spring_boot_pokemon.service.AttackService;
 import tp_group1.spring_boot_pokemon.service.PokemonService;
@@ -55,7 +56,7 @@ public class SpeciesServiceTest {
         testPokemon.setHealthPoints(50);
         pokemonService.save(testPokemon);
 
-        testAttack = new Attack(null , "TestAttack", "TestType", 30, null, null);
+        testAttack = new Attack(null , "TestAttack", AttackType.AIR, 30, null, null);
         attackService.save(testAttack);
     }
 

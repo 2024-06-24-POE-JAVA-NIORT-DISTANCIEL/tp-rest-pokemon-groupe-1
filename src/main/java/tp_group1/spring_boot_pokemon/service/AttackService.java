@@ -43,7 +43,7 @@ public class AttackService {
         return attackDao.findById(AttackId)
                 .map(existingAttack -> {
                     existingAttack.setAttackName(newAttackData.getAttackName());
-                    existingAttack.setType(newAttackData.getType());
+                    existingAttack.setAttackType(newAttackData.getAttackType());
                     existingAttack.setDamage(newAttackData.getDamage());
                     existingAttack.setPokemons(newAttackData.getPokemons());
                     existingAttack.setSpecies(newAttackData.getSpecies());

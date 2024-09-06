@@ -41,7 +41,7 @@ public class InventoryDaoTest {
         trainer = new Trainer(null, "Ash", "HashedPassword", 100, null, null);
         trainerDao.save(trainer);
 
-        item = new Item(null, "Potion", 50, ItemType.EAU, null);
+        item = new Item(null, "Potion", 50, ItemType.ATTAQUE, null);
         itemDao.save(item);
     }
 

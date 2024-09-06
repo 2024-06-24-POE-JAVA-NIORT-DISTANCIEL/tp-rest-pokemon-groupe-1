@@ -45,8 +45,8 @@ class ItemDaoTest {
     @BeforeEach
     void setUp() {
         // Créer un objet et un dresseur pour les tests
-        itemUn = new Item(1L, "Potion", 50, ItemType.AIR, null);
-        itemDeux = new Item(2L, "Pokéball", 30, ItemType.EAU, null);
+        itemUn = new Item(1L, "Potion", 50, ItemType.ATTAQUE, null);
+        itemDeux = new Item(2L, "Pokéball", 30, ItemType.DEFENSE, null);
 
         Trainer trainer = new Trainer(1L, "Sasha", "password", 200, null, null);
         trainer.setWallet(100);

@@ -10,10 +10,7 @@ import tp_group1.spring_boot_pokemon.dao.AttackDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.dao.TrainerDao;
-import tp_group1.spring_boot_pokemon.model.Attack;
-import tp_group1.spring_boot_pokemon.model.Pokemon;
-import tp_group1.spring_boot_pokemon.model.Species;
-import tp_group1.spring_boot_pokemon.model.Trainer;
+import tp_group1.spring_boot_pokemon.model.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -155,7 +152,7 @@ public class PokemonDaoTest {
     @Test
     public void testFindByAttacksId() {
         //create a new attack
-        Attack attack1 = new Attack(null, "green attack", "water", 10, null, null);
+        Attack attack1 = new Attack(null, "green attack", AttackType.PLANTE, 10, null, null);
         attackDao.save(attack1);
         //assign this attack to a pokemon
         Set<Attack> attacks = new HashSet<>();

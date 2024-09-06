@@ -1,5 +1,7 @@
 package tp_group1.spring_boot_pokemon;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,7 @@ import tp_group1.spring_boot_pokemon.dao.AttackDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.model.AttackType;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.model.Species;
 
@@ -29,6 +32,10 @@ public class AttackDaoTest {
     @Autowired
     private PokemonDao pokemonDao;
 
+    @Enumerated(EnumType.STRING)
+    private AttackType attackType;
+
+
     private Attack attack1;
     private Attack attack2;
     private Attack attack3;
@@ -36,10 +43,10 @@ public class AttackDaoTest {
 
     @BeforeEach
     public void setUp() {
-        attack1 = new Attack(null, "green attack", "water", 10, null, null);
-        attack2 = new Attack(null, "fireball", "fire", 34, null, null);
-        attack3 = new Attack(null, "thunder strike", "electric", 104, null, null);
-        attack4 = new Attack(null, "rock throw", "rock", 5, null, null);
+        attack1 = new Attack(null, "green attack", AttackType.AIR, 10, null, null);
+        attack2 = new Attack(null, "fireball", AttackType.EAU, 34, null, null);
+        attack3 = new Attack(null, "thunder strike", AttackType.INSECTE, 104, null, null);
+        attack4 = new Attack(null, "rock throw", AttackType.PLANTE, 5, null, null);
 
         attackDao.save(attack1);
         attackDao.save(attack2);
@@ -104,7 +111,7 @@ public class AttackDaoTest {
         //créer une nouvelle attaque
         Attack attack5 = new Attack();
         attack5.setAttackName("fireball");
-        attack5.setType("fire");
+        attack5.setAttackType(AttackType.PLANTE);
         attack5.setDamage(5);
         attack5.setSpecies(savedSpecies);
         attackDao.save(attack5);
@@ -127,7 +134,7 @@ public class AttackDaoTest {
     public void testFindAttackByPokemonsId() {
         Pokemon pokemon11 = new Pokemon(null, "Pikachu", 1, 120, 35, 35, null, null, null);
         pokemonDao.save(pokemon11);
-        Attack attack6 = new Attack(null, "fireball", "fire", 34, null, null);
+        Attack attack6 = new Attack(null, "fireball", AttackType.PLANTE, 34, null, null);
         Set<Pokemon> pokemons = new HashSet<>();
         pokemons.add(pokemon11);
         attack6.setPokemons(pokemons);

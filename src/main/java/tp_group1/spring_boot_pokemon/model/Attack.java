@@ -15,7 +15,10 @@ public class Attack {
     private Long id;
 
     private String attackName;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    private AttackType attackType;
+
     private Integer damage;
 
     @ManyToMany
@@ -33,10 +36,10 @@ public class Attack {
     public Attack() {
     }
 
-    public Attack(Long id, String attackName, String type, Integer damage, Set<Pokemon> pokemons, Set<Species> species) {
+    public Attack(Long id, String attackName, AttackType attackType, Integer damage, Set<Pokemon> pokemons, Set<Species> species) {
         this.id = id;
         this.attackName = attackName;
-        this.type = type;
+        this.attackType = attackType;
         this.damage = damage;
         this.pokemons = pokemons;
         this.species = species;
@@ -58,12 +61,12 @@ public class Attack {
         this.attackName = attackName;
     }
 
-    public String getType() {
-        return type;
+    public AttackType getAttackType() {
+        return attackType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAttackType(AttackType attackType) {
+        this.attackType = attackType;
     }
 
     public Integer getDamage() {

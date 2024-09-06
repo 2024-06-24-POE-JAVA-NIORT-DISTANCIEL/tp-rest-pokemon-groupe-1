@@ -9,6 +9,7 @@ import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dao.AttackDao;
 import tp_group1.spring_boot_pokemon.model.Attack;
+import tp_group1.spring_boot_pokemon.model.AttackType;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.model.Species;
 
@@ -42,7 +43,7 @@ public class SpeciesDaoTest {
         // Assuming Pokemon and Attack classes are correctly mapped
         testPokemon = new Pokemon(null, "TestPokemon", 5, 120, 35, 35, null, testSpecies, null);
         pokemonDao.save(testPokemon);
-        testAttack = new Attack(null, "TestAttack", "TestType", 30, null, null);
+        testAttack = new Attack(null, "TestAttack", AttackType.INSECTE, 30, null, null);
         attackDao.save(testAttack);
     }
 
