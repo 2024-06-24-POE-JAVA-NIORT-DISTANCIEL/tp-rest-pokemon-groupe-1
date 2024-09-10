@@ -30,11 +30,11 @@ public class InventoryRestController {
     @Autowired
     private ItemService itemService;
 
-    // On récupére l'inventaire d'un dresseur
-//    @GetMapping("/{trainerId}")
-//    public List<Inventory> getInventoryByTrainer(@PathVariable Long trainerId) {
-//        return inventoryService.findInventoryByTrainer(trainerId);
-//    }
+    // trouver l'inventaire d'un dresseur
+    @GetMapping("/trainer/{trainerId}")
+    public List<Inventory> getInventoryByTrainer(@PathVariable Long trainerId) {
+        return inventoryService.findInventoryByTrainer(trainerId);
+    }
 
     // Ajout d'objet à l'inventaire
     @PostMapping
@@ -62,7 +62,7 @@ public class InventoryRestController {
         }
     }
 
-    // Récupérer l'ensemble de l'inventaire
+    // Récupérer tous les inventories
     @GetMapping
     public List<Inventory> getAllInventories() {
         return inventoryService.findAll();

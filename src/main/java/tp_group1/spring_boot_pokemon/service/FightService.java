@@ -15,6 +15,8 @@ import tp_group1.spring_boot_pokemon.model.Trainer;
 import java.util.List;
 import java.util.Optional;
 
+import static tp_group1.spring_boot_pokemon.model.AttackType.AIR;
+
 @Service
 public class FightService {
     @Autowired
@@ -64,6 +66,9 @@ public class FightService {
         Fight fight = new Fight();
         fight.setPokemonA(pokemon1);
         fight.setPokemonB(pokemon2);
+        LOGGER.info("le Pokemon {} possède un type d'attaque {} et le Pokemon {} un type d'attaque {}",
+                pokemon1.getName(), pokemon1.getSpecies().getAttack().getAttackType(),
+                pokemon2.getName(), pokemon2.getSpecies().getAttack().getAttackType());
 
         //choix aléatoire du premier attaquant entre les deux pokemons
         Pokemon attacker = Math.random() < 0.5 ? pokemon1 : pokemon2;
@@ -73,7 +78,7 @@ public class FightService {
         //boucle du combat
         while(pokemon1.getHealthPoints() >= 0 && pokemon2.getHealthPoints() >=0) {
             // Calcul des dégâts infligés : (niveau du pokemon / 10) * nombre de points de dégâts de l’attaque * modificateur d’attaque
-            double damageFight = 1.0;
+            double damageFight = calculateDamageMultiplier(attacker.getSpecies().getSpecieType(), defender.getSpecies().getSpecieType());
             int baseDamage = attacker.getSpecies().getAttack().getDamage();
             double levelFactor = attacker.getLevel() / 10.0;
             int damage = (int) (levelFactor * baseDamage * damageFight);
@@ -139,6 +144,91 @@ public class FightService {
         return fightDao.save(fight);
     }
 
+    // Méthode pour calculer le modificateur de dégâts en fonction des types
+    public static double calculateDamageMultiplier(String typeAttaque, String typeDefenseur) {
+        double damageFight = 1.0;
+        switch (typeAttaque) {
+            case "AIR":
+                switch (typeDefenseur) {
+                    case "AIR":
+                        damageFight = 1.0;
+                        break;
+                    case "EAU":
+                        damageFight = 0.7;
+                        break;
+                    case "INSECTE":
+                        damageFight = 1.0;
+                        break;
+                    case "PLANTE":
+                        damageFight = 1.3;
+                        break;
+                    default:
+                        System.out.println("Type défensif inconnu.");
+                }
+                break;
+
+            case "EAU":
+                switch (typeDefenseur) {
+                    case "AIR":
+                        damageFight = 1.3;
+                        break;
+                    case "EAU":
+                        damageFight = 1.0;
+                        break;
+                    case "INSECTE":
+                        damageFight = 0.7;
+                        break;
+                    case "PLANTE":
+                        damageFight = 1.0;
+                        break;
+                    default:
+                        System.out.println("Type défensif inconnu.");
+                }
+                break;
+
+            case "INSECTE":
+                switch (typeDefenseur) {
+                    case "AIR":
+                        damageFight = 1.0;
+                        break;
+                    case "EAU":
+                        damageFight = 1.3;
+                        break;
+                    case "INSECTE":
+                        damageFight = 1.0;
+                        break;
+                    case "PLANTE":
+                        damageFight = 0.7;
+                        break;
+                    default:
+                        System.out.println("Type défensif inconnu.");
+                }
+                break;
+
+            case "PLANTE":
+                switch (typeDefenseur) {
+                    case "AIR":
+                        damageFight = 0.7;
+                        break;
+                    case "EAU":
+                        damageFight = 1.0;
+                        break;
+                    case "INSECTE":
+                        damageFight = 1.3;
+                        break;
+                    case "PLANTE":
+                        damageFight = 1.0;
+                        break;
+                    default:
+                        System.out.println("Type défensif inconnu.");
+                }
+                break;
+            default:
+                System.out.println("Type d'attaque inconnu.");
+        }
+
+        return damageFight;
+    }
 
     //trouver un combat par id
     public Optional<Fight> findById(Long id) {
