@@ -155,12 +155,14 @@ public class FightService {
                         break;
                     case "EAU":
                         damageFight = 0.7;
+                        LOGGER.info("Ce n'est pas très efficace...");
                         break;
                     case "INSECTE":
                         damageFight = 1.0;
                         break;
                     case "PLANTE":
                         damageFight = 1.3;
+                        LOGGER.info("C'est super efficace !");
                         break;
                     default:
                         System.out.println("Type défensif inconnu.");
@@ -171,12 +173,14 @@ public class FightService {
                 switch (typeDefenseur) {
                     case "AIR":
                         damageFight = 1.3;
+                        LOGGER.info("C'est super efficace !");
                         break;
                     case "EAU":
                         damageFight = 1.0;
                         break;
                     case "INSECTE":
                         damageFight = 0.7;
+                        LOGGER.info("Ce n'est pas très efficace...");
                         break;
                     case "PLANTE":
                         damageFight = 1.0;
@@ -193,12 +197,14 @@ public class FightService {
                         break;
                     case "EAU":
                         damageFight = 1.3;
+                        LOGGER.info("C'est super efficace !");
                         break;
                     case "INSECTE":
                         damageFight = 1.0;
                         break;
                     case "PLANTE":
                         damageFight = 0.7;
+                        LOGGER.info("Ce n'est pas très efficace...");
                         break;
                     default:
                         System.out.println("Type défensif inconnu.");
@@ -209,12 +215,14 @@ public class FightService {
                 switch (typeDefenseur) {
                     case "AIR":
                         damageFight = 0.7;
+                        LOGGER.info("Ce n'est pas très efficace...");
                         break;
                     case "EAU":
                         damageFight = 1.0;
                         break;
                     case "INSECTE":
                         damageFight = 1.3;
+                        LOGGER.info("C'est très efficace !");
                         break;
                     case "PLANTE":
                         damageFight = 1.0;
