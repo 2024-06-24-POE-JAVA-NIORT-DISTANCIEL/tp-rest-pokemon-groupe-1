@@ -7,6 +7,7 @@ import tp_group1.spring_boot_pokemon.model.Trainer;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class PokemonDto {
@@ -95,5 +96,23 @@ public class PokemonDto {
 
     public void setAttacks(Set<Attack> attacks) {
         this.attacks = attacks;
+    }
+
+    public String sayHello() {
+        // Messages prédéfinis
+        String[] greetings = {
+                "Bonjour, je suis %s !",
+                "Salut ! Je suis %s, ravi de te rencontrer !",
+                "Hey ! C'est %s, prêt pour l'aventure !",
+                "Coucou, c'est moi, %s !",
+                "Hello ! Je suis %s, prêt pour le combat !"
+        };
+
+        // Choisir un message aléatoire
+        Random random = new Random();
+        int randomIndex = random.nextInt(greetings.length);
+
+        // Insérer le nom du Pokémon dans le message sélectionné
+        return String.format(greetings[randomIndex], this.name);
     }
 }

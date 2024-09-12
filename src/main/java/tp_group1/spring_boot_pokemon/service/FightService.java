@@ -15,8 +15,6 @@ import tp_group1.spring_boot_pokemon.model.Trainer;
 import java.util.List;
 import java.util.Optional;
 
-import static tp_group1.spring_boot_pokemon.model.AttackType.AIR;
-
 @Service
 public class FightService {
     @Autowired
@@ -41,6 +39,12 @@ public class FightService {
             LOGGER.error("L'un des deux pokémons n'existe pas ! ID1: {}, ID2: {}", pokemonId1, pokemonId2);
             throw new IllegalArgumentException("L'un des deux pokemons n'existe pas !");
         }
+
+        // Appel de la méthode sayHello() pour chaque Pokémon
+        String helloMessage1 = savedPokemon1.sayHello();
+        LOGGER.info(helloMessage1);
+        String helloMessage2 = savedPokemon2.sayHello();
+        LOGGER.info(helloMessage2);
 
         // Conversion des DTOs en entités
         Pokemon pokemon1 = pokemonService.dtoToEntity(savedPokemon1);

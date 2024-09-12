@@ -3,6 +3,9 @@ package tp_group1.spring_boot_pokemon.service;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tp_group1.spring_boot_pokemon.dao.AttackDao;
+import tp_group1.spring_boot_pokemon.dao.PokemonDao;
+import tp_group1.spring_boot_pokemon.dao.SpeciesDao;
 import tp_group1.spring_boot_pokemon.dao.TrainerDao;
 import tp_group1.spring_boot_pokemon.model.Trainer;
 
@@ -17,6 +20,12 @@ import java.security.NoSuchAlgorithmException;
 public class TrainerService {
     @Autowired
     private TrainerDao trainerDao;
+    @Autowired
+    private PokemonDao pokemonDao;
+    @Autowired
+    private AttackDao attackDao;
+    @Autowired
+    private SpeciesDao speciesDao;
 
     //methode save
     //Ne pas oublier de nettoyer ce code
