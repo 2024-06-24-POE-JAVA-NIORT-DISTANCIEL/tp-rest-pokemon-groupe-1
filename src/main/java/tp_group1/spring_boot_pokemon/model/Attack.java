@@ -92,4 +92,13 @@ public class Attack {
     public void setSpecies(Set<Species> species) {
         this.species = species;
     }
+
+    @Override
+    public String toString() {
+        return "Attack{" +
+                "name='" + attackName + '\'' +
+                ", damage=" + damage +
+                ", attackType=" + attackType +
+                '}';
+    }
 }

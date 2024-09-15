@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import tp_group1.spring_boot_pokemon.dao.FightDao;
 import tp_group1.spring_boot_pokemon.dao.PokemonDao;
 import tp_group1.spring_boot_pokemon.dto.PokemonDto;
+import tp_group1.spring_boot_pokemon.model.AttackType;
 import tp_group1.spring_boot_pokemon.model.Fight;
 import tp_group1.spring_boot_pokemon.model.Pokemon;
 import tp_group1.spring_boot_pokemon.model.Trainer;
@@ -41,10 +42,8 @@ public class FightService {
         }
 
         // Appel de la méthode sayHello() pour chaque Pokémon
-        String helloMessage1 = savedPokemon1.sayHello();
-        LOGGER.info(helloMessage1);
-        String helloMessage2 = savedPokemon2.sayHello();
-        LOGGER.info(helloMessage2);
+        LOGGER.info(savedPokemon1.sayHello());
+        LOGGER.info(savedPokemon2.sayHello());
 
         // Conversion des DTOs en entités
         Pokemon pokemon1 = pokemonService.dtoToEntity(savedPokemon1);
@@ -70,7 +69,7 @@ public class FightService {
         Fight fight = new Fight();
         fight.setPokemonA(pokemon1);
         fight.setPokemonB(pokemon2);
-        LOGGER.info("le Pokemon {} possède un type d'attaque {} et le Pokemon {} un type d'attaque {}",
+        LOGGER.info("Le Pokémon {} possède un type d'attaque {} et le Pokémon {} un type d'attaque {}",
                 pokemon1.getName(), pokemon1.getSpecies().getAttack().getAttackType(),
                 pokemon2.getName(), pokemon2.getSpecies().getAttack().getAttackType());
 
@@ -78,24 +77,31 @@ public class FightService {
         Pokemon attacker = Math.random() < 0.5 ? pokemon1 : pokemon2;
         Pokemon defender = attacker == pokemon1 ? pokemon2 : pokemon1;
 
-        LOGGER.info("{} commence l'attaque contre {}", attacker.getName(), defender.getName());
         //boucle du combat
-        while(pokemon1.getHealthPoints() >= 0 && pokemon2.getHealthPoints() >=0) {
-            // Calcul des dégâts infligés : (niveau du pokemon / 10) * nombre de points de dégâts de l’attaque * modificateur d’attaque
-            double damageFight = calculateDamageMultiplier(attacker.getSpecies().getSpecieType(), defender.getSpecies().getSpecieType());
-            int baseDamage = attacker.getSpecies().getAttack().getDamage();
-            double levelFactor = attacker.getLevel() / 10.0;
-            int damage = (int) (levelFactor * baseDamage * damageFight);
-            LOGGER.info("{} attaque {} et inflige {} points de dégâts",
+        while (pokemon1.getHealthPoints() > 0 && pokemon2.getHealthPoints() > 0) {
+            LOGGER.info("{} attaque {} avec une attaque de type {}",
                     attacker.getName(),
                     defender.getName(),
-                    damage);
+                    attacker.getSpecies().getAttack().getAttackType());
 
-            //pour mettre à 0 et ne pas avoir de points négatifs
+            // Conversion du type d'attaque et de défense en majuscule pour correspondre aux énumérations
+            String attaqueStr = attacker.getSpecies().getAttack().getAttackType().toString();
+            String defenserStr = defender.getSpecies().getAttack().getAttackType().toString();
+            AttackType typeAttaque = AttackType.valueOf(attaqueStr.toUpperCase());
+            AttackType typeDefenseur = AttackType.valueOf(defenserStr.toUpperCase());
+
+            // Calcul des dégâts infligés
+            double damageMultiplier = calculateDamageMultiplier(attacker, defender);
+            int baseDamage = attacker.getSpecies().getAttack().getDamage();
+            double levelFactor = attacker.getLevel() / 10.0;
+            int damage = (int) (levelFactor * baseDamage * damageMultiplier);
+            LOGGER.info("{} inflige {} points de dégâts à {}", attacker.getName(), damage, defender.getName());
+
+            // Appliquer les dégâts au défenseur
             defender.setHealthPoints(Math.max(defender.getHealthPoints() - damage, 0));
             LOGGER.info("{} a maintenant {} HP", defender.getName(), defender.getHealthPoints());
 
-            // Vérification du vainqueur
+            // Vérifier si le défenseur a perdu
             if (defender.getHealthPoints() <= 0) {
                 LOGGER.info("{} a gagné le combat contre {}", attacker.getName(), defender.getName());
                 fight.setWinner(attacker.getName());
@@ -108,7 +114,6 @@ public class FightService {
             Pokemon temp = attacker;
             attacker = defender;
             defender = temp;
-            LOGGER.info("Maintenant, {} attaque {}", attacker.getName(), defender.getName());
         }
 
         // Gestion des points gagnés par le vainqueur
@@ -149,94 +154,99 @@ public class FightService {
     }
 
     // Méthode pour calculer le modificateur de dégâts en fonction des types
-    public static double calculateDamageMultiplier(String typeAttaque, String typeDefenseur) {
+    public double calculateDamageMultiplier(Pokemon attacker, Pokemon defender) {
+        AttackType typeAttaque = attacker.getSpecies().getAttack().getAttackType();
+        LOGGER.info("Pour les dommages, l'attaque de {} est de type {}", attacker.getName(), attacker.getSpecies().getAttack().getAttackType());
+        AttackType typeDefenseur = defender.getSpecies().getAttack().getAttackType();
+        LOGGER.info("Pour les dommages, l'attaque de {} est de type {}", defender.getName(), defender.getSpecies().getAttack().getAttackType());
         double damageFight = 1.0;
         switch (typeAttaque) {
-            case "AIR":
+            case AIR:
                 switch (typeDefenseur) {
-                    case "AIR":
+                    case AIR:
                         damageFight = 1.0;
                         break;
-                    case "EAU":
+                    case EAU:
                         damageFight = 0.7;
                         LOGGER.info("Ce n'est pas très efficace...");
                         break;
-                    case "INSECTE":
+                    case INSECTE:
                         damageFight = 1.0;
                         break;
-                    case "PLANTE":
+                    case PLANTE:
                         damageFight = 1.3;
                         LOGGER.info("C'est super efficace !");
                         break;
                     default:
-                        System.out.println("Type défensif inconnu.");
+                        LOGGER.info("Type défensif inconnu.");
                 }
                 break;
 
-            case "EAU":
+            case EAU:
                 switch (typeDefenseur) {
-                    case "AIR":
+                    case AIR:
                         damageFight = 1.3;
                         LOGGER.info("C'est super efficace !");
                         break;
-                    case "EAU":
+                    case EAU:
                         damageFight = 1.0;
                         break;
-                    case "INSECTE":
+                    case INSECTE:
                         damageFight = 0.7;
                         LOGGER.info("Ce n'est pas très efficace...");
                         break;
-                    case "PLANTE":
+                    case PLANTE:
                         damageFight = 1.0;
                         break;
                     default:
-                        System.out.println("Type défensif inconnu.");
+                        LOGGER.info("Type défensif inconnu.");
                 }
                 break;
 
-            case "INSECTE":
+            case INSECTE:
                 switch (typeDefenseur) {
-                    case "AIR":
+                    case AIR:
                         damageFight = 1.0;
                         break;
-                    case "EAU":
+                    case EAU:
                         damageFight = 1.3;
                         LOGGER.info("C'est super efficace !");
                         break;
-                    case "INSECTE":
+                    case INSECTE:
                         damageFight = 1.0;
                         break;
-                    case "PLANTE":
+                    case PLANTE:
                         damageFight = 0.7;
                         LOGGER.info("Ce n'est pas très efficace...");
                         break;
                     default:
-                        System.out.println("Type défensif inconnu.");
+                        LOGGER.info("Type défensif inconnu.");
                 }
                 break;
 
-            case "PLANTE":
+            case PLANTE:
                 switch (typeDefenseur) {
-                    case "AIR":
+                    case AIR:
                         damageFight = 0.7;
                         LOGGER.info("Ce n'est pas très efficace...");
                         break;
-                    case "EAU":
+                    case EAU:
                         damageFight = 1.0;
                         break;
-                    case "INSECTE":
+                    case INSECTE:
                         damageFight = 1.3;
                         LOGGER.info("C'est très efficace !");
                         break;
-                    case "PLANTE":
+                    case PLANTE:
                         damageFight = 1.0;
                         break;
                     default:
-                        System.out.println("Type défensif inconnu.");
+                        LOGGER.info("Type défensif inconnu.");
                 }
                 break;
+
             default:
-                System.out.println("Type d'attaque inconnu.");
+                LOGGER.info("Type d'attaque inconnu.");
         }
 
         return damageFight;
